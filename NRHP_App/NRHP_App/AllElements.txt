@@ -1,0 +1,12 @@
+00000003	Husung Hardware	37.46837707	-105.8663426	Building	Point
+00000005	First Baptist Church	37.17523653	-104.5081667	Building	Point
+00000006	Well'sbuilt Hotel	28.53838432	-81.38555525	Building	Point
+00000007	Delhi Municipal Baseball Park	32.45535431	-91.49680406	Site	Point
+00000008	Kerner House	29.92906147	-90.05103192	Building	Point
+00000009	Parker Road--Charlotte River Bridge	46.36259606	-84.28989809	Structure	Point
+00000010	Trowbridge Road--Grand Trunk Western Railroad Bridge	42.58062926	-83.23073548	Structure	Point
+00000011	Vernier Street--Swan Creek Bridge	42.68058467	-82.65810714	Structure	Point
+00000012	Indian Trail Road--Belle River Bridge	42.7750437	-82.54926969	Structure	Point
+00000013	Jeddo Road--South Branch Mill Creek Drain Bridge	43.14349688	-82.83695719	Structure	Point
+00000014	Wadhams Road--Pine River Bridge	42.87146401	-82.55768152	Structure	Point
+00000015	St. Louis Post-Dispatch Building	38.62969931	-90.19716592	Building	Point
