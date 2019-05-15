@@ -8,6 +8,9 @@ using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using NRHP_App.Models;
 using Position = Xamarin.Forms.Maps.Position;
+using System.Reflection;
+using System.IO;
+using NRHP_App.Data;
 
 namespace NRHP_App
 {
@@ -33,7 +36,7 @@ namespace NRHP_App
         {
             base.OnAppearing();
 
-            App.Database.GetPath();
+            //App.Database.GetPath();
         }
 
         async void MapSetup()
@@ -43,55 +46,37 @@ namespace NRHP_App
 
             map.MoveToRegion(new MapSpan(new Position(currentUserPosition.Latitude, currentUserPosition.Longitude), LatitudeDegrees, LongitudeDegrees));
             map.PropertyChanged += ChangedView;
-            
         }
 
         void ChangedView(object sender, PropertyChangedEventArgs e)
         {
-            Console.WriteLine("Changed View");
             if (e.PropertyName.Equals("VisibleRegion"))
             {
-                TopLatitude = map.VisibleRegion.Center.Latitude + map.VisibleRegion.LatitudeDegrees;
-                BottomLatitude = map.VisibleRegion.Center.Latitude - map.VisibleRegion.LatitudeDegrees;
-                RightLongitude = map.VisibleRegion.Center.Longitude + map.VisibleRegion.LongitudeDegrees;
-                LeftLongitude = map.VisibleRegion.Center.Longitude - map.VisibleRegion.LongitudeDegrees;
+                TopLatitude = map.VisibleRegion.Center.Latitude + (map.VisibleRegion.LatitudeDegrees/2);
+                BottomLatitude = map.VisibleRegion.Center.Latitude - (map.VisibleRegion.LatitudeDegrees/2);
+                RightLongitude = map.VisibleRegion.Center.Longitude + (map.VisibleRegion.LongitudeDegrees/2);
+                LeftLongitude = map.VisibleRegion.Center.Longitude - (map.VisibleRegion.LongitudeDegrees/2);
 
-                Console.WriteLine("add");
                 AddPoints();
-                //Console.WriteLine("Before");
-                ////List<DataPoint> dataPoints = await App.Database.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
-                //map.Pins.Clear();
-
-                //foreach (DataPoint dataPoint in dataPoints)
-                //{
-                //    Console.WriteLine("New Pin");
-                //    map.Pins.Add(new Point
-                //    {
-                //        RefNum = dataPoint.RefNum,
-                //        Label = dataPoint.Name,
-                //        Address = dataPoint.Address,
-                //        Position = new Position(dataPoint.Latitude, dataPoint.Longitude),
-                //        Category = dataPoint.Category
-                //    });
-                //}
             }
         }
 
         async void AddPoints()
         {
-            List<DataPoint> dataPoints = await App.Database.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
-            foreach (DataPoint dataPoint in dataPoints)
+            var points = await CosmoDBAccessPoint.GetPoints(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
+
+            foreach (DataPoint point in points)
             {
-                Console.WriteLine("New Pin");
                 map.Pins.Add(new Point
                 {
-                    RefNum = dataPoint.RefNum,
-                    Label = dataPoint.Name,
-                    Address = dataPoint.Address,
-                    Position = new Position(dataPoint.Latitude, dataPoint.Longitude),
-                    Category = dataPoint.Category
+                    RefNum = point.Refnum,
+                    Label = point.Name,
+                    Address = point.Address,
+                    Position = new Position(point.Latitude, point.Longitude),
+                    Category = point.Category
                 });
             }
+
         }
 
         void PositionChanged(object sender, PositionEventArgs e)
