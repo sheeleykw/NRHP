@@ -20,10 +20,10 @@ namespace NRHP_App
                             .ToListAsync();
         }
 
-        public Task<DataPoint> GetPointAsync(string RefNum)
+        public Task<DataPoint> GetPointAsync(int RefNum)
         {
             return _database.Table<DataPoint>()
-                            .Where(dataPoint => dataPoint.RefNum.Equals(RefNum))
+                            .Where(dataPoint => dataPoint.RefNum == RefNum)
                             .FirstOrDefaultAsync();
         }
     }

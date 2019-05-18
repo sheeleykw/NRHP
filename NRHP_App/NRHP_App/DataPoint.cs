@@ -6,7 +6,7 @@ namespace NRHP_App
     public class DataPoint
     {
         [PrimaryKey]
-        public string RefNum { get; set; }
+        public int RefNum { get; set; }
         public string Name { get; set; }
         public string SourceDate { get; set; }
         public double Latitude { get; set; }

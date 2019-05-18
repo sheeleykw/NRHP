@@ -6,6 +6,7 @@ using Xamarin.Forms.Maps;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Position = Xamarin.Forms.Maps.Position;
+using System.Collections.Generic;
 
 namespace NRHP_App
 {
@@ -27,9 +28,9 @@ namespace NRHP_App
             MapSetup();
         }
 
-        async void MapSetup()
+        private async void MapSetup()
         {
-            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(100));
+            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromMilliseconds(100));
             await StartLocationListening();
             map.MoveToRegion(new MapSpan(new Position(currentUserPosition.Latitude, currentUserPosition.Longitude), LatitudeDegrees, LongitudeDegrees));
             map.PropertyChanged += ChangedView;
@@ -44,7 +45,7 @@ namespace NRHP_App
                 RightLongitude = map.VisibleRegion.Center.Longitude + (map.VisibleRegion.LongitudeDegrees/2);
                 LeftLongitude = map.VisibleRegion.Center.Longitude - (map.VisibleRegion.LongitudeDegrees/2);
 
-                AddPoints();
+                UpdateMap();
             }
             else if(e.PropertyName.Equals("Height"))
             {
@@ -53,30 +54,44 @@ namespace NRHP_App
                 RightLongitude = currentUserPosition.Longitude + LongitudeDegrees;
                 LeftLongitude = currentUserPosition.Longitude - LongitudeDegrees;
 
-                AddPoints();
+                UpdateMap();
             }
         }
 
-        async void AddPoints()
+        private async void UpdateMap()
         {
             var dataPoints = await App.database.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
+            App.currentDataPoints = dataPoints;
             foreach(DataPoint dataPoint in dataPoints)
             {
-                map.Pins.Add(new Pin
+                var point = new Point
                 {
+                    RefNum = dataPoint.RefNum,
                     Label = dataPoint.Name,
                     Address = dataPoint.Category,
-                    Position = new Position(dataPoint.Latitude, dataPoint.Longitude)
-                });
+                    Position = new Position(dataPoint.Latitude, dataPoint.Longitude),
+                    Category = dataPoint.Category
+                };
+                if (!map.Pins.Contains(point))
+                    map.Pins.Add(point);
             }
+            //var copyList = new List<Pin>(map.Pins);
+            //foreach (Point point in copyList)
+            //{
+            //    var find = App.currentDataPoints.Find(dataPoint => dataPoint.RefNum == point.RefNum);
+            //    if (find == null)
+            //    {
+            //        map.Pins.Remove(point);
+            //    }
+            //}
         }
 
-        void PositionChanged(object sender, PositionEventArgs e)
+        private void PositionChanged(object sender, PositionEventArgs e)
         {
             currentUserPosition = e.Position;
         }
 
-        async Task StartLocationListening()
+        private async Task StartLocationListening()
         {
             await locator.StartListeningAsync(TimeSpan.FromSeconds(5), 10, true, new ListenerSettings
             {

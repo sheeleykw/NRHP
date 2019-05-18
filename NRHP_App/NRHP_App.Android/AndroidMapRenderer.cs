@@ -46,11 +46,11 @@ namespace NRHP_App.Droid
         //    }
         //}
 
-        //protected override MarkerOptions CreateMarker(Pin pin)
+        //protected async override MarkerOptions CreateMarker(Pin pin)
         //{
         //    var marker = new MarkerOptions();
         //    marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
-        //    marker.SetTitle(pin.Label);
+        //    marker.SetTitle();
         //    marker.SetSnippet(pin.);
         //    marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.mr_button_connected_dark));
         //    return marker;

@@ -1,15 +1,18 @@
-﻿using Xamarin.Forms;
+﻿using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace NRHP_App
 {
     public partial class App : Application
     {
         public static DataPointDatabase database;
+        public static List<DataPoint> currentDataPoints;
 
         public App(string dbPath)
         {
             InitializeComponent();
             database = new DataPointDatabase(dbPath);
+            currentDataPoints = new List<DataPoint>();
             MainPage = new MainPage();
         }
 
