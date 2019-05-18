@@ -1,10 +1,8 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
+using System.IO;
 
 namespace NRHP_App.Droid
 {
@@ -17,11 +15,25 @@ namespace NRHP_App.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
+            string targetPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            var path = Path.Combine(targetPath, "MapItems.db");
+            if (!File.Exists(path))
+            {
+                using (Stream input = Assets.Open("MapItems.db"))
+                {
+                    using (var fs = new FileStream(path, FileMode.Create))
+                    {
+                        input.CopyTo(fs);
+                    }
+                }
+            }
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.FormsMaps.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            LoadApplication(new App(path));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

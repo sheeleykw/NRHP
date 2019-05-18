@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
-using NRHP_App.Models;
 using Position = Xamarin.Forms.Maps.Position;
-using System.Reflection;
-using System.IO;
-using NRHP_App.Data;
 
 namespace NRHP_App
 {
@@ -32,18 +27,10 @@ namespace NRHP_App
             MapSetup();
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            //App.Database.GetPath();
-        }
-
         async void MapSetup()
         {
             currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(100));
             await StartLocationListening();
-
             map.MoveToRegion(new MapSpan(new Position(currentUserPosition.Latitude, currentUserPosition.Longitude), LatitudeDegrees, LongitudeDegrees));
             map.PropertyChanged += ChangedView;
         }
@@ -59,24 +46,29 @@ namespace NRHP_App
 
                 AddPoints();
             }
+            else if(e.PropertyName.Equals("Height"))
+            {
+                TopLatitude = currentUserPosition.Latitude + LatitudeDegrees;
+                BottomLatitude = currentUserPosition.Latitude - LatitudeDegrees;
+                RightLongitude = currentUserPosition.Longitude + LongitudeDegrees;
+                LeftLongitude = currentUserPosition.Longitude - LongitudeDegrees;
+
+                AddPoints();
+            }
         }
 
         async void AddPoints()
         {
-            var points = await CosmoDBAccessPoint.GetPoints(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
-
-            foreach (DataPoint point in points)
+            var dataPoints = await App.database.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
+            foreach(DataPoint dataPoint in dataPoints)
             {
-                map.Pins.Add(new Point
+                map.Pins.Add(new Pin
                 {
-                    RefNum = point.Refnum,
-                    Label = point.Name,
-                    Address = point.Address,
-                    Position = new Position(point.Latitude, point.Longitude),
-                    Category = point.Category
+                    Label = dataPoint.Name,
+                    Address = dataPoint.Category,
+                    Position = new Position(dataPoint.Latitude, dataPoint.Longitude)
                 });
             }
-
         }
 
         void PositionChanged(object sender, PositionEventArgs e)

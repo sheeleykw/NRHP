@@ -11,20 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="AllElements.txt" />
+    <None Remove="AllElements.txt~RFc71e3a5.TMP" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.6" />
     <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
     <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="3.6.0.344457" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="AllElements.txt" />
   </ItemGroup>
 </Project>

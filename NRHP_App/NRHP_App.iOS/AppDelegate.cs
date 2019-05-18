@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
 using Foundation;
 using UIKit;
+using System.IO;
 
 namespace NRHP_App.iOS
 {
@@ -13,7 +11,6 @@ namespace NRHP_App.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
-        //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
         // visible.
@@ -22,9 +19,17 @@ namespace NRHP_App.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            var targetPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            var path = Path.Combine(targetPath, "..", "Library");
+            if (!File.Exists(path))
+            {
+                var bundlePath = NSBundle.MainBundle.PathForResource("MapItems", "db");
+                File.Copy(bundlePath, path);
+            }
+
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.FormsMaps.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(path));
 
             return base.FinishedLaunching(app, options);
         }
