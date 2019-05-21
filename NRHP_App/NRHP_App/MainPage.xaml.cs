@@ -14,40 +14,41 @@ namespace NRHP_App
     public partial class MainPage : ContentPage
     {
         private Plugin.Geolocator.Abstractions.Position currentUserPosition;
+        private IGeolocator locator = CrossGeolocator.Current;
         private double LatitudeDegrees = 0.5;
         private double LongitudeDegrees = 0.5;
         private double TopLatitude;
         private double BottomLatitude;
         private double RightLongitude;
         private double LeftLongitude;
-        private IGeolocator locator = CrossGeolocator.Current;
 
         public MainPage()
         {
             InitializeComponent();
-            MapSetup();
+            map.PropertyChanged += ChangedView;
+            map.IsShowingUser = true;
+            UserLocationSetup();
         }
 
-        private async void MapSetup()
+        public async void UserLocationSetup()
         {
-            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromMilliseconds(100));
+            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(100));
             await StartLocationListening();
             map.MoveToRegion(new MapSpan(new Position(currentUserPosition.Latitude, currentUserPosition.Longitude), LatitudeDegrees, LongitudeDegrees));
-            map.PropertyChanged += ChangedView;
         }
 
         void ChangedView(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("VisibleRegion"))
             {
-                TopLatitude = map.VisibleRegion.Center.Latitude + (map.VisibleRegion.LatitudeDegrees/2);
-                BottomLatitude = map.VisibleRegion.Center.Latitude - (map.VisibleRegion.LatitudeDegrees/2);
-                RightLongitude = map.VisibleRegion.Center.Longitude + (map.VisibleRegion.LongitudeDegrees/2);
-                LeftLongitude = map.VisibleRegion.Center.Longitude - (map.VisibleRegion.LongitudeDegrees/2);
+                TopLatitude = map.VisibleRegion.Center.Latitude + (map.VisibleRegion.LatitudeDegrees / 2);
+                BottomLatitude = map.VisibleRegion.Center.Latitude - (map.VisibleRegion.LatitudeDegrees / 2);
+                RightLongitude = map.VisibleRegion.Center.Longitude + (map.VisibleRegion.LongitudeDegrees / 2);
+                LeftLongitude = map.VisibleRegion.Center.Longitude - (map.VisibleRegion.LongitudeDegrees / 2);
 
                 UpdateMap();
             }
-            else if(e.PropertyName.Equals("Height"))
+            else if (e.PropertyName.Equals("Height"))
             {
                 TopLatitude = currentUserPosition.Latitude + LatitudeDegrees;
                 BottomLatitude = currentUserPosition.Latitude - LatitudeDegrees;
@@ -61,8 +62,7 @@ namespace NRHP_App
         private async void UpdateMap()
         {
             var dataPoints = await App.database.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
-            App.currentDataPoints = dataPoints;
-            foreach(DataPoint dataPoint in dataPoints)
+            foreach (DataPoint dataPoint in dataPoints)
             {
                 var point = new Point
                 {
@@ -75,15 +75,6 @@ namespace NRHP_App
                 if (!map.Pins.Contains(point))
                     map.Pins.Add(point);
             }
-            //var copyList = new List<Pin>(map.Pins);
-            //foreach (Point point in copyList)
-            //{
-            //    var find = App.currentDataPoints.Find(dataPoint => dataPoint.RefNum == point.RefNum);
-            //    if (find == null)
-            //    {
-            //        map.Pins.Remove(point);
-            //    }
-            //}
         }
 
         private void PositionChanged(object sender, PositionEventArgs e)
@@ -104,6 +95,21 @@ namespace NRHP_App
                 PauseLocationUpdatesAutomatically = false
             });
             locator.PositionChanged += PositionChanged;
+        }
+
+        private async void AppearSearchBar(object sender, EventArgs e)
+        {
+            Console.WriteLine(sender);
+            await searchBar.FadeTo(1);
+            searchBar.IsEnabled = true;
+        }
+
+        private void OpenDetailPage(object sender, EventArgs e)
+        {
+            var imageUri = "https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf";
+            var detailPage = new DetailPage(imageUri);
+            //Device.OpenUri(imageUri);
+            Navigation.PushModalAsync(detailPage);
         }
     }
 }

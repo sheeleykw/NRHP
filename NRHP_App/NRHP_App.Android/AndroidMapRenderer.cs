@@ -24,6 +24,7 @@ namespace NRHP_App.Droid
 
             if (e.OldElement != null)
             {
+
             }
 
             if (e.NewElement != null)

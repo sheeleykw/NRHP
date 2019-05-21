@@ -6,13 +6,12 @@ namespace NRHP_App
     public partial class App : Application
     {
         public static DataPointDatabase database;
-        public static List<DataPoint> currentDataPoints;
+        public static string currentPinRefNum = "80003972";
 
         public App(string dbPath)
         {
             InitializeComponent();
             database = new DataPointDatabase(dbPath);
-            currentDataPoints = new List<DataPoint>();
             MainPage = new MainPage();
         }
 
@@ -28,7 +27,7 @@ namespace NRHP_App
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
+
         }
     }
 }

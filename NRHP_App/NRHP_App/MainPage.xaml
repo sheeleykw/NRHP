@@ -3,7 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:NRHP_App"
              x:Class="NRHP_App.MainPage">
-    <ContentPage.Content>
-        <local:NRHPMap x:Name="map" MapType="Street"/>
-    </ContentPage.Content>
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="WidthRequest" Value="50"/>
+            <Setter Property="Margin" Value="5, 0, 5, 8"/>
+        </Style>
+    </ContentPage.Resources>
+    <AbsoluteLayout BackgroundColor="Black">
+        <StackLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <local:NRHPMap x:Name="map" MapType="Street"/>
+            <StackLayout Orientation="Horizontal" BackgroundColor="Black">
+                <Button x:Name="Favorites"/>
+                <Button x:Name="detailPageButton" Text="DPB" Clicked="OpenDetailPage"/>
+                <Button x:Name="searchButton" Text="SB" Clicked="AppearSearchBar"/>
+                <Button x:Name="Something3"/>
+                <Button x:Name="Something4"/>
+            </StackLayout>
+        </StackLayout>
+        <SearchBar x:Name="searchBar" AbsoluteLayout.LayoutBounds="0.1, 0.015, 0.8, 40" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" Opacity="0" IsEnabled="False"/>
+    </AbsoluteLayout>
 </ContentPage>
