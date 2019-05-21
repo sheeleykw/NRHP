@@ -24,7 +24,8 @@ namespace NRHP_App.Droid
 
             if (e.OldElement != null)
             {
-
+                NativeMap.MarkerClick -= SelectPoint;
+                NativeMap.InfoWindowClose -= DeselectPoint;
             }
 
             if (e.NewElement != null)
@@ -36,25 +37,41 @@ namespace NRHP_App.Droid
         protected override void OnMapReady(GoogleMap map)
         {
             base.OnMapReady(map);
-            //NativeMap.SetOnCameraMoveListener(new MovingMapListener());
+
+            NativeMap.MarkerClick += SelectPoint;
+            NativeMap.InfoWindowClose += DeselectPoint;
         }
 
-        //internal class MovingMapListener : Java.Lang.Object, IOnCameraMoveListener
-        //{
+        //Changes the currentPoints refnum and moves the camera to the selected point
+        //Possibles changes might be made to the animation of the camera during selection
+        private async void SelectPoint(object sender, GoogleMap.MarkerClickEventArgs e)
+        {
+            var marker = e.Marker;
+            if (!marker.IsInfoWindowShown)
+            {
+                var moveCamera = CameraUpdateFactory.NewLatLng(marker.Position);
+                NativeMap.AnimateCamera(moveCamera);
+                marker.ShowInfoWindow();
+                App.currentPinRefNum = (await App.database.GetPointNameAsync(marker.Title)).RefNum;
+                App.mainPage.SwitchDetailPageButton();
+            }
+        }
 
-        //    async public void OnCameraMove()
-        //    {
-        //    }
-        //}
+        private void DeselectPoint(object sender, GoogleMap.InfoWindowCloseEventArgs e)
+        {
+            App.currentPinRefNum = null;
+            App.mainPage.SwitchDetailPageButton();
+        }
 
-        //protected async override MarkerOptions CreateMarker(Pin pin)
-        //{
-        //    var marker = new MarkerOptions();
-        //    marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
-        //    marker.SetTitle();
-        //    marker.SetSnippet(pin.);
-        //    marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.mr_button_connected_dark));
-        //    return marker;
-        //}
+        protected override MarkerOptions CreateMarker(Pin pin)
+        {
+            var point = (Point)pin;
+            var marker = new MarkerOptions();
+            marker.SetPosition(new LatLng(point.Position.Latitude, point.Position.Longitude));
+            marker.SetTitle(point.Label);
+            marker.SetSnippet(point.Category);
+            marker.SetIcon(BitmapDescriptorFactory.DefaultMarker());
+            return marker;
+        }
     }
 }

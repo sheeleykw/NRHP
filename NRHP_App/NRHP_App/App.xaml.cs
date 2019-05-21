@@ -6,13 +6,14 @@ namespace NRHP_App
     public partial class App : Application
     {
         public static DataPointDatabase database;
-        public static string currentPinRefNum = "80003972";
+        public static string currentPinRefNum = null;
+        public static MainPage mainPage = new MainPage();
 
         public App(string dbPath)
         {
             InitializeComponent();
             database = new DataPointDatabase(dbPath);
-            MainPage = new MainPage();
+            MainPage = mainPage;
         }
 
         protected override void OnStart()
