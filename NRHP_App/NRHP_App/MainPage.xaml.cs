@@ -1,12 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Position = Xamarin.Forms.Maps.Position;
-using System.Collections.Generic;
 
 namespace NRHP_App
 {
@@ -15,8 +13,8 @@ namespace NRHP_App
     {
         private Plugin.Geolocator.Abstractions.Position currentUserPosition;
         private IGeolocator locator = CrossGeolocator.Current;
-        private double LatitudeDegrees = 0.5;
-        private double LongitudeDegrees = 0.5;
+        private double LatitudeDegrees = 0.0095328892176525;
+        private double LongitudeDegrees = 0.00882815569639206;
         private double TopLatitude;
         private double BottomLatitude;
         private double RightLongitude;
@@ -26,18 +24,25 @@ namespace NRHP_App
         public MainPage()
         {
             InitializeComponent();
-            map.IsShowingUser = true;
-            UserLocationSetup();
+            MapSetup();
         }
 
         //First intialization of the userPosition and viewChanging eventHandler
         //Possibles changes might be need to the userPosition listener/eventHandler
-        public async void UserLocationSetup()
+        private async void MapSetup()
         {
-            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(100));
+            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(10));
+            locator.PositionChanged += PositionChanged;
+
+            map.IsShowingUser = true;
             map.PropertyChanged += ChangedView;
-            await StartLocationListening();
             map.MoveToRegion(new MapSpan(new Position(currentUserPosition.Latitude, currentUserPosition.Longitude), LatitudeDegrees, LongitudeDegrees));
+        }
+
+        //Gets called when the user position changes
+        private void PositionChanged(object sender, PositionEventArgs e)
+        {
+            currentUserPosition = e.Position;
         }
 
         //Updates the view of the camera to allow the database to know where to search
@@ -82,29 +87,6 @@ namespace NRHP_App
                     map.Pins.Add(point);
             }
         }
-
-        //Gets called when the user position changes
-        private void PositionChanged(object sender, PositionEventArgs e)
-        {
-            currentUserPosition = e.Position;
-        }
-
-        //Activates the continous listening feature
-        private async Task StartLocationListening()
-        {
-            await locator.StartListeningAsync(TimeSpan.FromSeconds(5), 10, true, new ListenerSettings
-            {
-                ActivityType = ActivityType.AutomotiveNavigation,
-                AllowBackgroundUpdates = true,
-                DeferLocationUpdates = true,
-                DeferralDistanceMeters = 1,
-                DeferralTime = TimeSpan.FromSeconds(1),
-                ListenForSignificantChanges = true,
-                PauseLocationUpdatesAutomatically = false
-            });
-            locator.PositionChanged += PositionChanged;
-        }
-
 
         //Responds to the detailPageButton
         //Needs to open another page which displays the details of the page

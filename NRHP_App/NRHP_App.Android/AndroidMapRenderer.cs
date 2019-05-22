@@ -37,7 +37,8 @@ namespace NRHP_App.Droid
         protected override void OnMapReady(GoogleMap map)
         {
             base.OnMapReady(map);
-
+            NativeMap.SetMinZoomPreference(11);
+            NativeMap.SetMaxZoomPreference(18);
             NativeMap.MarkerClick += SelectPoint;
             NativeMap.InfoWindowClose += DeselectPoint;
         }

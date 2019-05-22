@@ -8,18 +8,20 @@
             <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
             <Setter Property="HeightRequest" Value="50"/>
             <Setter Property="WidthRequest" Value="50"/>
-            <Setter Property="Margin" Value="5, 0, 5, 8"/>
+            <Setter Property="Margin" Value="5, 10, 5, 10"/>
         </Style>
     </ContentPage.Resources>
-    <StackLayout>
-        <SearchBar x:Name="searchBar"/>
+    <StackLayout Spacing="0" BackgroundColor="#2699FB">
+        <StackLayout Margin="3, 3" BackgroundColor="White">
+            <SearchBar x:Name="searchBar" Placeholder="Search" HeightRequest="55"/>
+        </StackLayout>
         <local:NRHPMap x:Name="map" MapType="Street"/>
-        <StackLayout Orientation="Horizontal" BackgroundColor="Black">
-            <Button x:Name="Favorites"/>
-            <Button x:Name="detailPageButton" Text="DP" Clicked="OpenDetailPage" IsEnabled="False"/>
-            <Button x:Name="Something2" Text="SB"/>
-            <Button x:Name="Something3"/>
-            <Button x:Name="Something4"/>
+        <StackLayout Orientation="Horizontal">
+            <Button x:Name="legendOverlayButton" Text="LB"/>
+            <Button x:Name="favoritesPageButton" Text="FB"/>
+            <Button x:Name="detailPageButton" Text="DB" Clicked="OpenDetailPage" IsEnabled="False"/>
+            <Button x:Name="otherButton" Text="OB"/>
+            <Button x:Name="settingsPageButton" Text="SB"/>
         </StackLayout>
     </StackLayout>
 </ContentPage>
