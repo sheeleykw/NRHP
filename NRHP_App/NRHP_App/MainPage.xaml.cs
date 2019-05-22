@@ -24,6 +24,7 @@ namespace NRHP_App
         public MainPage()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
             MapSetup();
         }
 
@@ -31,7 +32,7 @@ namespace NRHP_App
         //Possibles changes might be need to the userPosition listener/eventHandler
         private async void MapSetup()
         {
-            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(10));
+            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(100));
             locator.PositionChanged += PositionChanged;
 
             map.IsShowingUser = true;
@@ -94,6 +95,13 @@ namespace NRHP_App
         {
             var imageUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf");
             Device.OpenUri(imageUri);
+        }
+
+        private async void OpenFavoritesPage(object sender, EventArgs e)
+        {
+            var favorites = await App.database.GetFavoritePointsAsync();
+            Console.WriteLine(favorites.Count);
+            await Navigation.PushAsync(new FavoritesPage(favorites));
         }
 
         //Is called when a pin is selected or deselected

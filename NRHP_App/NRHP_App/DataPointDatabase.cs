@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SQLite;
 
@@ -11,6 +12,8 @@ namespace NRHP_App
         public DataPointDatabase(string dbPath)
         {
             _database = new SQLiteAsyncConnection(dbPath);
+            _database.CreateTableAsync<DataPoint>();
+            _database.CreateTableAsync<FavoritePoint>();
         }
 
         public Task<List<DataPoint>> GetPointsAsync(double TopLatitude, double BottomLatitude, double RightLongitude, double LeftLongitude)
@@ -32,6 +35,22 @@ namespace NRHP_App
             return _database.Table<DataPoint>()
                             .Where(dataPoint => dataPoint.Name.Equals(Name))
                             .FirstOrDefaultAsync();
+        }
+
+        public Task<List<FavoritePoint>> GetFavoritePointsAsync()
+        {
+            return _database.Table<FavoritePoint>()
+                            .ToListAsync();
+        }
+
+        public void SaveFavoritePoint(FavoritePoint favorite)
+        {
+            _database.InsertAsync(favorite);
+        }
+
+        public void DeleteFavoritePoint(FavoritePoint favorite)
+        {
+            _database.DeleteAsync(favorite);
         }
     }
 }

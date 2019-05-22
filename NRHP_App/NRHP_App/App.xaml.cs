@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Xamarin.Forms;
 
 namespace NRHP_App
@@ -8,12 +10,14 @@ namespace NRHP_App
         public static DataPointDatabase database;
         public static string currentPinRefNum = null;
         public static MainPage mainPage = new MainPage();
+        public static NavigationPage navPage = new NavigationPage(mainPage);
 
         public App(string dbPath)
         {
             InitializeComponent();
             database = new DataPointDatabase(dbPath);
-            MainPage = mainPage;
+            navPage.BarBackgroundColor = Color.FromHex("#2699FB");
+            MainPage = navPage;
         }
 
         protected override void OnStart()
