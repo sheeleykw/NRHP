@@ -14,7 +14,7 @@
     <ContentPage.Content>
         <StackLayout Spacing="0" BackgroundColor="#2699FB">
             <StackLayout Spacing="0" Margin="3, 3" BackgroundColor="White">
-                <SearchBar x:Name="searchBar" Placeholder="Search" HeightRequest="55"/>
+                <SearchBar x:Name="searchBar" Placeholder="Enter City/State" HeightRequest="55"/>
             </StackLayout>
             <local:NRHPMap x:Name="map" MapType="Street"/>
             <StackLayout Spacing="0" Orientation="Horizontal">

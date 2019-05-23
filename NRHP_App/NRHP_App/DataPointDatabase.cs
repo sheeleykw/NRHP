@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SQLite;
+using System;
 
 namespace NRHP_App
 {
@@ -13,44 +13,25 @@ namespace NRHP_App
         {
             _database = new SQLiteAsyncConnection(dbPath);
             _database.CreateTableAsync<DataPoint>();
-            _database.CreateTableAsync<FavoritePoint>();
         }
 
-        public Task<List<DataPoint>> GetPointsAsync(double TopLatitude, double BottomLatitude, double RightLongitude, double LeftLongitude)
-        {
-            return _database.Table<DataPoint>()
-                            .Where(dataPoint => dataPoint.Latitude <= TopLatitude && dataPoint.Latitude >= BottomLatitude && dataPoint.Longitude <= RightLongitude && dataPoint.Longitude >= LeftLongitude)
-                            .ToListAsync();
-        }
-
-        public Task<DataPoint> GetPointRefNumAsync(string RefNum)
+        public Task<DataPoint> GetPointAsync(string RefNum)
         {
             return _database.Table<DataPoint>()
                             .Where(dataPoint => dataPoint.RefNum.Equals(RefNum))
                             .FirstOrDefaultAsync();
         }
 
-        public Task<DataPoint> GetPointNameAsync(string Name)
+        public Task<List<DataPoint>> GetFavoritedPointsAsync()
         {
             return _database.Table<DataPoint>()
-                            .Where(dataPoint => dataPoint.Name.Equals(Name))
-                            .FirstOrDefaultAsync();
-        }
-
-        public Task<List<FavoritePoint>> GetFavoritePointsAsync()
-        {
-            return _database.Table<FavoritePoint>()
+                            .Where(dataPoint => dataPoint.IsFavorited == true)
                             .ToListAsync();
         }
 
-        public void SaveFavoritePoint(FavoritePoint favorite)
+        public void UpdatePoint(DataPoint dataPoint)
         {
-            _database.InsertAsync(favorite);
-        }
-
-        public void DeleteFavoritePoint(FavoritePoint favorite)
-        {
-            _database.DeleteAsync(favorite);
+            _database.UpdateAsync(dataPoint);
         }
     }
 }

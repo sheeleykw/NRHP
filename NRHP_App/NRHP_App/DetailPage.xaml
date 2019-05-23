@@ -2,9 +2,35 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NRHP_App.DetailPage">
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="WidthRequest" Value="50"/>
+            <Setter Property="Margin" Value="5, 10, 5, 10"/>
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <CarouselView/>
-        </StackLayout>
+        <AbsoluteLayout BackgroundColor="#2699FB">
+            <!--<CarouselView AbsoluteLayout.LayoutBounds="0, 0, 1, 0.35" AbsoluteLayout.LayoutFlags="All"/>-->
+            <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.5" AbsoluteLayout.LayoutFlags="All" VerticalOptions="EndAndExpand">
+                <StackLayout Spacing="0" BackgroundColor="White" Padding="15, 0">
+                    <Label x:Name="name" FontAttributes="Bold"/>
+                    <Label x:Name="category"/>
+                    <Label x:Name="sourceDate"/>
+                    <Label x:Name="address"/>
+                    <Label x:Name="cityState"/>
+                    <Label x:Name="county"/>
+                    <Label x:Name="people"/>
+                </StackLayout>
+                <StackLayout Spacing="0" Orientation="Horizontal">
+                    <Button x:Name="legendOverlayButton" Text="LB"/>
+                    <Button x:Name="favoritesPageButton" Text="FB"/>
+                    <Button x:Name="detailPageButton" Text="DB"/>
+                    <Button x:Name="otherButton" Text="OB"/>
+                    <Button x:Name="settingsPageButton" Text="SB"/>
+                </StackLayout>
+            </StackLayout>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

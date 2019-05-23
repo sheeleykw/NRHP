@@ -7,17 +7,17 @@ namespace NRHP_App
 {
     public partial class App : Application
     {
-        public static DataPointDatabase database;
+        public static MapPointDatabase mapDatabase;
+        public static DataPointDatabase itemDatabase;
         public static string currentPinRefNum = null;
         public static MainPage mainPage = new MainPage();
-        public static NavigationPage navPage = new NavigationPage(mainPage);
 
-        public App(string dbPath)
+        public App(string mapDBPath, string itemDBPath)
         {
             InitializeComponent();
-            database = new DataPointDatabase(dbPath);
-            navPage.BarBackgroundColor = Color.FromHex("#2699FB");
-            MainPage = navPage;
+            mapDatabase = new MapPointDatabase(mapDBPath);
+            itemDatabase = new DataPointDatabase(itemDBPath);
+            MainPage = mainPage;
         }
 
         protected override void OnStart()

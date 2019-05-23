@@ -53,7 +53,7 @@ namespace NRHP_App.Droid
                 var moveCamera = CameraUpdateFactory.NewLatLng(marker.Position);
                 NativeMap.AnimateCamera(moveCamera);
                 marker.ShowInfoWindow();
-                App.currentPinRefNum = (await App.database.GetPointNameAsync(marker.Title)).RefNum;
+                App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
                 App.mainPage.SwitchDetailPageButton();
             }
         }
@@ -66,11 +66,10 @@ namespace NRHP_App.Droid
 
         protected override MarkerOptions CreateMarker(Pin pin)
         {
-            var point = (Point)pin;
             var marker = new MarkerOptions();
-            marker.SetPosition(new LatLng(point.Position.Latitude, point.Position.Longitude));
-            marker.SetTitle(point.Label);
-            marker.SetSnippet(point.Category);
+            marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
+            marker.SetTitle(pin.Label);
+            marker.SetSnippet(pin.Address);
             marker.SetIcon(BitmapDescriptorFactory.DefaultMarker());
             return marker;
         }

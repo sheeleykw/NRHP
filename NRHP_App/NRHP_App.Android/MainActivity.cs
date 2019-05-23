@@ -17,12 +17,24 @@ namespace NRHP_App.Droid
             base.OnCreate(savedInstanceState);
 
             string targetPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            var path = Path.Combine(targetPath, "MapItems.db");
-            if (!File.Exists(path))
+            var mapPath = Path.Combine(targetPath, "MapItems.db");
+            if (!File.Exists(mapPath))
             {
                 using (Stream input = Assets.Open("MapItems.db"))
                 {
-                    using (var fs = new FileStream(path, FileMode.Create))
+                    using (var fs = new FileStream(mapPath, FileMode.Create))
+                    {
+                        input.CopyTo(fs);
+                    }
+                }
+            }
+
+            var itemPath = Path.Combine(targetPath, "ItemDetails.db");
+            if (!File.Exists(itemPath))
+            {
+                using (Stream input = Assets.Open("ItemDetails.db"))
+                {
+                    using (var fs = new FileStream(itemPath, FileMode.Create))
                     {
                         input.CopyTo(fs);
                     }
@@ -33,7 +45,7 @@ namespace NRHP_App.Droid
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.FormsMaps.Init(this, savedInstanceState);
-            LoadApplication(new App(path));
+            LoadApplication(new App(mapPath, itemPath));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {

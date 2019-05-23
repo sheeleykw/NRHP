@@ -124,6 +124,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\ItemDetails.db" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidAsset Include="Assets\MapItems.db" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

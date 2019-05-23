@@ -12,14 +12,25 @@ namespace NRHP_App
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class DetailPage : ContentPage
 	{
-        public string imageUri;
+        private DataPoint currentPoint;
 
-		public DetailPage (string imageUri)
+		public DetailPage()
 		{
 			InitializeComponent();
-            this.imageUri = imageUri;
-            var image = new WebView { Source = "https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/80003972.pdf" };
-            Content = image;
+            SetupLabels();
 		}
+
+        private async void SetupLabels()
+        {
+            Console.WriteLine(App.currentPinRefNum);
+            currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
+            name.Text = currentPoint.Name;
+            category.Text = "Category: " + currentPoint.Category;
+            sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
+            address.Text = "Reported Street Address: " + currentPoint.Address;
+            cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
+            county.Text = "County: " + currentPoint.County;
+            people.Text = "Architects/Builders: " + currentPoint.Architects;
+         }
 	}
 }

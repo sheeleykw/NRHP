@@ -5,10 +5,11 @@ using Xamarin.Forms.Maps;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Position = Xamarin.Forms.Maps.Position;
+using Xamarin.Forms.Xaml;
 
 namespace NRHP_App
 {
-    [DesignTimeVisible(true)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
         private Plugin.Geolocator.Abstractions.Position currentUserPosition;
@@ -73,35 +74,32 @@ namespace NRHP_App
         //Calls the database to retrieve the points that are currently rendered within the cameras view
         private async void UpdateMap()
         {
-            var dataPoints = await App.database.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
-            foreach (DataPoint dataPoint in dataPoints)
+            var mapPoints = await App.mapDatabase.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
+            foreach (MapPoint mapPoint in mapPoints)
             {
-                var point = new Point
+                var pin = new Pin
                 {
-                    RefNum = dataPoint.RefNum,
-                    Label = dataPoint.Name,
-                    Address = "NULL",
-                    Position = new Position(dataPoint.Latitude, dataPoint.Longitude),
-                    Category = dataPoint.Category
+                    Label = mapPoint.Name,
+                    Address = mapPoint.Category,
+                    Position = new Position(mapPoint.Latitude, mapPoint.Longitude)
                 };
-                if (!map.Pins.Contains(point))
-                    map.Pins.Add(point);
+                if (!map.Pins.Contains(pin))
+                    map.Pins.Add(pin);
             }
         }
 
         //Responds to the detailPageButton
         //Needs to open another page which displays the details of the page
-        private void OpenDetailPage(object sender, EventArgs e)
+        private async void OpenDetailPage(object sender, EventArgs e)
         {
-            var imageUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf");
-            Device.OpenUri(imageUri);
+            await Navigation.PushModalAsync(new DetailPage());
+            //var imageUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf");
+            //Device.OpenUri(imageUri);
         }
 
         private async void OpenFavoritesPage(object sender, EventArgs e)
         {
-            var favorites = await App.database.GetFavoritePointsAsync();
-            Console.WriteLine(favorites.Count);
-            await Navigation.PushAsync(new FavoritesPage(favorites));
+            await Navigation.PushModalAsync(new FavoritesPage());
         }
 
         //Is called when a pin is selected or deselected

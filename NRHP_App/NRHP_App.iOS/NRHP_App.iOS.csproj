@@ -148,6 +148,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\ItemDetails.db" />
+  </ItemGroup>
+  <ItemGroup>
     <BundleResource Include="Resources\MapItems.db" />
   </ItemGroup>
 </Project>

@@ -12,11 +12,12 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Spacing="0" BackgroundColor="#2699FB">
-            <StackLayout Spacing="0" Margin="3, 3" BackgroundColor="White">
-                <SearchBar x:Name="searchBar" Placeholder="Search" HeightRequest="55"/>
+            <StackLayout Spacing="0" Margin="3, 3" BackgroundColor="White" Orientation="Horizontal">
+                <Button x:Name="backButton" Text="BB" Margin="0" HorizontalOptions="Start" Clicked="BackButton"/>
+                <SearchBar x:Name="searchBar" Placeholder="Enter Building Name" HeightRequest="55"/>
             </StackLayout>
-            <StackLayout Spacing="0" BackgroundColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                <ListView x:Name="favoritesListView" ItemsSource="{Binding favoritePoints}">
+            <StackLayout Spacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <ListView x:Name="favoritesListView" ItemsSource="{Binding favorites}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -27,7 +28,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Label Text="You have no favorites right now. Go back to the map and find a building you LOVE!" WidthRequest="200" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
+                <Label x:Name="noFavorites" Text="You have no favorites right now. Go back to the map and find a building you love!" FontSize="Large" Margin="40, 0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
             </StackLayout>
             <StackLayout Spacing="0" Orientation="Horizontal">
                 <Button x:Name="legendOverlayButton" Text="LB" IsEnabled="False"/>

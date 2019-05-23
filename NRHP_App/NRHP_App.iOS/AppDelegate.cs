@@ -20,16 +20,23 @@ namespace NRHP_App.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             var targetPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            var path = Path.Combine(targetPath, "..", "Library");
-            if (!File.Exists(path))
+            var mapPath = Path.Combine(targetPath, "..", "Library");
+            if (!File.Exists(mapPath))
             {
                 var bundlePath = NSBundle.MainBundle.PathForResource("MapItems", "db");
-                File.Copy(bundlePath, path);
+                File.Copy(bundlePath, mapPath);
+            }
+
+            var itemPath = Path.Combine(targetPath, "..", "Library");
+            if (!File.Exists(itemPath))
+            {
+                var bundlePath = NSBundle.MainBundle.PathForResource("ItemDetails", "db");
+                File.Copy(bundlePath, itemPath);
             }
 
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.FormsMaps.Init();
-            LoadApplication(new App(path));
+            LoadApplication(new App(mapPath, itemPath));
 
             return base.FinishedLaunching(app, options);
         }

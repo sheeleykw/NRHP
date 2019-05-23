@@ -12,20 +12,28 @@ namespace NRHP_App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FavoritesPage : ContentPage
     {
-        private List<FavoritePoint> favoritePoints;
-        private View title = new Label
-        {
-            Text = "Favorites",
-            TranslationX = 100
-        };
-        public FavoritesPage(List<FavoritePoint> favorites)
+        private List<DataPoint> favorites;
+
+        public FavoritesPage()
         {
             InitializeComponent();
-            
-            NavigationPage.SetTitleView(this, title);
+            SetupFavorites();
+        }
 
-            favoritePoints = favorites;
+        private async void SetupFavorites()
+        {
+            var favorites = await App.itemDatabase.GetFavoritedPointsAsync();
             favoritesListView.ItemsSource = favorites;
+            if (favorites.Count == 0)
+            {
+                favoritesListView.IsVisible = false;
+                noFavorites.IsVisible = true;
+            }
+        }
+
+        public void BackButton(object sender, EventArgs e)
+        {
+            Navigation.PopModalAsync();
         }
     }
 }
