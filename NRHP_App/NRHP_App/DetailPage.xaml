@@ -11,10 +11,24 @@
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <AbsoluteLayout BackgroundColor="#2699FB">
-            <!--<CarouselView AbsoluteLayout.LayoutBounds="0, 0, 1, 0.35" AbsoluteLayout.LayoutFlags="All"/>-->
-            <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.5" AbsoluteLayout.LayoutFlags="All" VerticalOptions="EndAndExpand">
-                <StackLayout Spacing="0" BackgroundColor="White" Padding="15, 0">
+        <AbsoluteLayout BackgroundColor="White">
+            <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0, 1, 0.5" AbsoluteLayout.LayoutFlags="All">
+                <Grid AbsoluteLayout.LayoutBounds="0, 1, 0.5, 0.6" AbsoluteLayout.LayoutFlags="All">
+                    <Image Source="photoicon.png" Grid.Row="0"/>
+                    <Label x:Name="photosLabel" Text="Photos" HorizontalOptions="Center" Grid.Row="1"/>
+                </Grid>
+                <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0.5, 0.5, 2, 1" AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"/>
+                <Grid AbsoluteLayout.LayoutBounds="1, 1, 0.5, 0.6" AbsoluteLayout.LayoutFlags="All">
+                    <Image Source="docicon.png" Grid.Row="0"/>
+                    <Label x:Name="docsLabel" Text="Documents" HorizontalOptions="Center" Grid.Row="1"/>
+                </Grid>
+            </AbsoluteLayout>
+            <StackLayout BackgroundColor="#2699FB" Spacing="0" Orientation="Horizontal" AbsoluteLayout.LayoutBounds="0.5, 0, 1, 61" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional">
+                <Button x:Name="backButton" Text="BB" Margin="3, 3" HorizontalOptions="Start" VerticalOptions="Center" Clicked="BackButton"/>
+            </StackLayout>
+            <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.5" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
+                <StackLayout Spacing="0" Padding="15, 0" VerticalOptions="Start">
+                    <BoxView Color="Black" WidthRequest="1" HeightRequest="2"/>
                     <Label x:Name="name" FontAttributes="Bold"/>
                     <Label x:Name="category"/>
                     <Label x:Name="sourceDate"/>
@@ -23,7 +37,7 @@
                     <Label x:Name="county"/>
                     <Label x:Name="people"/>
                 </StackLayout>
-                <StackLayout Spacing="0" Orientation="Horizontal">
+                <StackLayout Spacing="0" BackgroundColor="#2699FB" Orientation="Horizontal" VerticalOptions="EndAndExpand">
                     <Button x:Name="legendOverlayButton" Text="LB"/>
                     <Button x:Name="favoritesPageButton" Text="FB"/>
                     <Button x:Name="detailPageButton" Text="DB"/>

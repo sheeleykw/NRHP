@@ -32,5 +32,10 @@ namespace NRHP_App
             county.Text = "County: " + currentPoint.County;
             people.Text = "Architects/Builders: " + currentPoint.Architects;
          }
-	}
+
+        private void BackButton(object sender, EventArgs e)
+        {
+            Navigation.PopModalAsync();
+        }
+    }
 }

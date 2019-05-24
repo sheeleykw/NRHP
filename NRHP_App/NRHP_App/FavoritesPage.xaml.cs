@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,7 +7,6 @@ namespace NRHP_App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FavoritesPage : ContentPage
     {
-        private List<DataPoint> favorites;
 
         public FavoritesPage()
         {
@@ -31,7 +25,7 @@ namespace NRHP_App
             }
         }
 
-        public void BackButton(object sender, EventArgs e)
+        private void BackButton(object sender, EventArgs e)
         {
             Navigation.PopModalAsync();
         }
