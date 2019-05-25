@@ -14,17 +14,18 @@
         <AbsoluteLayout BackgroundColor="White">
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0, 1, 0.5" AbsoluteLayout.LayoutFlags="All">
                 <Grid AbsoluteLayout.LayoutBounds="0, 1, 0.5, 0.6" AbsoluteLayout.LayoutFlags="All">
-                    <Image Source="photoicon.png" Grid.Row="0"/>
+                    <ImageButton Source="photoicon.png" Grid.Row="0" Clicked="PhotoButton"/>
                     <Label x:Name="photosLabel" Text="Photos" HorizontalOptions="Center" Grid.Row="1"/>
                 </Grid>
                 <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0.5, 0.5, 2, 1" AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"/>
                 <Grid AbsoluteLayout.LayoutBounds="1, 1, 0.5, 0.6" AbsoluteLayout.LayoutFlags="All">
-                    <Image Source="docicon.png" Grid.Row="0"/>
+                    <ImageButton Source="docicon.png" Grid.Row="0" Clicked="DocButton"/>
                     <Label x:Name="docsLabel" Text="Documents" HorizontalOptions="Center" Grid.Row="1"/>
                 </Grid>
             </AbsoluteLayout>
             <StackLayout BackgroundColor="#2699FB" Spacing="0" Orientation="Horizontal" AbsoluteLayout.LayoutBounds="0.5, 0, 1, 61" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional">
                 <Button x:Name="backButton" Text="BB" Margin="3, 3" HorizontalOptions="Start" VerticalOptions="Center" Clicked="BackButton"/>
+                <Button x:Name="favoriteButton" Text="FL" Margin="3, 3" HorizontalOptions="EndAndExpand" VerticalOptions="Center" Clicked="FavoriteItem"/>
             </StackLayout>
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.5" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
                 <StackLayout Spacing="0" Padding="15, 0" VerticalOptions="Start">

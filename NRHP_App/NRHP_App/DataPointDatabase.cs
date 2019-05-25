@@ -25,6 +25,7 @@ namespace NRHP_App
         {
             return _database.Table<DataPoint>()
                             .Where(dataPoint => dataPoint.IsFavorited == true)
+                            .OrderBy(dataPoint => dataPoint.Name)
                             .ToListAsync();
         }
 

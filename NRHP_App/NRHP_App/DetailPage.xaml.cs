@@ -9,16 +9,16 @@ using Xamarin.Forms.Xaml;
 
 namespace NRHP_App
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class DetailPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class DetailPage : ContentPage
+    {
         private DataPoint currentPoint;
 
-		public DetailPage()
-		{
-			InitializeComponent();
+        public DetailPage()
+        {
+            InitializeComponent();
             SetupLabels();
-		}
+        }
 
         private async void SetupLabels()
         {
@@ -31,11 +31,29 @@ namespace NRHP_App
             cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
             county.Text = "County: " + currentPoint.County;
             people.Text = "Architects/Builders: " + currentPoint.Architects;
-         }
+        }
+
+        private void FavoriteItem(object sender, EventArgs e)
+        {
+            currentPoint.IsFavorited = !currentPoint.IsFavorited;
+            App.itemDatabase.UpdatePoint(currentPoint);
+        }
 
         private void BackButton(object sender, EventArgs e)
         {
             Navigation.PopModalAsync();
+        }
+
+        private void PhotoButton(object sender, EventArgs e)
+        {
+            var pdfUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf");
+            Device.OpenUri(pdfUri);
+        }
+
+        private void DocButton(object sender, EventArgs e)
+        {
+            var docUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf");
+            Device.OpenUri(docUri);
         }
     }
 }
