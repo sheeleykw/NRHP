@@ -19,20 +19,26 @@ namespace NRHP_App.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            var targetPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            var mapPath = Path.Combine(targetPath, "..", "Library");
-            if (!File.Exists(mapPath))
-            {
-                var bundlePath = NSBundle.MainBundle.PathForResource("MapItems", "db");
-                File.Copy(bundlePath, mapPath);
-            }
+            var mapPath = NSBundle.MainBundle.PathForResource("MapItems", "db");
 
-            var itemPath = Path.Combine(targetPath, "..", "Library");
-            if (!File.Exists(itemPath))
-            {
-                var bundlePath = NSBundle.MainBundle.PathForResource("ItemDetails", "db");
-                File.Copy(bundlePath, itemPath);
-            }
+            //var targetPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            //var mapPath = Path.Combine(targetPath, "..", "Library");
+            //if (!File.Exists(mapPath))
+            //{
+            //    var bundlePath = NSBundle.MainBundle.PathForResource("MapItems", "db");
+            //    Console.WriteLine(bundlePath);
+            //    Console.WriteLine(mapPath);
+            //    File.Copy(bundlePath, mapPath, true);
+            //}
+
+            var itemPath = NSBundle.MainBundle.PathForResource("ItemDetails", "db");
+
+            //var itemPath = Path.Combine(targetPath, "..", "Library");
+            //if (!File.Exists(itemPath))
+            //{
+            //    var bundlePath = NSBundle.MainBundle.PathForResource("ItemDetails", "db");
+            //    File.Copy(bundlePath, itemPath, true);
+            //}
 
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.FormsMaps.Init();

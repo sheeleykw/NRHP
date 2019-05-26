@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: ksheeley3@gmail.com (G5CJX2NWJH)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
@@ -155,7 +155,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\NRHP_App\NRHP_App.csproj">
-      <Project>{2ED9A3A1-FF6D-425F-A160-58798CCF6440}</Project>
+      <Project>{F227C41F-0781-4D13-9BD8-C89365F88FB8}</Project>
       <Name>NRHP_App</Name>
     </ProjectReference>
   </ItemGroup>

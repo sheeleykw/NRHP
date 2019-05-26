@@ -42,10 +42,12 @@
 		</dict>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>New Entry</string>
+	<string>Allow NRHP to use your lcoation?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>New Entry</string>
+	<string>Allow NRHP to use your lcoation?</string>
 	<key>NSLocationUsageDescription</key>
-	<string>New Entry</string>
+	<string>Allow NRHP to use your lcoation?</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Allow NRHP to use your lcoation?</string>
 </dict>
 </plist>
