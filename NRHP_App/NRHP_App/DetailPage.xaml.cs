@@ -12,18 +12,27 @@ namespace NRHP_App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DetailPage : ContentPage
     {
+        private string currentRefNum = App.currentPinRefNum;
         private DataPoint currentPoint;
 
+        //Constructor for mainPage
         public DetailPage()
         {
             InitializeComponent();
             SetupLabels();
         }
 
+        //Constructor for favoritesPage
+        public DetailPage(string RefNum)
+        {
+            InitializeComponent();
+            currentRefNum = RefNum;
+            SetupLabels();
+        }
+
         private async void SetupLabels()
         {
-            Console.WriteLine(App.currentPinRefNum);
-            currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
+            currentPoint = await App.itemDatabase.GetPointAsync(currentRefNum);
             name.Text = currentPoint.Name;
             category.Text = "Category: " + currentPoint.Category;
             sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
@@ -41,6 +50,11 @@ namespace NRHP_App
 
         private void BackButton(object sender, EventArgs e)
         {
+            if (Navigation.ModalStack.Count > 1 && Navigation.ModalStack.ElementAt(Navigation.ModalStack.Count - 2).GetType().Equals((new FavoritesPage()).GetType()))
+            {
+                var favoritesPage = (FavoritesPage)Navigation.ModalStack.ElementAt(Navigation.ModalStack.Count - 2);
+                favoritesPage.SetupFavorites();
+            }
             Navigation.PopModalAsync();
         }
 

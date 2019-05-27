@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,6 +8,7 @@ namespace NRHP_App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FavoritesPage : ContentPage
     {
+        List<DataPoint> favorites;
 
         public FavoritesPage()
         {
@@ -14,15 +16,20 @@ namespace NRHP_App
             SetupFavorites();
         }
 
-        private async void SetupFavorites()
+        public async void SetupFavorites()
         {
-            var favorites = await App.itemDatabase.GetFavoritedPointsAsync();
+            favorites = await App.itemDatabase.GetFavoritedPointsAsync();
             favoritesListView.ItemsSource = favorites;
             if (favorites.Count == 0)
             {
                 favoritesListView.IsVisible = false;
                 noFavorites.IsVisible = true;
             }
+        }
+
+        private void ListItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            Navigation.PushModalAsync(new DetailPage(favorites[e.SelectedItemIndex].RefNum));
         }
 
         private void BackButton(object sender, EventArgs e)

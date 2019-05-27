@@ -10,6 +10,7 @@ namespace NRHP_App
         public static MapPointDatabase mapDatabase;
         public static DataPointDatabase itemDatabase;
         public static string currentPinRefNum = null;
+        public static bool updatedFavorites = false;
         public static MainPage mainPage = new MainPage();
 
         public App(string mapDBPath, string itemDBPath)
