@@ -35,12 +35,13 @@ namespace NRHP_App.iOS
             {
                 var formsMap = (NRHPMap)e.NewElement;
                 nativeMap = Control as MKMapView;
-                //nativeMap.SelectedAnnotations
 
-                //nativeMap.GetViewForAnnotation = GetViewForAnnotation;
-                //nativeMap.CalloutAccessoryControlTapped += OnCalloutAccessoryControlTapped;
                 nativeMap.DidSelectAnnotationView += SelectPoint;
                 nativeMap.DidDeselectAnnotationView += DeselectPoint;
+
+                //nativeMap.SelectedAnnotation;
+                //nativeMap.GetViewForAnnotation = GetViewForAnnotation;
+                nativeMap.CalloutAccessoryControlTapped += PinTapped;
             }
         }
 
@@ -52,7 +53,8 @@ namespace NRHP_App.iOS
                 var moveCamera = new MKMapCamera
                 {
                     CenterCoordinate = annotation.Coordinate,
-                    Altitude = 5
+                    Altitude = nativeMap.Camera.Altitude,
+                    Heading = nativeMap.Camera.Heading
                 };
                 nativeMap.SetCamera(moveCamera, true);
                 App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(annotation.GetTitle(), annotation.Coordinate.Latitude, annotation.Coordinate.Longitude)).RefNum;
@@ -64,6 +66,11 @@ namespace NRHP_App.iOS
         {
             App.currentPinRefNum = null;
             App.mainPage.SwitchDetailPageButton();
+        }
+
+        private void PinTapped(object sender, EventArgs e)
+        {
+            Console.WriteLine("Hello");
         }
     }
 }

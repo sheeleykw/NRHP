@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,18 +10,27 @@ namespace NRHP_App
     {
         private string currentRefNum = App.currentPinRefNum;
         private DataPoint currentPoint;
+        private Button favoriteButton = new Button
+        {
+            BackgroundColor = Color.Snow,
+            HorizontalOptions = LayoutOptions.EndAndExpand,
+            VerticalOptions = LayoutOptions.CenterAndExpand
+        };
 
         //Constructor for mainPage
         public DetailPage()
         {
             InitializeComponent();
+            favoriteButton.Clicked += FavoriteItemToggle;
+            NavigationPage.SetTitleView(this, favoriteButton);
             SetupLabels();
         }
 
-        //Constructor for favoritesPage
         public DetailPage(string RefNum)
         {
             InitializeComponent();
+            favoriteButton.Clicked += FavoriteItemToggle;
+            NavigationPage.SetTitleView(this, favoriteButton);
             currentRefNum = RefNum;
             SetupLabels();
         }
@@ -42,32 +47,53 @@ namespace NRHP_App
             people.Text = "Architects/Builders: " + currentPoint.Architects;
         }
 
-        private void FavoriteItem(object sender, EventArgs e)
+        private async void MainPageButton(object sender, EventArgs e)
+        {
+            await App.navPage.PopToRootAsync();
+        }
+
+        private void FavoriteItemToggle(object sender, EventArgs e)
         {
             currentPoint.IsFavorited = !currentPoint.IsFavorited;
             App.itemDatabase.UpdatePoint(currentPoint);
         }
 
-        private void BackButton(object sender, EventArgs e)
-        {
-            if (Navigation.ModalStack.Count > 1 && Navigation.ModalStack.ElementAt(Navigation.ModalStack.Count - 2).GetType().Equals((new FavoritesPage()).GetType()))
-            {
-                var favoritesPage = (FavoritesPage)Navigation.ModalStack.ElementAt(Navigation.ModalStack.Count - 2);
-                favoritesPage.SetupFavorites();
-            }
-            Navigation.PopModalAsync();
-        }
+        //private async void BackButton(object sender, EventArgs e)
+        //{
+        //    if (Navigation.ModalStack.Count > 1 && Navigation.ModalStack.ElementAt(Navigation.ModalStack.Count - 2).GetType().Equals((new FavoritesPage()).GetType()))
+        //    {
+        //        var favoritesPage = (FavoritesPage)Navigation.ModalStack.ElementAt(Navigation.ModalStack.Count - 2);
+        //        favoritesPage.SetupFavorites();
+        //    }
+        //    await App.navPage.PopAsync();
+        //}
 
         private void PhotoButton(object sender, EventArgs e)
         {
             var pdfUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf");
-            Device.OpenUri(pdfUri);
+
+            if (Device.RuntimePlatform.Equals(Device.iOS))
+            {
+                Console.WriteLine("CEODLSFJGE");
+            }
+            else if (Device.RuntimePlatform.Equals(Device.Android))
+            {
+                Device.OpenUri(pdfUri);
+            }
         }
 
         private void DocButton(object sender, EventArgs e)
         {
             var docUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf");
-            Device.OpenUri(docUri);
+
+            if (Device.RuntimePlatform.Equals(Device.iOS))
+            {
+                Console.WriteLine("CEODLSFJGE");
+            }
+            else if (Device.RuntimePlatform.Equals(Device.Android))
+            {
+                Device.OpenUri(docUri);
+            }
         }
     }
 }

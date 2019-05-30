@@ -12,13 +12,17 @@ namespace NRHP_App
         public static string currentPinRefNum = null;
         public static bool updatedFavorites = false;
         public static MainPage mainPage = new MainPage();
+        public static NavigationPage navPage = new NavigationPage(mainPage);
 
         public App(string mapDBPath, string itemDBPath)
         {
             InitializeComponent();
+
             mapDatabase = new MapPointDatabase(mapDBPath);
             itemDatabase = new DataPointDatabase(itemDBPath);
-            MainPage = mainPage;
+
+            navPage.BarBackgroundColor = Color.FromHex("2699FB");
+            MainPage = navPage;
         }
 
         protected override void OnStart()

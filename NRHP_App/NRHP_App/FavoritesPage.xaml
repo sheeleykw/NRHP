@@ -2,20 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NRHP_App.FavoritesPage">
-    <ContentPage.Resources>
-        <Style TargetType="Button">
-            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-            <Setter Property="HeightRequest" Value="50"/>
-            <Setter Property="WidthRequest" Value="50"/>
-            <Setter Property="Margin" Value="5, 10, 5, 10"/>
-        </Style>
-    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Spacing="0" BackgroundColor="#2699FB">
-            <StackLayout Spacing="0" Margin="0" BackgroundColor="White" Orientation="Horizontal">
-                <Button x:Name="backButton" Text="BB" Margin="0" HorizontalOptions="Start" VerticalOptions="Center" Clicked="BackButton"/>
-                <SearchBar x:Name="searchBar" Placeholder="Enter Building Name" HeightRequest="55"/>
-            </StackLayout>
             <StackLayout Spacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <ListView x:Name="favoritesListView" ItemsSource="{Binding favorites}" ItemSelected="ListItemSelected">
                     <ListView.ItemTemplate>
@@ -31,10 +19,22 @@
                 <Label x:Name="noFavorites" Text="You have no favorites right now. Go back to the map and find a building you love!" FontSize="Large" Margin="40, 0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
             </StackLayout>
             <StackLayout Spacing="0" Orientation="Horizontal">
+                <StackLayout.Resources>
+                    <ResourceDictionary>
+                        <Style TargetType="Button">
+                            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                            <Setter Property="HeightRequest" Value="50"/>
+                            <Setter Property="WidthRequest" Value="50"/>
+                            <Setter Property="Margin" Value="5, 10, 5, 10"/>
+                            <Setter Property="BackgroundColor" Value="Black"/>
+                            <Setter Property="TextColor" Value="White"/>
+                        </Style>
+                    </ResourceDictionary>
+                </StackLayout.Resources>
                 <Button x:Name="legendOverlayButton" Text="LB" IsEnabled="False"/>
                 <Button x:Name="favoritesPageButton" Text="FB" IsEnabled="False"/>
+                <Button x:Name="mainPageButton" Text="MP" Clicked="MainPageButton"/>
                 <Button x:Name="detailPageButton" Text="DB" IsEnabled="False"/>
-                <Button x:Name="otherButton" Text="OB"/>
                 <Button x:Name="settingsPageButton" Text="SB"/>
             </StackLayout>
         </StackLayout>

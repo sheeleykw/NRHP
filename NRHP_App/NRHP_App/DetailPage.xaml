@@ -1,33 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NRHP_App.DetailPage">
-    <ContentPage.Resources>
-        <Style TargetType="Button">
-            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-            <Setter Property="HeightRequest" Value="50"/>
-            <Setter Property="WidthRequest" Value="50"/>
-            <Setter Property="Margin" Value="5, 10, 5, 10"/>
-        </Style>
-    </ContentPage.Resources>
     <ContentPage.Content>
         <AbsoluteLayout BackgroundColor="White">
-            <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0, 1, 0.5" AbsoluteLayout.LayoutFlags="All">
-                <Grid AbsoluteLayout.LayoutBounds="0, 1, 0.5, 0.6" AbsoluteLayout.LayoutFlags="All">
-                    <ImageButton Source="photoicon.png" Grid.Row="0" Clicked="PhotoButton"/>
-                    <Label x:Name="photosLabel" Text="Photos" HorizontalOptions="Center" Grid.Row="1"/>
-                </Grid>
-                <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0.5, 0.5, 2, 1" AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"/>
-                <Grid AbsoluteLayout.LayoutBounds="1, 1, 0.5, 0.6" AbsoluteLayout.LayoutFlags="All">
-                    <ImageButton Source="docicon.png" Grid.Row="0" Clicked="DocButton"/>
-                    <Label x:Name="docsLabel" Text="Documents" HorizontalOptions="Center" Grid.Row="1"/>
-                </Grid>
-            </AbsoluteLayout>
-            <StackLayout BackgroundColor="#2699FB" Spacing="0" Orientation="Horizontal" AbsoluteLayout.LayoutBounds="0.5, 0, 1, 61" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional">
-                <Button x:Name="backButton" Text="BB" Margin="3, 3" HorizontalOptions="Start" VerticalOptions="Center" Clicked="BackButton"/>
-                <Button x:Name="favoriteButton" Text="FL" Margin="3, 3" HorizontalOptions="EndAndExpand" VerticalOptions="Center" Clicked="FavoriteItem"/>
+            <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Image Source="photoicon.png" Margin="20, 5" VerticalOptions="Center"/>
+                    <Label x:Name="photosLabel" Text="Photos" HorizontalOptions="Center"/>
+                </StackLayout>
             </StackLayout>
-            <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.5" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
+            <Button AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="PhotoButton"/>
+            <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0.5, 0, 2, 0.4" AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"/>
+             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Image Source="docicon.png" Margin="20, 5" VerticalOptions="Center"/>
+                    <Label x:Name="docsLabel" Text="Documents" HorizontalOptions="Center"/>
+                </StackLayout>
+            </StackLayout>
+            <Button AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="DocButton"/>
+            <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.6" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
                 <StackLayout Spacing="0" Padding="15, 0" VerticalOptions="Start">
                     <BoxView Color="Black" WidthRequest="1" HeightRequest="2"/>
                     <Label x:Name="name" FontAttributes="Bold"/>
@@ -39,10 +31,22 @@
                     <Label x:Name="people"/>
                 </StackLayout>
                 <StackLayout Spacing="0" BackgroundColor="#2699FB" Orientation="Horizontal" VerticalOptions="EndAndExpand">
-                    <Button x:Name="legendOverlayButton" Text="LB"/>
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="Button">
+                                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                                <Setter Property="HeightRequest" Value="50"/>
+                                <Setter Property="WidthRequest" Value="50"/>
+                                <Setter Property="Margin" Value="5, 10, 5, 10"/>
+                                <Setter Property="BackgroundColor" Value="Black"/>
+                                <Setter Property="TextColor" Value="White"/>
+                            </Style>
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+                    <Button x:Name="legendOverlayButton" Text="LB" IsEnabled="False"/>
                     <Button x:Name="favoritesPageButton" Text="FB"/>
-                    <Button x:Name="detailPageButton" Text="DB"/>
-                    <Button x:Name="otherButton" Text="OB"/>
+                    <Button x:Name="mainPageButton" Text="MP" Clicked="MainPageButton"/>
+                    <Button x:Name="detailPageButton" Text="DB" IsEnabled="False"/>
                     <Button x:Name="settingsPageButton" Text="SB"/>
                 </StackLayout>
             </StackLayout>

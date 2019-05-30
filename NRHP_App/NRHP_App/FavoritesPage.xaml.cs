@@ -8,11 +8,18 @@ namespace NRHP_App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FavoritesPage : ContentPage
     {
-        List<DataPoint> favorites;
+        private List<DataPoint> favorites;
+        private SearchBar searchBar = new SearchBar
+        {
+            Placeholder = "Enter building name"
+        };
 
         public FavoritesPage()
         {
             InitializeComponent();
+            Console.WriteLine(Navigation.ModalStack.Count);
+            Console.WriteLine(Navigation.NavigationStack.Count);
+            NavigationPage.SetTitleView(this, searchBar);
             SetupFavorites();
         }
 
@@ -27,14 +34,19 @@ namespace NRHP_App
             }
         }
 
-        private void ListItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void MainPageButton(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new DetailPage(favorites[e.SelectedItemIndex].RefNum));
+            await App.navPage.PopToRootAsync();
         }
 
-        private void BackButton(object sender, EventArgs e)
+        private async void ListItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            Navigation.PopModalAsync();
+            await App.navPage.PushAsync(new DetailPage(favorites[e.SelectedItemIndex].RefNum));
         }
+
+        //private void BackButton(object sender, EventArgs e)
+        //{
+        //    Navigation.PopModalAsync();
+        //}
     }
 }

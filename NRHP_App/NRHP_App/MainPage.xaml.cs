@@ -20,12 +20,18 @@ namespace NRHP_App
         private double BottomLatitude;
         private double RightLongitude;
         private double LeftLongitude;
+        private SearchBar searchBar = new SearchBar
+        {
+            Placeholder = "Enter city/state"
+        };
 
         //Creates the page and starts up the userPosition listening eventHandler
         public MainPage()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
+            Console.WriteLine(Navigation.ModalStack.Count);
+            Console.WriteLine(Navigation.NavigationStack.Count);
+            NavigationPage.SetTitleView(this, searchBar);
             MapSetup();
         }
 
@@ -92,14 +98,14 @@ namespace NRHP_App
         //Needs to open another page which displays the details of the page
         private async void OpenDetailPage(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new DetailPage());
+            await App.navPage.PushAsync(new DetailPage());
             //var imageUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf");
             //Device.OpenUri(imageUri);
         }
 
         private async void OpenFavoritesPage(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new FavoritesPage());
+            await App.navPage.PushAsync(new FavoritesPage());
         }
 
         //Is called when a pin is selected or deselected
