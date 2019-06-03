@@ -29,8 +29,6 @@ namespace NRHP_App
         public MainPage()
         {
             InitializeComponent();
-            Console.WriteLine(Navigation.ModalStack.Count);
-            Console.WriteLine(Navigation.NavigationStack.Count);
             NavigationPage.SetTitleView(this, searchBar);
             MapSetup();
         }
@@ -99,8 +97,6 @@ namespace NRHP_App
         private async void OpenDetailPage(object sender, EventArgs e)
         {
             await App.navPage.PushAsync(new DetailPage());
-            //var imageUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf");
-            //Device.OpenUri(imageUri);
         }
 
         private async void OpenFavoritesPage(object sender, EventArgs e)

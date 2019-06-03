@@ -17,10 +17,7 @@ namespace NRHP_App
         public FavoritesPage()
         {
             InitializeComponent();
-            Console.WriteLine(Navigation.ModalStack.Count);
-            Console.WriteLine(Navigation.NavigationStack.Count);
             NavigationPage.SetTitleView(this, searchBar);
-            SetupFavorites();
         }
 
         public async void SetupFavorites()
@@ -32,6 +29,12 @@ namespace NRHP_App
                 favoritesListView.IsVisible = false;
                 noFavorites.IsVisible = true;
             }
+        }
+
+        protected override void OnAppearing()
+        {
+            SetupFavorites();
+            base.OnAppearing();
         }
 
         private async void MainPageButton(object sender, EventArgs e)
