@@ -9,15 +9,22 @@ namespace NRHP_App
     public partial class FavoritesPage : ContentPage
     {
         private List<DataPoint> favorites;
-        private SearchBar searchBar = new SearchBar
+        private StackLayout searchView = new StackLayout
         {
-            Placeholder = "Enter building name"
+            BackgroundColor = Color.White,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.StartAndExpand
         };
 
         public FavoritesPage()
         {
             InitializeComponent();
-            NavigationPage.SetTitleView(this, searchBar);
+            NavigationPage.SetTitleView(this, new SearchBar
+            {
+                BackgroundColor = Color.White,
+                Placeholder = "Enter building",
+                HorizontalOptions = LayoutOptions.Start
+            });
         }
 
         public async void SetupFavorites()

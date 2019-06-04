@@ -20,16 +20,17 @@ namespace NRHP_App
         private double BottomLatitude;
         private double RightLongitude;
         private double LeftLongitude;
-        private SearchBar searchBar = new SearchBar
-        {
-            Placeholder = "Enter city/state"
-        };
 
         //Creates the page and starts up the userPosition listening eventHandler
         public MainPage()
         {
             InitializeComponent();
-            NavigationPage.SetTitleView(this, searchBar);
+            NavigationPage.SetTitleView(this, new SearchBar
+            {
+                BackgroundColor = Color.White,
+                Placeholder = "Enter building",
+                HorizontalOptions = LayoutOptions.Start
+            });
             MapSetup();
         }
 
