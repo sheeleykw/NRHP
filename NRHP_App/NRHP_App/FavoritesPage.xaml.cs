@@ -15,9 +15,8 @@ namespace NRHP_App
             InitializeComponent();
             NavigationPage.SetTitleView(this, new SearchBar
             {
-                Placeholder = "Enter building name"
+                Placeholder = "Enter building"
             });
-            SetupFavorites();
         }
 
         public async void SetupFavorites()
@@ -31,6 +30,12 @@ namespace NRHP_App
             }
         }
 
+        protected override void OnAppearing()
+        {
+            SetupFavorites();
+            base.OnAppearing();
+        }
+
         private async void MainPageButton(object sender, EventArgs e)
         {
             await App.navPage.PopToRootAsync();
@@ -40,10 +45,5 @@ namespace NRHP_App
         {
             await App.navPage.PushAsync(new DetailPage(favorites[e.SelectedItemIndex].RefNum));
         }
-
-        //private void BackButton(object sender, EventArgs e)
-        //{
-        //    Navigation.PopModalAsync();
-        //}
     }
 }

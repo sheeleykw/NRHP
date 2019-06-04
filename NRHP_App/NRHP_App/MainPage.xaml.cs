@@ -27,7 +27,7 @@ namespace NRHP_App
             InitializeComponent();
             NavigationPage.SetTitleView(this, new SearchBar
             {
-                Placeholder = "Enter city/state"
+                Placeholder = "Enter building"
             });
             MapSetup();
         }
@@ -96,8 +96,6 @@ namespace NRHP_App
         private async void OpenDetailPage(object sender, EventArgs e)
         {
             await App.navPage.PushAsync(new DetailPage());
-            //var imageUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf");
-            //Device.OpenUri(imageUri);
         }
 
         private async void OpenFavoritesPage(object sender, EventArgs e)

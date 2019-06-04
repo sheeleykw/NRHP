@@ -10,7 +10,7 @@
                     <Label x:Name="photosLabel" Text="Photos" HorizontalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
-            <Button AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="PhotoButton"/>
+            <Button AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="PhotoButton" Opacity="0"/>
             <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0.5, 0, 2, 0.4" AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"/>
              <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
@@ -18,7 +18,7 @@
                     <Label x:Name="docsLabel" Text="Documents" HorizontalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
-            <Button AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="DocButton"/>
+            <Button AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="DocButton" Opacity="0"/>
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.6" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
                 <StackLayout Spacing="0" Padding="15, 0" VerticalOptions="Start">
                     <BoxView Color="Black" WidthRequest="1" HeightRequest="2"/>

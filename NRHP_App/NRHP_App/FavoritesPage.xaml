@@ -9,8 +9,17 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout>
-                                    <Label Text="{Binding Name}"/>
+                                <StackLayout Spacing="0" Margin="15, 0">
+                                    <Label x:Name="name" FontAttributes="Bold" Text="{Binding Name}"/>
+                                    <Label x:Name="cityState">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding City}"/>
+                                                <Span Text=", "/>
+                                                <Span Text="{Binding State}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

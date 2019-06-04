@@ -58,16 +58,6 @@ namespace NRHP_App
             App.itemDatabase.UpdatePoint(currentPoint);
         }
 
-        //private async void BackButton(object sender, EventArgs e)
-        //{
-        //    if (Navigation.ModalStack.Count > 1 && Navigation.ModalStack.ElementAt(Navigation.ModalStack.Count - 2).GetType().Equals((new FavoritesPage()).GetType()))
-        //    {
-        //        var favoritesPage = (FavoritesPage)Navigation.ModalStack.ElementAt(Navigation.ModalStack.Count - 2);
-        //        favoritesPage.SetupFavorites();
-        //    }
-        //    await App.navPage.PopAsync();
-        //}
-
         private async void PhotoButton(object sender, EventArgs e)
         {
             if (Device.RuntimePlatform.Equals(Device.iOS))
