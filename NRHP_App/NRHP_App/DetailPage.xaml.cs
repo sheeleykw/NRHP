@@ -68,31 +68,27 @@ namespace NRHP_App
         //    await App.navPage.PopAsync();
         //}
 
-        private void PhotoButton(object sender, EventArgs e)
+        private async void PhotoButton(object sender, EventArgs e)
         {
-            var pdfUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf");
-
             if (Device.RuntimePlatform.Equals(Device.iOS))
             {
-                Console.WriteLine("CEODLSFJGE");
+                await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf"));
             }
             else if (Device.RuntimePlatform.Equals(Device.Android))
             {
-                Device.OpenUri(pdfUri);
+                Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf"));
             }
         }
 
-        private void DocButton(object sender, EventArgs e)
+        private async void DocButton(object sender, EventArgs e)
         {
-            var docUri = new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf");
-
             if (Device.RuntimePlatform.Equals(Device.iOS))
             {
-                Console.WriteLine("CEODLSFJGE");
+                await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf"));
             }
             else if (Device.RuntimePlatform.Equals(Device.Android))
             {
-                Device.OpenUri(docUri);
+                Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf"));
             }
         }
     }

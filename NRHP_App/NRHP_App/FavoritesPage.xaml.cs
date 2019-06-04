@@ -9,17 +9,14 @@ namespace NRHP_App
     public partial class FavoritesPage : ContentPage
     {
         private List<DataPoint> favorites;
-        private SearchBar searchBar = new SearchBar
-        {
-            Placeholder = "Enter building name"
-        };
 
         public FavoritesPage()
         {
             InitializeComponent();
-            Console.WriteLine(Navigation.ModalStack.Count);
-            Console.WriteLine(Navigation.NavigationStack.Count);
-            NavigationPage.SetTitleView(this, searchBar);
+            NavigationPage.SetTitleView(this, new SearchBar
+            {
+                Placeholder = "Enter building name"
+            });
             SetupFavorites();
         }
 
