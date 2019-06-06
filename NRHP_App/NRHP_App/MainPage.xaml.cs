@@ -20,15 +20,19 @@ namespace NRHP_App
         private double BottomLatitude;
         private double RightLongitude;
         private double LeftLongitude;
+        private SearchBar searchBar;
+
 
         //Creates the page and starts up the userPosition listening eventHandler
         public MainPage()
         {
             InitializeComponent();
-            NavigationPage.SetTitleView(this, new SearchBar
+            searchBar = new SearchBar
             {
-                Placeholder = "Enter building"
-            });
+                Placeholder = "Enter search term",
+                SearchCommand = new Command(() => Search())
+            };
+            NavigationPage.SetTitleView(this, searchBar);
             MapSetup();
         }
 
@@ -89,6 +93,15 @@ namespace NRHP_App
                 if (!map.Pins.Contains(pin))
                     map.Pins.Add(pin);
             }
+        }
+
+        private async void Search()
+        {
+            var title = "SEDE";
+            Console.WriteLine(title.IndexOf("se", StringComparison.OrdinalIgnoreCase) >= 0);
+            var searchList = await App.itemDatabase.SearchPointsNameAsync(searchBar.Text.ToLower());
+            //searchList.Sort()
+            Console.WriteLine(searchList[0].Name);
         }
 
         //Responds to the detailPageButton

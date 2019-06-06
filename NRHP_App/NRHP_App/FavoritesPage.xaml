@@ -26,6 +26,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <Label x:Name="noFavorites" Text="You have no favorites right now. Go back to the map and find a building you love!" FontSize="Large" Margin="40, 0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
+                <Label x:Name="noFavoritesFound" Text="Your search did not match any favorites." FontSize="Large" Margin="40, 0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
             </StackLayout>
             <StackLayout Spacing="0" Orientation="Horizontal">
                 <StackLayout.Resources>

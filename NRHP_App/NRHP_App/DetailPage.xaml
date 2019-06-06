@@ -22,7 +22,7 @@
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.6" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
                 <StackLayout Spacing="0" Padding="15, 0" VerticalOptions="Start">
                     <BoxView Color="Black" WidthRequest="1" HeightRequest="2"/>
-                    <Label x:Name="name" FontAttributes="Bold"/>
+                    <Label x:Name="name" FontAttributes="Bold" FontSize="Medium"/>
                     <Label x:Name="category"/>
                     <Label x:Name="sourceDate"/>
                     <Label x:Name="address"/>
