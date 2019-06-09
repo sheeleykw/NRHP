@@ -19,7 +19,6 @@ namespace NRHP_App
             {
                 Placeholder = "Enter search term",
             };
-            searchBar.TextChanged += Search;
             NavigationPage.SetTitleView(this, searchBar);
         }
 
@@ -39,10 +38,12 @@ namespace NRHP_App
                 favoritesListView.IsVisible = false;
                 noFavorites.IsVisible = true;
             }
+            searchBar.TextChanged += Search;
         }
 
         private void Search(object sender, EventArgs e)
         {
+            Console.WriteLine("Search");
             var list = new List<DataPoint>();
             foreach(DataPoint dataPoint in allFavorites)
             {
@@ -74,7 +75,7 @@ namespace NRHP_App
 
         private async void ListItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            await App.navPage.PushAsync(new DetailPage(currentFavorites[e.SelectedItemIndex].RefNum));
+            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage, currentFavorites[e.SelectedItemIndex].RefNum));
         }
     }
 }

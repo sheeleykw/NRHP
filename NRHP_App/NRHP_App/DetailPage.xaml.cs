@@ -9,6 +9,7 @@ namespace NRHP_App
     public partial class DetailPage : ContentPage
     {
         private string currentRefNum = App.currentPinRefNum;
+        private Page previousPage;
         private DataPoint currentPoint;
         private Button favoriteButton = new Button
         {
@@ -18,17 +19,19 @@ namespace NRHP_App
         };
 
         //Constructor for mainPage
-        public DetailPage()
+        public DetailPage(Page previousPage)
         {
             InitializeComponent();
+            this.previousPage = previousPage;
             favoriteButton.Clicked += FavoriteItemToggle;
             NavigationPage.SetTitleView(this, favoriteButton);
             SetupLabels();
         }
 
-        public DetailPage(string RefNum)
+        public DetailPage(Page previousPage, string RefNum)
         {
             InitializeComponent();
+            this.previousPage = previousPage;
             favoriteButton.Clicked += FavoriteItemToggle;
             NavigationPage.SetTitleView(this, favoriteButton);
             currentRefNum = RefNum;
@@ -40,6 +43,7 @@ namespace NRHP_App
             currentPoint = await App.itemDatabase.GetPointAsync(currentRefNum);
             name.Text = currentPoint.Name;
             category.Text = "Category: " + currentPoint.Category;
+            refNum.Text = "Reference #: " + currentPoint.RefNum; 
             sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
             address.Text = "Reported Street Address: " + currentPoint.Address;
             cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
@@ -50,6 +54,17 @@ namespace NRHP_App
         private async void MainPageButton(object sender, EventArgs e)
         {
             await App.navPage.PopToRootAsync();
+        }
+
+        private async void FavoritePageButton(object sender, EventArgs e)
+        {
+            await App.navPage.PopAsync();
+
+            var page = new FavoritesPage();
+            if (!previousPage.GetType().Equals(page.GetType()))
+            {
+                await App.navPage.PushAsync(new FavoritesPage());
+            }
         }
 
         private void FavoriteItemToggle(object sender, EventArgs e)

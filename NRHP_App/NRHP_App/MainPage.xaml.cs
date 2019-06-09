@@ -40,7 +40,7 @@ namespace NRHP_App
         //Possibles changes might be need to the userPosition listener/eventHandler
         private async void MapSetup()
         {
-            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(100));
+            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(5));
             locator.PositionChanged += PositionChanged;
 
             map.IsShowingUser = true;
@@ -97,18 +97,41 @@ namespace NRHP_App
 
         private async void Search()
         {
-            var title = "SEDE";
-            Console.WriteLine(title.IndexOf("se", StringComparison.OrdinalIgnoreCase) >= 0);
-            var searchList = await App.itemDatabase.SearchPointsNameAsync(searchBar.Text.ToLower());
-            //searchList.Sort()
-            Console.WriteLine(searchList[0].Name);
+            var nameSearchList = await App.mapDatabase.SearchPointsNameAsync(searchBar.Text.ToLower());
+            var citySearchList = await App.itemDatabase.SearchPointsCityAsync(searchBar.Text.ToLower());
+            var refNumSearch = await App.mapDatabase.SearchPointsRefNumAsync(searchBar.Text.ToLower());
+            //Console.WriteLine(nameSearchList.Count);
+            Console.WriteLine(citySearchList.Count);
+
+
+            if (refNumSearch != null)
+            {
+                map.MoveToRegion(new MapSpan(new Position(refNumSearch.Latitude, refNumSearch.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
+            }
+            else if (nameSearchList.Count == 1)
+            {
+                map.MoveToRegion(new MapSpan(new Position(nameSearchList[0].Latitude, nameSearchList[0].Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
+            }
+            else
+            {
+                //Create a results page and list the elements according to their relevance
+                if (citySearchList.Count > 30)
+                {
+                    foreach(DataPoint data in citySearchList)
+                    {
+                        var cityState = data.City + ", " + data.State;
+                        Console.WriteLine(cityState);
+                    }
+                }
+
+            }
         }
 
         //Responds to the detailPageButton
         //Needs to open another page which displays the details of the page
         private async void OpenDetailPage(object sender, EventArgs e)
         {
-            await App.navPage.PushAsync(new DetailPage());
+            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage));
         }
 
         private async void OpenFavoritesPage(object sender, EventArgs e)

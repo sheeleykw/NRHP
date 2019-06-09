@@ -27,5 +27,19 @@ namespace NRHP_App
                             .Where(mapPoint => mapPoint.Name.Equals(Name) && mapPoint.Latitude == Latitude && mapPoint.Longitude == Longitude)
                             .FirstOrDefaultAsync();
         }
+
+        public Task<List<MapPoint>> SearchPointsNameAsync(string searchQuery)
+        {
+            return _database.Table<MapPoint>()
+                            .Where(mapPoint => mapPoint.Name.ToLower().Contains(searchQuery))
+                            .ToListAsync();
+        }
+
+        public Task<MapPoint> SearchPointsRefNumAsync(string searchQuery)
+        {
+            return _database.Table<MapPoint>()
+                            .Where(mapPoint => mapPoint.RefNum.Equals(searchQuery))
+                            .FirstOrDefaultAsync();
+        }
     }
 }
