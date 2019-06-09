@@ -43,7 +43,6 @@ namespace NRHP_App
 
         private void Search(object sender, EventArgs e)
         {
-            Console.WriteLine("Search");
             var list = new List<DataPoint>();
             foreach(DataPoint dataPoint in allFavorites)
             {

@@ -31,24 +31,22 @@
                     <Label x:Name="county"/>
                     <Label x:Name="people"/>
                 </StackLayout>
-                <StackLayout Spacing="0" BackgroundColor="#2699FB" Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                <StackLayout Spacing="0" Orientation="Horizontal" VerticalOptions="EndAndExpand">
                     <StackLayout.Resources>
-                        <ResourceDictionary>
-                            <Style TargetType="Button">
+                        <ResourceDictionary>                        
+                            <Style TargetType="ImageButton">
                                 <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
                                 <Setter Property="HeightRequest" Value="50"/>
                                 <Setter Property="WidthRequest" Value="50"/>
                                 <Setter Property="Margin" Value="5, 10, 5, 10"/>
-                                <Setter Property="BackgroundColor" Value="Black"/>
-                                <Setter Property="TextColor" Value="White"/>
                             </Style>
                         </ResourceDictionary>
                     </StackLayout.Resources>
-                    <Button x:Name="legendOverlayButton" Text="LB" IsEnabled="False"/>
-                    <Button x:Name="favoritesPageButton" Text="FB" Clicked="FavoritePageButton"/>
-                    <Button x:Name="mainPageButton" Text="MP" Clicked="MainPageButton"/>
-                    <Button x:Name="detailPageButton" Text="DB" IsEnabled="False"/>
-                    <Button x:Name="settingsPageButton" Text="SB"/>
+                    <ImageButton x:Name="legendOverlayButton" Source="stackicon.png" IsEnabled="False"/>
+                    <ImageButton x:Name="favoritesPageButton" Source="hearticon.png" Clicked="FavoritePageButton"/>
+                    <ImageButton x:Name="mainPageButton" Source="houseicon.png" Clicked="MainPageButton"/>
+                    <ImageButton x:Name="detailPageButton" Source="blackfoldericon.png" IsEnabled="False"/>
+                    <ImageButton x:Name="settingsPageButton" Source="personicon.png"/>
                 </StackLayout>
             </StackLayout>
         </AbsoluteLayout>

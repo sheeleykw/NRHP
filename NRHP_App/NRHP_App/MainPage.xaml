@@ -4,26 +4,24 @@
              xmlns:local="clr-namespace:NRHP_App"
              x:Class="NRHP_App.MainPage">
     <ContentPage.Content>
-        <StackLayout Spacing="0" BackgroundColor="#2699FB">
+        <StackLayout Spacing="0">
             <local:NRHPMap x:Name="map" MapType="Street"/>
             <StackLayout Spacing="0" Orientation="Horizontal">
                 <StackLayout.Resources>
                     <ResourceDictionary>
-                        <Style TargetType="Button">
+                        <Style TargetType="ImageButton">
                             <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
                             <Setter Property="HeightRequest" Value="50"/>
                             <Setter Property="WidthRequest" Value="50"/>
                             <Setter Property="Margin" Value="5, 10, 5, 10"/>
-                            <Setter Property="BackgroundColor" Value="Black"/>
-                            <Setter Property="TextColor" Value="White"/>
                         </Style>
                     </ResourceDictionary>
                 </StackLayout.Resources>    
-                <Button x:Name="legendOverlayButton" Text="LB"/>
-                <Button x:Name="favoritesPageButton" Text="FB" Clicked="OpenFavoritesPage"/>
-                <Button x:Name="mainPageButton" Text="MP" IsEnabled="False"/>
-                <Button x:Name="detailPageButton" Text="DB" Clicked="OpenDetailPage" IsEnabled="False"/>
-                <Button x:Name="settingsPageButton" Text="SB"/>
+                <ImageButton x:Name="legendOverlayButton" Source="stackicon.png"/>
+                <ImageButton x:Name="favoritesPageButton" Source="hearticon.png"  Clicked="OpenFavoritesPage"/>
+                <ImageButton x:Name="mainPageButton" Source="blackhouseicon.png" IsEnabled="False"/>
+                <ImageButton x:Name="detailPageButton" Source="foldericon.png" Clicked="OpenDetailPage" IsEnabled="False"/>
+                <ImageButton x:Name="settingsPageButton" Source="personicon.png"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

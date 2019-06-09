@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NRHP_App.FavoritesPage">
     <ContentPage.Content>
-        <StackLayout Spacing="0" BackgroundColor="#2699FB">
+        <StackLayout Spacing="0">
             <StackLayout Spacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <ListView x:Name="favoritesListView" ItemsSource="{Binding favorites}" ItemSelected="ListItemSelected">
+                <ListView Margin="0, 0, 15, 0" x:Name="favoritesListView" ItemsSource="{Binding favorites}" ItemSelected="ListItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Spacing="0" Margin="15, 0">
-                                    <Label x:Name="name" FontAttributes="Bold" Text="{Binding Name}"/>
+                                    <Label x:Name="name" FontAttributes="Bold" Text="{Binding Name}" LineBreakMode="TailTruncation"/>
                                     <Label x:Name="cityState">
                                         <Label.FormattedText>
                                             <FormattedString>
@@ -31,21 +31,19 @@
             <StackLayout Spacing="0" Orientation="Horizontal">
                 <StackLayout.Resources>
                     <ResourceDictionary>
-                        <Style TargetType="Button">
+                        <Style TargetType="ImageButton">
                             <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
                             <Setter Property="HeightRequest" Value="50"/>
                             <Setter Property="WidthRequest" Value="50"/>
                             <Setter Property="Margin" Value="5, 10, 5, 10"/>
-                            <Setter Property="BackgroundColor" Value="Black"/>
-                            <Setter Property="TextColor" Value="White"/>
                         </Style>
                     </ResourceDictionary>
                 </StackLayout.Resources>
-                <Button x:Name="legendOverlayButton" Text="LB" IsEnabled="False"/>
-                <Button x:Name="favoritesPageButton" Text="FB" IsEnabled="False"/>
-                <Button x:Name="mainPageButton" Text="MP" Clicked="MainPageButton"/>
-                <Button x:Name="detailPageButton" Text="DB" IsEnabled="False"/>
-                <Button x:Name="settingsPageButton" Text="SB"/>
+                <ImageButton x:Name="legendOverlayButton" Source="stackicon.png" IsEnabled="False"/>
+                <ImageButton x:Name="favoritesPageButton" Source="blackhearticon.png" IsEnabled="False"/>
+                <ImageButton x:Name="mainPageButton" Source="houseicon.png" Clicked="MainPageButton"/>
+                <ImageButton x:Name="detailPageButton" Source="foldericon.png" IsEnabled="False"/>
+                <ImageButton x:Name="settingsPageButton" Source="personicon.png"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

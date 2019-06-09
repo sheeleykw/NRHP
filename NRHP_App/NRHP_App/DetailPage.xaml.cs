@@ -11,11 +11,12 @@ namespace NRHP_App
         private string currentRefNum = App.currentPinRefNum;
         private Page previousPage;
         private DataPoint currentPoint;
-        private Button favoriteButton = new Button
+        private ImageButton favoriteButton = new ImageButton
         {
-            BackgroundColor = Color.Snow,
+            Source = "bluehearticonhollow.png",
             HorizontalOptions = LayoutOptions.EndAndExpand,
-            VerticalOptions = LayoutOptions.CenterAndExpand
+            VerticalOptions = LayoutOptions.CenterAndExpand,
+            HeightRequest = 35
         };
 
         //Constructor for mainPage
@@ -49,6 +50,10 @@ namespace NRHP_App
             cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
             county.Text = "County: " + currentPoint.County;
             people.Text = "Architects/Builders: " + currentPoint.Architects;
+            if (currentPoint.IsFavorited)
+            {
+                favoriteButton.Source = "bluehearticon.png";
+            }
         }
 
         private async void MainPageButton(object sender, EventArgs e)
@@ -70,6 +75,14 @@ namespace NRHP_App
         private void FavoriteItemToggle(object sender, EventArgs e)
         {
             currentPoint.IsFavorited = !currentPoint.IsFavorited;
+            if (currentPoint.IsFavorited)
+            {
+                favoriteButton.Source = "bluehearticon.png";
+            }
+            else
+            {
+                favoriteButton.Source = "bluehearticonhollow.png";
+            }
             App.itemDatabase.UpdatePoint(currentPoint);
         }
 

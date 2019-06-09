@@ -21,7 +21,7 @@ namespace NRHP_App
             mapDatabase = new MapPointDatabase(mapDBPath);
             itemDatabase = new DataPointDatabase(itemDBPath);
 
-            navPage.BarBackgroundColor = Color.FromHex("2699FB");
+            //navPage.BarBackgroundColor = Color.FromHex("2699FB");
             MainPage = navPage;
         }
 

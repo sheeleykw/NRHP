@@ -127,6 +127,30 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\stackicon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\blackstackicon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\hearticon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\hearticon.imageset\heart.png" />
+    <ImageAsset Include="Assets.xcassets\blackhearticon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\blackhearticon.imageset\blackheart.png" />
+    <ImageAsset Include="Assets.xcassets\houseicon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\houseicon.imageset\house.png" />
+    <ImageAsset Include="Assets.xcassets\blackhouseicon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\blackhouseicon.imageset\blackhouse.png" />
+    <ImageAsset Include="Assets.xcassets\foldericon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\foldericon.imageset\folder.png" />
+    <ImageAsset Include="Assets.xcassets\blackfoldericon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\blackfoldericon.imageset\blackfolder.png" />
+    <ImageAsset Include="Assets.xcassets\personicon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\personicon.imageset\man.png" />
+    <ImageAsset Include="Assets.xcassets\blackpersonicon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\blackpersonicon.imageset\blackman.png" />
+    <ImageAsset Include="Assets.xcassets\blackstackicon.imageset\blackstackicon.png" />
+    <ImageAsset Include="Assets.xcassets\stackicon.imageset\stackicon.png" />
+    <ImageAsset Include="Assets.xcassets\bluehearticon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\bluehearticon.imageset\bluehearticon.png" />
+    <ImageAsset Include="Assets.xcassets\bluehearticonhollow.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\bluehearticonhollow.imageset\bluehearticonhollow.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -164,5 +188,23 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\MapItems.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets.xcassets\homeicon.imageset\" />
+    <Folder Include="Assets.xcassets\hearticon.imageset\" />
+    <Folder Include="Assets.xcassets\blackhearticon.imageset\" />
+    <Folder Include="Assets.xcassets\stackicon.imageset\" />
+    <Folder Include="Assets.xcassets\stackicon.imageset\" />
+    <Folder Include="Assets.xcassets\blackstackicon.imageset\" />
+    <Folder Include="Assets.xcassets\hearticon.imageset\" />
+    <Folder Include="Assets.xcassets\blackhearticon.imageset\" />
+    <Folder Include="Assets.xcassets\houseicon.imageset\" />
+    <Folder Include="Assets.xcassets\blackhouseicon.imageset\" />
+    <Folder Include="Assets.xcassets\foldericon.imageset\" />
+    <Folder Include="Assets.xcassets\blackfoldericon.imageset\" />
+    <Folder Include="Assets.xcassets\personicon.imageset\" />
+    <Folder Include="Assets.xcassets\blackpersonicon.imageset\" />
+    <Folder Include="Assets.xcassets\bluehearticon.imageset\" />
+    <Folder Include="Assets.xcassets\bluehearticonhollow.imageset\" />
   </ItemGroup>
 </Project>
