@@ -104,16 +104,6 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\launcher_foreground.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\drawable\blackfolder.png" />
-    <AndroidResource Include="Resources\drawable\blackheart.png" />
-    <AndroidResource Include="Resources\drawable\blackhouse.png" />
-    <AndroidResource Include="Resources\drawable\blackman.png" />
-    <AndroidResource Include="Resources\drawable\blackstack.png" />
-    <AndroidResource Include="Resources\drawable\folder.png" />
-    <AndroidResource Include="Resources\drawable\heart.png" />
-    <AndroidResource Include="Resources\drawable\house.png" />
-    <AndroidResource Include="Resources\drawable\man.png" />
-    <AndroidResource Include="Resources\drawable\stack.png" />
     <AndroidResource Include="Resources\drawable\blackstackicon.png" />
     <AndroidResource Include="Resources\drawable\bluehearticon.png" />
     <AndroidResource Include="Resources\drawable\bluehearticonhollow.png" />
@@ -141,6 +131,33 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\photoicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\blackfoldericon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\blackhearticon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\blackhouseicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\blackpersonicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\foldericon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\hearticon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\houseicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\personicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\stackicon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

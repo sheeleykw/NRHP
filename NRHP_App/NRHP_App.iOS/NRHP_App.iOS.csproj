@@ -127,30 +127,78 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\stackicon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\blackstackicon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\hearticon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\hearticon.imageset\heart.png" />
-    <ImageAsset Include="Assets.xcassets\blackhearticon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\blackhearticon.imageset\blackheart.png" />
-    <ImageAsset Include="Assets.xcassets\houseicon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\houseicon.imageset\house.png" />
-    <ImageAsset Include="Assets.xcassets\blackhouseicon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\blackhouseicon.imageset\blackhouse.png" />
-    <ImageAsset Include="Assets.xcassets\foldericon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\foldericon.imageset\folder.png" />
-    <ImageAsset Include="Assets.xcassets\blackfoldericon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\blackfoldericon.imageset\blackfolder.png" />
-    <ImageAsset Include="Assets.xcassets\personicon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\personicon.imageset\man.png" />
-    <ImageAsset Include="Assets.xcassets\blackpersonicon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\blackpersonicon.imageset\blackman.png" />
-    <ImageAsset Include="Assets.xcassets\blackstackicon.imageset\blackstackicon.png" />
-    <ImageAsset Include="Assets.xcassets\stackicon.imageset\stackicon.png" />
-    <ImageAsset Include="Assets.xcassets\bluehearticon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\bluehearticon.imageset\bluehearticon.png" />
-    <ImageAsset Include="Assets.xcassets\bluehearticonhollow.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\bluehearticonhollow.imageset\bluehearticonhollow.png" />
+    <ImageAsset Include="Assets.xcassets\stackicon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackstackicon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\hearticon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\hearticon.imageset\heart.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackhearticon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackhearticon.imageset\blackheart.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\houseicon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\houseicon.imageset\house.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackhouseicon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackhouseicon.imageset\blackhouse.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\foldericon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\foldericon.imageset\folder.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackfoldericon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackfoldericon.imageset\blackfolder.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\personicon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\personicon.imageset\man.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackpersonicon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackpersonicon.imageset\blackman.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\blackstackicon.imageset\blackstackicon.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\stackicon.imageset\stackicon.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\bluehearticon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\bluehearticon.imageset\bluehearticon.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\bluehearticonhollow.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\bluehearticonhollow.imageset\bluehearticonhollow.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
