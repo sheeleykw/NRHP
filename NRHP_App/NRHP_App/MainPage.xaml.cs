@@ -146,10 +146,12 @@ namespace NRHP_App
             if (!(App.currentPinRefNum == null))
             {
                 detailPageButton.IsEnabled = true;
+                detailPageButton.Opacity = 1;
             }
             else
             {
                 detailPageButton.IsEnabled = false;
+                detailPageButton.Opacity = 0.2;
             }
         }
     }

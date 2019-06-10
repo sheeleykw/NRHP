@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,7 +15,11 @@ namespace NRHP_App
             Source = "bluehearticonhollow.png",
             HorizontalOptions = LayoutOptions.EndAndExpand,
             VerticalOptions = LayoutOptions.CenterAndExpand,
-            HeightRequest = 35
+            HeightRequest = 35,
+            Margin = new Thickness
+            {
+                Right = 5
+            }
         };
 
         //Constructor for mainPage

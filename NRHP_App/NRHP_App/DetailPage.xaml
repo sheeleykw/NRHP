@@ -4,6 +4,7 @@
              x:Class="NRHP_App.DetailPage">
     <ContentPage.Content>
         <AbsoluteLayout BackgroundColor="White">
+            <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0, 0, 1, 0.5" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"/>
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                     <Image Source="photoicon.png" Margin="20, 5" VerticalOptions="Center"/>
@@ -20,7 +21,7 @@
             </StackLayout>
             <Button AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="DocButton" Opacity="0"/>
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.6" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
-                <StackLayout Spacing="0" Padding="15, 0" VerticalOptions="Start">
+                <StackLayout Spacing="0" Padding="15, 0" VerticalOptions="StartAndExpand">
                     <BoxView Color="Black" WidthRequest="1" HeightRequest="2"/>
                     <Label x:Name="name" FontAttributes="Bold" FontSize="Medium"/>
                     <Label x:Name="category"/>
@@ -31,7 +32,8 @@
                     <Label x:Name="county"/>
                     <Label x:Name="people"/>
                 </StackLayout>
-                <StackLayout Spacing="0" Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                <BoxView Color="Black" HorizontalOptions="FillAndExpand" VerticalOptions="End" HeightRequest="0.5"/>
+                <StackLayout Spacing="0" Orientation="Horizontal" VerticalOptions="End" BackgroundColor="White">
                     <StackLayout.Resources>
                         <ResourceDictionary>                        
                             <Style TargetType="ImageButton">
@@ -42,7 +44,7 @@
                             </Style>
                         </ResourceDictionary>
                     </StackLayout.Resources>
-                    <ImageButton x:Name="legendOverlayButton" Source="stackicon.png" IsEnabled="False"/>
+                    <ImageButton x:Name="legendOverlayButton" Source="stackicon.png" Opacity="0.2" IsEnabled="False"/>
                     <ImageButton x:Name="favoritesPageButton" Source="hearticon.png" Clicked="FavoritePageButton"/>
                     <ImageButton x:Name="mainPageButton" Source="houseicon.png" Clicked="MainPageButton"/>
                     <ImageButton x:Name="detailPageButton" Source="blackfoldericon.png" IsEnabled="False"/>

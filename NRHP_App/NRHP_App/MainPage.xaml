@@ -5,8 +5,10 @@
              x:Class="NRHP_App.MainPage">
     <ContentPage.Content>
         <StackLayout Spacing="0">
+            <BoxView Color="Black" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
             <local:NRHPMap x:Name="map" MapType="Street"/>
-            <StackLayout Spacing="0" Orientation="Horizontal">
+            <BoxView Color="Black" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
+            <StackLayout Spacing="0" Orientation="Horizontal" BackgroundColor="White">
                 <StackLayout.Resources>
                     <ResourceDictionary>
                         <Style TargetType="ImageButton">
@@ -20,7 +22,7 @@
                 <ImageButton x:Name="legendOverlayButton" Source="stackicon.png"/>
                 <ImageButton x:Name="favoritesPageButton" Source="hearticon.png"  Clicked="OpenFavoritesPage"/>
                 <ImageButton x:Name="mainPageButton" Source="blackhouseicon.png" IsEnabled="False"/>
-                <ImageButton x:Name="detailPageButton" Source="foldericon.png" Clicked="OpenDetailPage" IsEnabled="False"/>
+                <ImageButton x:Name="detailPageButton" Source="foldericon.png" Clicked="OpenDetailPage" Opacity="0.2" IsEnabled="False"/>
                 <ImageButton x:Name="settingsPageButton" Source="personicon.png"/>
             </StackLayout>
         </StackLayout>

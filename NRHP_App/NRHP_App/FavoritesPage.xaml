@@ -4,8 +4,9 @@
              x:Class="NRHP_App.FavoritesPage">
     <ContentPage.Content>
         <StackLayout Spacing="0">
+            <BoxView Color="Black" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
             <StackLayout Spacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <ListView Margin="0, 0, 15, 0" x:Name="favoritesListView" ItemsSource="{Binding favorites}" ItemSelected="ListItemSelected">
+                <ListView x:Name="favoritesListView" ItemsSource="{Binding favorites}" ItemSelected="ListItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -28,7 +29,8 @@
                 <Label x:Name="noFavorites" Text="You have no favorites right now. Go back to the map and find a building you love!" FontSize="Large" Margin="40, 0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
                 <Label x:Name="noFavoritesFound" Text="Your search did not match any favorites." FontSize="Large" Margin="40, 0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
             </StackLayout>
-            <StackLayout Spacing="0" Orientation="Horizontal">
+            <BoxView Color="Black" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
+            <StackLayout Spacing="0" Orientation="Horizontal" BackgroundColor="White">
                 <StackLayout.Resources>
                     <ResourceDictionary>
                         <Style TargetType="ImageButton">
@@ -39,10 +41,10 @@
                         </Style>
                     </ResourceDictionary>
                 </StackLayout.Resources>
-                <ImageButton x:Name="legendOverlayButton" Source="stackicon.png" IsEnabled="False"/>
+                <ImageButton x:Name="legendOverlayButton" Source="stackicon.png" Opacity="0.2" IsEnabled="False"/>
                 <ImageButton x:Name="favoritesPageButton" Source="blackhearticon.png" IsEnabled="False"/>
                 <ImageButton x:Name="mainPageButton" Source="houseicon.png" Clicked="MainPageButton"/>
-                <ImageButton x:Name="detailPageButton" Source="foldericon.png" IsEnabled="False"/>
+                <ImageButton x:Name="detailPageButton" Source="foldericon.png" Opacity="0.2" IsEnabled="False"/>
                 <ImageButton x:Name="settingsPageButton" Source="personicon.png"/>
             </StackLayout>
         </StackLayout>
