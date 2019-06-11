@@ -14,13 +14,16 @@ namespace NRHP_App
     {
         private Plugin.Geolocator.Abstractions.Position currentUserPosition;
         private IGeolocator locator = CrossGeolocator.Current;
+
         private double LatitudeDegrees = 0.0095328892176525;
         private double LongitudeDegrees = 0.00882815569639206;
         private double TopLatitude;
         private double BottomLatitude;
         private double RightLongitude;
         private double LeftLongitude;
+
         private SearchBar searchBar;
+        public EventHandler<MapPoint> SearchCompleted;
 
 
         //Creates the page and starts up the userPosition listening eventHandler
@@ -101,25 +104,23 @@ namespace NRHP_App
 
         private async void Search()
         {
-
-
+            MapPoint searchPoint = null;
             var nameSearchList = await App.mapDatabase.SearchPointsNameAsync(searchBar.Text.ToLower());
             var citySearchList = await App.itemDatabase.SearchPointsCityAsync(searchBar.Text.ToLower());
             var refNumSearch = await App.mapDatabase.SearchPointsRefNumAsync(searchBar.Text.ToLower());
 
             //Console.WriteLine(nameSearchList.Count);
-            Console.WriteLine(citySearchList.Count);
+            //Console.WriteLine(citySearchList.Count);
 
             if (refNumSearch != null)
             {
                 map.MoveToRegion(new MapSpan(new Position(refNumSearch.Latitude, refNumSearch.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
-                App.searchPoint = refNumSearch;
-                App.searchMovement = true;
+                searchPoint = refNumSearch;
             }
             else if (nameSearchList.Count == 1)
             {
                 map.MoveToRegion(new MapSpan(new Position(nameSearchList[0].Latitude, nameSearchList[0].Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
-                App.searchMovement = true;
+                searchPoint = nameSearchList[0];
             }
             else
             {
@@ -132,8 +133,10 @@ namespace NRHP_App
                         Console.WriteLine(cityState);
                     }
                 }
-
             }
+
+            EventHandler<MapPoint> handler = SearchCompleted;
+            handler?.Invoke(this, searchPoint);
         }
 
         //Responds to the detailPageButton

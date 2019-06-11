@@ -8,6 +8,7 @@ using Android.Gms.Maps.Model;
 using Android.Gms.Maps;
 using static Android.Gms.Maps.GoogleMap;
 using System;
+using System.Threading.Tasks;
 
 [assembly: ExportRenderer(typeof(NRHPMap), typeof(AndroidMapRenderer))]
 namespace NRHP_App.Droid
@@ -37,27 +38,28 @@ namespace NRHP_App.Droid
         protected override void OnMapReady(GoogleMap map)
         {
             base.OnMapReady(map);
+
             NativeMap.SetMinZoomPreference(11);
             NativeMap.SetMaxZoomPreference(18);
+
             NativeMap.MarkerClick += SelectPoint;
             NativeMap.InfoWindowClose += DeselectPoint;
-            NativeMap.CameraIdle += FinishedMoving;
+            App.mainPage.SearchCompleted += FinishedMoving;
         }
 
-        private async void FinishedMoving(object sender, EventArgs e)
+        private async void FinishedMoving(object sender, MapPoint e)
         {
-            if (App.searchMovement == true)
+            await Task.Delay(450);
+
+            if (e != null)
             {
-                var marker = GetMarkerForPin(App.currentPins.Find(pin => pin.Label.Equals(App.searchPoint.Name)));
-                Console.WriteLine(marker);
+                var marker = GetMarkerForPin(App.currentPins.Find(pin => pin.Label.Equals(e.Name)));
                 if (!marker.IsInfoWindowShown)
                 {
                     marker.ShowInfoWindow();
                     App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
                     App.mainPage.SwitchDetailPageButton();
                 }
-
-                App.searchMovement = false;
             }
         }
 

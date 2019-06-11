@@ -6,6 +6,8 @@ using UIKit;
 using Xamarin.Forms.Platform.iOS;
 using MapKit;
 using System;
+using System.Threading.Tasks;
+using CoreGraphics;
 
 [assembly: ExportRenderer(typeof(NRHPMap), typeof(IOSMapRenderer))]
 namespace NRHP_App.iOS
@@ -38,10 +40,29 @@ namespace NRHP_App.iOS
 
                 nativeMap.DidSelectAnnotationView += SelectPoint;
                 nativeMap.DidDeselectAnnotationView += DeselectPoint;
+                App.mainPage.SearchCompleted += FinishedMoving;
 
                 //nativeMap.SelectedAnnotation;
                 //nativeMap.GetViewForAnnotation = GetViewForAnnotation;
-                nativeMap.CalloutAccessoryControlTapped += PinTapped;
+            }
+        }
+
+        private async void FinishedMoving(object sender, MapPoint e)
+        {
+            await Task.Delay(450);
+
+            if (e != null)
+            {
+                foreach (IMKAnnotation annotation in nativeMap.Annotations)
+                {
+                    if (annotation.GetTitle().Equals(e.Name))
+                    {
+                        nativeMap.SelectAnnotation(annotation, true);
+
+                        App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(annotation.GetTitle(), annotation.Coordinate.Latitude, annotation.Coordinate.Longitude)).RefNum;
+                        App.mainPage.SwitchDetailPageButton();
+                    }
+                }
             }
         }
 
@@ -68,9 +89,15 @@ namespace NRHP_App.iOS
             App.mainPage.SwitchDetailPageButton();
         }
 
-        private void PinTapped(object sender, EventArgs e)
+        protected override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
         {
-            Console.WriteLine("Hello");
+            var annotationView = base.GetViewForAnnotation(mapView, annotation);
+            if (annotationView != null)
+            {
+                //annotationView.Bounds = new CGRect(0, 0, 200, 200);
+                //annotationView.DetailCalloutAccessoryView.Select(this);
+            }
+            return annotationView;
         }
     }
 }
