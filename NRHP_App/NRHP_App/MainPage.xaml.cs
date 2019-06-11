@@ -91,26 +91,35 @@ namespace NRHP_App
                     Position = new Position(mapPoint.Latitude, mapPoint.Longitude)
                 };
                 if (!map.Pins.Contains(pin))
+                {
                     map.Pins.Add(pin);
+                    App.currentPins.Add(pin);
+                }
+
             }
         }
 
         private async void Search()
         {
+
+
             var nameSearchList = await App.mapDatabase.SearchPointsNameAsync(searchBar.Text.ToLower());
             var citySearchList = await App.itemDatabase.SearchPointsCityAsync(searchBar.Text.ToLower());
             var refNumSearch = await App.mapDatabase.SearchPointsRefNumAsync(searchBar.Text.ToLower());
+
             //Console.WriteLine(nameSearchList.Count);
             Console.WriteLine(citySearchList.Count);
-
 
             if (refNumSearch != null)
             {
                 map.MoveToRegion(new MapSpan(new Position(refNumSearch.Latitude, refNumSearch.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
+                App.searchPoint = refNumSearch;
+                App.searchMovement = true;
             }
             else if (nameSearchList.Count == 1)
             {
                 map.MoveToRegion(new MapSpan(new Position(nameSearchList[0].Latitude, nameSearchList[0].Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
+                App.searchMovement = true;
             }
             else
             {

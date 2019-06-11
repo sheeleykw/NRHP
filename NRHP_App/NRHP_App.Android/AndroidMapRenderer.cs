@@ -41,11 +41,29 @@ namespace NRHP_App.Droid
             NativeMap.SetMaxZoomPreference(18);
             NativeMap.MarkerClick += SelectPoint;
             NativeMap.InfoWindowClose += DeselectPoint;
+            NativeMap.CameraIdle += FinishedMoving;
+        }
+
+        private async void FinishedMoving(object sender, EventArgs e)
+        {
+            if (App.searchMovement == true)
+            {
+                var marker = GetMarkerForPin(App.currentPins.Find(pin => pin.Label.Equals(App.searchPoint.Name)));
+                Console.WriteLine(marker);
+                if (!marker.IsInfoWindowShown)
+                {
+                    marker.ShowInfoWindow();
+                    App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
+                    App.mainPage.SwitchDetailPageButton();
+                }
+
+                App.searchMovement = false;
+            }
         }
 
         //Changes the currentPoints refnum and moves the camera to the selected point
         //Possibles changes might be made to the animation of the camera during selection
-        private async void SelectPoint(object sender, GoogleMap.MarkerClickEventArgs e)
+        private async void SelectPoint(object sender, MarkerClickEventArgs e)
         {
             var marker = e.Marker;
             if (!marker.IsInfoWindowShown)
@@ -58,7 +76,7 @@ namespace NRHP_App.Droid
             }
         }
 
-        private void DeselectPoint(object sender, GoogleMap.InfoWindowCloseEventArgs e)
+        private void DeselectPoint(object sender, InfoWindowCloseEventArgs e)
         {
             App.currentPinRefNum = null;
             App.mainPage.SwitchDetailPageButton();
