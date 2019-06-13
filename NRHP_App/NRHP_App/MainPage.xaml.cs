@@ -6,6 +6,7 @@ using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Position = Xamarin.Forms.Maps.Position;
 using Xamarin.Forms.Xaml;
+using System.Collections.Generic;
 
 namespace NRHP_App
 {
@@ -104,39 +105,97 @@ namespace NRHP_App
 
         private async void Search()
         {
-            MapPoint searchPoint = null;
-            var nameSearchList = await App.mapDatabase.SearchPointsNameAsync(searchBar.Text.ToLower());
-            var citySearchList = await App.itemDatabase.SearchPointsCityAsync(searchBar.Text.ToLower());
-            var refNumSearch = await App.mapDatabase.SearchPointsRefNumAsync(searchBar.Text.ToLower());
+            EventHandler<MapPoint> handler = SearchCompleted;
+            string searchBarText = searchBar.Text.ToLower();
 
-            //Console.WriteLine(nameSearchList.Count);
-            //Console.WriteLine(citySearchList.Count);
+            List<MapPoint> nameSearch = await App.mapDatabase.SearchPointsNameAsync(searchBarText);
+            MapPoint refNumSearch = await App.mapDatabase.SearchPointsRefNumAsync(searchBarText);
 
             if (refNumSearch != null)
             {
                 map.MoveToRegion(new MapSpan(new Position(refNumSearch.Latitude, refNumSearch.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
-                searchPoint = refNumSearch;
+                var searchPoint = refNumSearch;
+                handler?.Invoke(this, searchPoint);
             }
-            else if (nameSearchList.Count == 1)
+            else if (nameSearch.Count == 1)
             {
-                map.MoveToRegion(new MapSpan(new Position(nameSearchList[0].Latitude, nameSearchList[0].Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
-                searchPoint = nameSearchList[0];
+                map.MoveToRegion(new MapSpan(new Position(nameSearch[0].Latitude, nameSearch[0].Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
+                var searchPoint = nameSearch[0];
+                handler?.Invoke(this, searchPoint);
             }
             else
             {
-                //Create a results page and list the elements according to their relevance
-                if (citySearchList.Count > 30)
+                string searchText = "";
+
+                foreach(char spot in searchBarText)
                 {
-                    foreach(DataPoint data in citySearchList)
+                    if (!char.IsPunctuation(spot))
                     {
-                        var cityState = data.City + ", " + data.State;
-                        Console.WriteLine(cityState);
+                        searchText = searchText.Insert(searchText.Length, spot.ToString());
                     }
                 }
-            }
 
-            EventHandler<MapPoint> handler = SearchCompleted;
-            handler?.Invoke(this, searchPoint);
+                string[] searchWords = searchText.Split(' ');
+                List<List<MapPoint>> nameSearches = new List<List<MapPoint>>();
+                List<List<DataPoint>> citySearches = new List<List<DataPoint>>();
+                List<MapPoint> mainNameSearch;
+                List<DataPoint> mainCitySearch;
+
+                var i = 0;
+                var biggestNameSearch = 0;
+                var biggestCitySearch = 0;
+
+                foreach (string word in searchWords)
+                {
+                    nameSearches.Add(await App.mapDatabase.SearchPointsNameAsync(word));
+                    citySearches.Add(await App.itemDatabase.SearchPointsCityAsync(word));
+                    if (nameSearches[i].Count > biggestNameSearch)
+                        biggestNameSearch = i;
+                    if (citySearches[i].Count > biggestCitySearch)
+                        biggestCitySearch = i;
+                    i++;
+                }
+                if (searchWords.Length > 1)
+                {
+                    nameSearches.Add(await App.mapDatabase.SearchPointsNameAsync(searchText));
+                    citySearches.Add(await App.itemDatabase.SearchPointsCityAsync(searchText));
+                    i++;
+                }
+
+                mainNameSearch = nameSearches[biggestNameSearch];
+                mainCitySearch = citySearches[biggestCitySearch];
+                nameSearches.RemoveAt(biggestNameSearch);
+                citySearches.RemoveAt(biggestCitySearch);
+
+                //Begin sorting part of method
+                List<List<MapPoint>> nameRelevanceLevels = new List<List<MapPoint>>();
+                List<List<DataPoint>> cityRelevanceLevels = new List<List<DataPoint>>();
+
+                for (int j = i - 1; j > 0; j--)
+                {
+                    nameRelevanceLevels.Add(new List<MapPoint>());
+                    cityRelevanceLevels.Add(new List<DataPoint>());
+                }
+
+                foreach(MapPoint nameItem in mainNameSearch)
+                {
+                    var itemOccurrence = 0;
+
+                    foreach(List<MapPoint> nameSearchList in nameSearches)
+                    {
+                        if (nameSearchList.Find(item => item.RefNum.Equals(nameItem.RefNum) && item.Latitude == nameItem.Latitude && item.Longitude == nameItem.Longitude) != null)
+                            itemOccurrence++;
+                    }
+
+                    nameRelevanceLevels[itemOccurrence].Add(nameItem);
+                }
+
+                foreach(List<MapPoint> relevanceLevel in nameRelevanceLevels)
+                {
+                    if (relevanceLevel.Count > 0)
+                        Console.WriteLine(relevanceLevel[0].Name);
+                }
+            }
         }
 
         //Responds to the detailPageButton

@@ -44,12 +44,12 @@ namespace NRHP_App.Droid
 
             NativeMap.MarkerClick += SelectPoint;
             NativeMap.InfoWindowClose += DeselectPoint;
-            App.mainPage.SearchCompleted += FinishedMoving;
+            App.mainPage.SearchCompleted += LoadInfoWindow;
         }
 
-        private async void FinishedMoving(object sender, MapPoint e)
+        private async void LoadInfoWindow(object sender, MapPoint e)
         {
-            await Task.Delay(450);
+            await Task.Delay(800);
 
             if (e != null)
             {

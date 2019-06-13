@@ -40,16 +40,16 @@ namespace NRHP_App.iOS
 
                 nativeMap.DidSelectAnnotationView += SelectPoint;
                 nativeMap.DidDeselectAnnotationView += DeselectPoint;
-                App.mainPage.SearchCompleted += FinishedMoving;
+                App.mainPage.SearchCompleted += LoadAnnotationElement;
 
                 //nativeMap.SelectedAnnotation;
                 //nativeMap.GetViewForAnnotation = GetViewForAnnotation;
             }
         }
 
-        private async void FinishedMoving(object sender, MapPoint e)
+        private async void LoadAnnotationElement(object sender, MapPoint e)
         {
-            await Task.Delay(450);
+            await Task.Delay(800);
 
             if (e != null)
             {

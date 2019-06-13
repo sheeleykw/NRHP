@@ -43,27 +43,30 @@ namespace NRHP_App
 
         private void Search(object sender, EventArgs e)
         {
-            var list = new List<DataPoint>();
-            foreach(DataPoint dataPoint in allFavorites)
+            if (allFavorites.Count > 0)
             {
-                if(dataPoint.Name.ToLower().Contains(searchBar.Text.ToLower()))
+                var list = new List<DataPoint>();
+                foreach (DataPoint dataPoint in allFavorites)
                 {
-                    list.Add(dataPoint);
+                    if (dataPoint.Name.ToLower().Contains(searchBar.Text.ToLower()))
+                    {
+                        list.Add(dataPoint);
+                    }
                 }
-            }
 
-            currentFavorites = list;
-            favoritesListView.ItemsSource = currentFavorites;
+                currentFavorites = list;
+                favoritesListView.ItemsSource = currentFavorites;
 
-            if (currentFavorites.Count == 0)
-            {
-                favoritesListView.IsVisible = false;
-                noFavoritesFound.IsVisible = true;
-            }
-            else
-            {
-                favoritesListView.IsVisible = true;
-                noFavoritesFound.IsVisible = false;
+                if (currentFavorites.Count == 0)
+                {
+                    favoritesListView.IsVisible = false;
+                    noFavoritesFound.IsVisible = true;
+                }
+                else
+                {
+                    favoritesListView.IsVisible = true;
+                    noFavoritesFound.IsVisible = false;
+                }
             }
         }
 
