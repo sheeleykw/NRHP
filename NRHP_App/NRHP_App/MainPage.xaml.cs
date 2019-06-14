@@ -105,6 +105,34 @@ namespace NRHP_App
 
         private async void Search()
         {
+            var result = await App.itemDatabase.GetDataPoints();
+            var oldestPoint = result[0];
+            foreach (DataPoint dataPoint in result)
+            {
+                var datasourceDate = dataPoint.SourceDate.Split('/');
+                var dataday = Convert.ToInt32(datasourceDate[1]);
+                var datamonth = Convert.ToInt32(datasourceDate[0]);
+                var datayear = Convert.ToInt32(datasourceDate[2]);
+
+                var oldsourceDate = oldestPoint.SourceDate.Split('/');
+                var oldday = Convert.ToInt32(oldsourceDate[1]);
+                var oldmonth = Convert.ToInt32(oldsourceDate[0]);
+                var oldyear = Convert.ToInt32(oldsourceDate[2]);
+
+                if (datayear <= oldyear)
+                {
+                    if (datamonth <= oldmonth)
+                    {
+                        if (dataday < oldday)
+                        {
+                            oldestPoint = dataPoint;
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine(oldestPoint.Name + ": " + oldestPoint.City + ", " + oldestPoint.State + ", " + oldestPoint.Category + ".." + oldestPoint.SourceDate);
+
             EventHandler<MapPoint> handler = SearchCompleted;
             string searchBarText = searchBar.Text.ToLower();
 
@@ -181,10 +209,13 @@ namespace NRHP_App
                 {
                     var itemOccurrence = 0;
 
-                    foreach(List<MapPoint> nameSearchList in nameSearches)
+                    if (nameSearches.Count > 0)
                     {
-                        if (nameSearchList.Find(item => item.RefNum.Equals(nameItem.RefNum) && item.Latitude == nameItem.Latitude && item.Longitude == nameItem.Longitude) != null)
-                            itemOccurrence++;
+                        foreach (List<MapPoint> nameSearchList in nameSearches)
+                        {
+                            if (nameSearchList.Find(item => item.RefNum.Equals(nameItem.RefNum) && item.Latitude == nameItem.Latitude && item.Longitude == nameItem.Longitude) != null)
+                                itemOccurrence++;
+                        }
                     }
 
                     nameRelevanceLevels[itemOccurrence].Add(nameItem);

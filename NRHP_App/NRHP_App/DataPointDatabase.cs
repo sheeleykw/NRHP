@@ -38,6 +38,12 @@ namespace NRHP_App
                             .ToListAsync();
         }
 
+        public Task<List<DataPoint>> GetDataPoints()
+        {
+            return _database.Table<DataPoint>()
+                            .ToListAsync();
+        }
+
         public void UpdatePoint(DataPoint dataPoint)
         {
             _database.UpdateAsync(dataPoint);
