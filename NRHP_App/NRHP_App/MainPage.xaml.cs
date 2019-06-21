@@ -105,127 +105,50 @@ namespace NRHP_App
 
         private async void Search()
         {
-            var result = await App.itemDatabase.GetDataPoints();
-            var oldestPoint = result[0];
-            foreach (DataPoint dataPoint in result)
+            EventHandler<MapPoint> handler = SearchCompleted;
+
+            string searchBarText = searchBar.Text.ToLower().Trim();
+            string searchText = "";
+            foreach (char spot in searchBarText)
             {
-                var datasourceDate = dataPoint.SourceDate.Split('/');
-                var dataday = Convert.ToInt32(datasourceDate[1]);
-                var datamonth = Convert.ToInt32(datasourceDate[0]);
-                var datayear = Convert.ToInt32(datasourceDate[2]);
-
-                var oldsourceDate = oldestPoint.SourceDate.Split('/');
-                var oldday = Convert.ToInt32(oldsourceDate[1]);
-                var oldmonth = Convert.ToInt32(oldsourceDate[0]);
-                var oldyear = Convert.ToInt32(oldsourceDate[2]);
-
-                if (datayear <= oldyear)
+                if (!char.IsPunctuation(spot))
                 {
-                    if (datamonth <= oldmonth)
-                    {
-                        if (dataday < oldday)
-                        {
-                            oldestPoint = dataPoint;
-                        }
-                    }
+                    searchText = searchText.Insert(searchText.Length, spot.ToString());
                 }
             }
 
-            Console.WriteLine(oldestPoint.Name + ": " + oldestPoint.City + ", " + oldestPoint.State + ", " + oldestPoint.Category + ".." + oldestPoint.SourceDate);
-
-            EventHandler<MapPoint> handler = SearchCompleted;
-            string searchBarText = searchBar.Text.ToLower();
-
-            List<MapPoint> nameSearch = await App.mapDatabase.SearchPointsNameAsync(searchBarText);
-            MapPoint refNumSearch = await App.mapDatabase.SearchPointsRefNumAsync(searchBarText);
-
-            if (refNumSearch != null)
-            {
-                map.MoveToRegion(new MapSpan(new Position(refNumSearch.Latitude, refNumSearch.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
-                var searchPoint = refNumSearch;
-                handler?.Invoke(this, searchPoint);
-            }
-            else if (nameSearch.Count == 1)
+            //Code for direct identification of map point with either name or refnum.
+            List<MapPoint> nameSearch = await App.mapDatabase.SearchNameAsync(searchText);
+            if (nameSearch.Count == 1)
             {
                 map.MoveToRegion(new MapSpan(new Position(nameSearch[0].Latitude, nameSearch[0].Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
                 var searchPoint = nameSearch[0];
                 handler?.Invoke(this, searchPoint);
             }
-            else
+
+            var splitSearch = searchText.Split(' ');
+
+            if (splitSearch.Length == 1)
             {
-                string searchText = "";
+                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0]);
+            }
+            else if (splitSearch.Length == 2)
+            {
+                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1]);
+            }
+            else if (splitSearch.Length == 3)
+            {
+                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1], splitSearch[2]);
+            }
+            else if (splitSearch.Length == 4)
+            {
+                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1], splitSearch[2], splitSearch[3]);
+            }
 
-                foreach(char spot in searchBarText)
-                {
-                    if (!char.IsPunctuation(spot))
-                    {
-                        searchText = searchText.Insert(searchText.Length, spot.ToString());
-                    }
-                }
-
-                string[] searchWords = searchText.Split(' ');
-                List<List<MapPoint>> nameSearches = new List<List<MapPoint>>();
-                List<List<DataPoint>> citySearches = new List<List<DataPoint>>();
-                List<MapPoint> mainNameSearch;
-                List<DataPoint> mainCitySearch;
-
-                var i = 0;
-                var biggestNameSearch = 0;
-                var biggestCitySearch = 0;
-
-                foreach (string word in searchWords)
-                {
-                    nameSearches.Add(await App.mapDatabase.SearchPointsNameAsync(word));
-                    citySearches.Add(await App.itemDatabase.SearchPointsCityAsync(word));
-                    if (nameSearches[i].Count > biggestNameSearch)
-                        biggestNameSearch = i;
-                    if (citySearches[i].Count > biggestCitySearch)
-                        biggestCitySearch = i;
-                    i++;
-                }
-                if (searchWords.Length > 1)
-                {
-                    nameSearches.Add(await App.mapDatabase.SearchPointsNameAsync(searchText));
-                    citySearches.Add(await App.itemDatabase.SearchPointsCityAsync(searchText));
-                    i++;
-                }
-
-                mainNameSearch = nameSearches[biggestNameSearch];
-                mainCitySearch = citySearches[biggestCitySearch];
-                nameSearches.RemoveAt(biggestNameSearch);
-                citySearches.RemoveAt(biggestCitySearch);
-
-                //Begin sorting part of method
-                List<List<MapPoint>> nameRelevanceLevels = new List<List<MapPoint>>();
-                List<List<DataPoint>> cityRelevanceLevels = new List<List<DataPoint>>();
-
-                for (int j = i - 1; j > 0; j--)
-                {
-                    nameRelevanceLevels.Add(new List<MapPoint>());
-                    cityRelevanceLevels.Add(new List<DataPoint>());
-                }
-
-                foreach(MapPoint nameItem in mainNameSearch)
-                {
-                    var itemOccurrence = 0;
-
-                    if (nameSearches.Count > 0)
-                    {
-                        foreach (List<MapPoint> nameSearchList in nameSearches)
-                        {
-                            if (nameSearchList.Find(item => item.RefNum.Equals(nameItem.RefNum) && item.Latitude == nameItem.Latitude && item.Longitude == nameItem.Longitude) != null)
-                                itemOccurrence++;
-                        }
-                    }
-
-                    nameRelevanceLevels[itemOccurrence].Add(nameItem);
-                }
-
-                foreach(List<MapPoint> relevanceLevel in nameRelevanceLevels)
-                {
-                    if (relevanceLevel.Count > 0)
-                        Console.WriteLine(relevanceLevel[0].Name);
-                }
+            Console.WriteLine(nameSearch.Count);
+            foreach (MapPoint data in nameSearch)
+            {
+                Console.WriteLine(data.Name);
             }
         }
 
