@@ -49,11 +49,25 @@ namespace NRHP_App.Droid
 
         private async void LoadInfoWindow(object sender, MapPoint e)
         {
-            await Task.Delay(800);
+            //await Task.Delay(800);
+            var markerFound = false;
 
             if (e != null)
             {
-                var marker = GetMarkerForPin(App.currentPins.Find(pin => pin.Label.Equals(e.Name)));
+                Marker marker = null;
+                while (!markerFound)
+                {
+                    try
+                    {
+                        marker = GetMarkerForPin(App.currentPins.Find(pin => pin.Label.Equals(e.Name)));
+                        markerFound = true;
+                    }
+                    catch (Exception excp)
+                    {
+                        Console.WriteLine(excp.Message);
+                        await Task.Delay(150);
+                    }
+                }
                 if (!marker.IsInfoWindowShown)
                 {
                     marker.ShowInfoWindow();

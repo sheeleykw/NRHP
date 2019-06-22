@@ -7,6 +7,7 @@ using Plugin.Geolocator.Abstractions;
 using Position = Xamarin.Forms.Maps.Position;
 using Xamarin.Forms.Xaml;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NRHP_App
 {
@@ -105,7 +106,7 @@ namespace NRHP_App
 
         private async void Search()
         {
-            EventHandler<MapPoint> handler = SearchCompleted;
+            List<MapPoint> nameSearch = new List<MapPoint>();
 
             string searchBarText = searchBar.Text.ToLower().Trim();
             string searchText = "";
@@ -115,15 +116,6 @@ namespace NRHP_App
                 {
                     searchText = searchText.Insert(searchText.Length, spot.ToString());
                 }
-            }
-
-            //Code for direct identification of map point with either name or refnum.
-            List<MapPoint> nameSearch = await App.mapDatabase.SearchNameAsync(searchText);
-            if (nameSearch.Count == 1)
-            {
-                map.MoveToRegion(new MapSpan(new Position(nameSearch[0].Latitude, nameSearch[0].Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
-                var searchPoint = nameSearch[0];
-                handler?.Invoke(this, searchPoint);
             }
 
             var splitSearch = searchText.Split(' ');
@@ -145,11 +137,23 @@ namespace NRHP_App
                 nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1], splitSearch[2], splitSearch[3]);
             }
 
-            Console.WriteLine(nameSearch.Count);
-            foreach (MapPoint data in nameSearch)
+            if (nameSearch.Count == 1)
             {
-                Console.WriteLine(data.Name);
+                MoveToPoint(nameSearch[0]);
             }
+            else
+            {
+                await App.navPage.PushAsync(new SearchPage(searchBar.Text, nameSearch));
+            }
+        }
+
+        public async void MoveToPoint(MapPoint mapPoint)
+        {
+            EventHandler<MapPoint> handler = SearchCompleted;
+            Console.WriteLine(mapPoint.Name);
+            map.MoveToRegion(new MapSpan(new Position(mapPoint.Latitude, mapPoint.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
+            //await Task.Delay(600);
+            handler?.Invoke(this, mapPoint);
         }
 
         //Responds to the detailPageButton
@@ -164,7 +168,7 @@ namespace NRHP_App
             await App.navPage.PushAsync(new FavoritesPage());
         }
 
-        //Is called when a pin is selected or deselected
+        //Called when a pin is selected or deselected
         //Changes the state of the detailPageButton to reflect the user's ability to open the detail page for a selected point
         public void SwitchDetailPageButton()
         {

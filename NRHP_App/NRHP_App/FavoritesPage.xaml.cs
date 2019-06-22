@@ -24,11 +24,11 @@ namespace NRHP_App
 
         protected override void OnAppearing()
         {
-            SetupcurrentFavorites();
+            SetupCurrentFavorites();
             base.OnAppearing();
         }
 
-        public async void SetupcurrentFavorites()
+        public async void SetupCurrentFavorites()
         {
             allFavorites = await App.itemDatabase.GetFavoritedPointsAsync();
             currentFavorites = allFavorites;

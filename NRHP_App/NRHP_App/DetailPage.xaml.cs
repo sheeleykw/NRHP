@@ -47,7 +47,7 @@ namespace NRHP_App
             currentPoint = await App.itemDatabase.GetPointAsync(currentRefNum);
             name.Text = currentPoint.Name;
             category.Text = "Category: " + currentPoint.Category;
-            refNum.Text = "Reference #: " + currentPoint.RefNum; 
+            refNum.Text = "Reference Number: " + "#" + currentPoint.RefNum; 
             sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
             address.Text = "Reported Street Address: " + currentPoint.Address;
             cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
