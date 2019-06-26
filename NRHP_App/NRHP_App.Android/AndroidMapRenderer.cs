@@ -49,7 +49,6 @@ namespace NRHP_App.Droid
 
         private async void LoadInfoWindow(object sender, MapPoint e)
         {
-            //await Task.Delay(800);
             var markerFound = false;
 
             if (e != null)

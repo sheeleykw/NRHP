@@ -147,12 +147,10 @@ namespace NRHP_App
             }
         }
 
-        public async void MoveToPoint(MapPoint mapPoint)
+        public void MoveToPoint(MapPoint mapPoint)
         {
             EventHandler<MapPoint> handler = SearchCompleted;
-            Console.WriteLine(mapPoint.Name);
             map.MoveToRegion(new MapSpan(new Position(mapPoint.Latitude, mapPoint.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
-            //await Task.Delay(600);
             handler?.Invoke(this, mapPoint);
         }
 

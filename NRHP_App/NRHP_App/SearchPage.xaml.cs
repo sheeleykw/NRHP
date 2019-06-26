@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,19 +20,14 @@ namespace NRHP_App
             searchBar = new SearchBar
             {
                 Placeholder = "Enter search term",
-                Text = searchText
+                Text = searchText,
+                SearchCommand = new Command(Search)
             };
             NavigationPage.SetTitleView(this, searchBar);
 
             currentSearchPositions = mapPoints;
             SetupCurrentSearchItems();
         }
-
-
-        //protected override void OnAppearing()
-        //{
-        //    base.OnAppearing();
-        //}
 
         public async void SetupCurrentSearchItems()
         {
@@ -51,34 +43,42 @@ namespace NRHP_App
             }
         }
 
-        //private void Search(object sender, EventArgs e)
-        //{
-        //    if (allFavorites.Count > 0)
-        //    {
-        //        var list = new List<DataPoint>();
-        //        foreach (DataPoint dataPoint in allFavorites)
-        //        {
-        //            if (dataPoint.Name.ToLower().Contains(searchBar.Text.ToLower()))
-        //            {
-        //                list.Add(dataPoint);
-        //            }
-        //        }
+        private async void Search()
+        {
+            List<MapPoint> nameSearch = new List<MapPoint>();
 
-        //        currentFavorites = list;
-        //        favoritesListView.ItemsSource = currentFavorites;
+            string searchBarText = searchBar.Text.ToLower().Trim();
+            string searchText = "";
+            foreach (char spot in searchBarText)
+            {
+                if (!char.IsPunctuation(spot))
+                {
+                    searchText = searchText.Insert(searchText.Length, spot.ToString());
+                }
+            }
 
-        //        if (currentFavorites.Count == 0)
-        //        {
-        //            favoritesListView.IsVisible = false;
-        //            noFavoritesFound.IsVisible = true;
-        //        }
-        //        else
-        //        {
-        //            favoritesListView.IsVisible = true;
-        //            noFavoritesFound.IsVisible = false;
-        //        }
-        //    }
-        //}
+            var splitSearch = searchText.Split(' ');
+
+            if (splitSearch.Length == 1)
+            {
+                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0]);
+            }
+            else if (splitSearch.Length == 2)
+            {
+                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1]);
+            }
+            else if (splitSearch.Length == 3)
+            {
+                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1], splitSearch[2]);
+            }
+            else if (splitSearch.Length == 4)
+            {
+                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1], splitSearch[2], splitSearch[3]);
+            }
+
+            currentSearchPositions = nameSearch;
+            SetupCurrentSearchItems();
+        }
 
         private async void MainPageButton(object sender, EventArgs e)
         {

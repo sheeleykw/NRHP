@@ -49,19 +49,24 @@ namespace NRHP_App.iOS
 
         private async void LoadAnnotationElement(object sender, MapPoint e)
         {
-            await Task.Delay(800);
+            var markerFound = false;
 
             if (e != null)
             {
-                foreach (IMKAnnotation annotation in nativeMap.Annotations)
+                while (!markerFound)
                 {
-                    if (annotation.GetTitle().Equals(e.Name))
+                    foreach (IMKAnnotation annotation in nativeMap.Annotations)
                     {
-                        nativeMap.SelectAnnotation(annotation, true);
+                        if (annotation.GetTitle().Equals(e.Name))
+                        {
+                            nativeMap.SelectAnnotation(annotation, true);
+                            markerFound = true;
 
-                        App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(annotation.GetTitle(), annotation.Coordinate.Latitude, annotation.Coordinate.Longitude)).RefNum;
-                        App.mainPage.SwitchDetailPageButton();
+                            App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(annotation.GetTitle(), annotation.Coordinate.Latitude, annotation.Coordinate.Longitude)).RefNum;
+                            App.mainPage.SwitchDetailPageButton();
+                        }
                     }
+                    await Task.Delay(150);
                 }
             }
         }
