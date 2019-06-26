@@ -21,7 +21,7 @@ namespace NRHP_App
             {
                 Placeholder = "Enter search term",
                 Text = searchText,
-                SearchCommand = new Command(Search)
+                SearchCommand = new Command(() => Search())
             };
             NavigationPage.SetTitleView(this, searchBar);
 
