@@ -35,8 +35,10 @@ namespace NRHP_App
             searchBar = new SearchBar
             {
                 Placeholder = "Enter search term",
+                Text = App.currentMapSearchTerm,
                 SearchCommand = new Command(() => Search())
             };
+            searchBar.TextChanged += TextChanged;
             NavigationPage.SetTitleView(this, searchBar);
             MapSetup();
         }
@@ -143,8 +145,18 @@ namespace NRHP_App
             }
             else
             {
-                await App.navPage.PushAsync(new SearchPage(searchBar.Text, nameSearch));
+                await App.navPage.PushAsync(new SearchPage(nameSearch));
             }
+        }
+
+        private void TextChanged(object sender, EventArgs e) 
+        {
+            App.currentMapSearchTerm = searchBar.Text;
+        }
+
+        public void UpdateText()
+        {
+            searchBar.Text = App.currentMapSearchTerm;
         }
 
         public void MoveToPoint(MapPoint mapPoint)

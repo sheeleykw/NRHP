@@ -13,16 +13,17 @@ namespace NRHP_App
         private List<DataPoint> currentSearchItems = new List<DataPoint>();
         private List<MapPoint> currentSearchPositions;
 
-        public SearchPage(string searchText, List<MapPoint> mapPoints)
+        public SearchPage(List<MapPoint> mapPoints)
         {
             InitializeComponent();
 
             searchBar = new SearchBar
             {
                 Placeholder = "Enter search term",
-                Text = searchText,
+                Text = App.currentMapSearchTerm,
                 SearchCommand = new Command(() => Search())
             };
+            searchBar.TextChanged += TextChanged;
             NavigationPage.SetTitleView(this, searchBar);
 
             currentSearchPositions = mapPoints;
@@ -31,15 +32,20 @@ namespace NRHP_App
 
         public async void SetupCurrentSearchItems()
         {
-            foreach(MapPoint mapPoint in currentSearchPositions)
-            {
-                currentSearchItems.Add(await App.itemDatabase.GetPointAsync(mapPoint.RefNum));
-            }
-            searchListView.ItemsSource = currentSearchItems;
-            if (currentSearchItems.Count == 0)
+            if (currentSearchPositions.Count == 0)
             {
                 searchListView.IsVisible = false;
                 noItemsFound.IsVisible = true;
+            }
+            else
+            {
+                var list = new List<DataPoint>();
+                foreach (MapPoint mapPoint in currentSearchPositions)
+                {
+                    list.Add(await App.itemDatabase.GetPointAsync(mapPoint.RefNum));
+                }
+                currentSearchItems = list;
+                searchListView.ItemsSource = currentSearchItems;
             }
         }
 
@@ -78,6 +84,12 @@ namespace NRHP_App
 
             currentSearchPositions = nameSearch;
             SetupCurrentSearchItems();
+        }
+
+        private void TextChanged(object sender, EventArgs e)
+        {
+            App.currentMapSearchTerm = searchBar.Text;
+            App.mainPage.UpdateText();
         }
 
         private async void MainPageButton(object sender, EventArgs e)

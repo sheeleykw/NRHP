@@ -10,6 +10,7 @@ namespace NRHP_App
         public static DataPointDatabase itemDatabase;
         public static string currentPinRefNum = null;
         public static bool updatedFavorites = false;
+        public static string currentMapSearchTerm = "";
 
         public static List<Pin> currentPins = new List<Pin>();
 
