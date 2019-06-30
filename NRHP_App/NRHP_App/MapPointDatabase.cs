@@ -21,12 +21,21 @@ namespace NRHP_App
                             .ToListAsync();
         }
 
+        public Task<MapPoint> GetPointAsync(string RefNum)
+        {
+            return _database.Table<MapPoint>()
+                            .Where(mapPoint => mapPoint.RefNum.Equals(RefNum))
+                            .FirstOrDefaultAsync();
+        }
+
         public Task<MapPoint> GetRefNumAsync(string Name, double Latitude, double Longitude)
         {
             return _database.Table<MapPoint>()
                             .Where(mapPoint => mapPoint.Name.Equals(Name) && mapPoint.Latitude == Latitude && mapPoint.Longitude == Longitude)
                             .FirstOrDefaultAsync();
         }
+
+
 
         //Methods for searching the name of a point.
         //Multiple methods were created because of the complexity required to implement a recursive function with the predicates and expressions that the sql commands require.

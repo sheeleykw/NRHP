@@ -7,15 +7,15 @@ using Plugin.Geolocator.Abstractions;
 using Position = Xamarin.Forms.Maps.Position;
 using Xamarin.Forms.Xaml;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace NRHP_App
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-        private Plugin.Geolocator.Abstractions.Position currentUserPosition;
-        private IGeolocator locator = CrossGeolocator.Current;
+        private Location currentUserPosition;
+        private GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best);
 
         private double LatitudeDegrees = 0.0095328892176525;
         private double LongitudeDegrees = 0.00882815569639206;
@@ -47,8 +47,7 @@ namespace NRHP_App
         //Possibles changes might be need to the userPosition listener/eventHandler
         private async void MapSetup()
         {
-            currentUserPosition = await locator.GetPositionAsync(TimeSpan.FromSeconds(5));
-            locator.PositionChanged += PositionChanged;
+            currentUserPosition = await Geolocation.GetLocationAsync(request);
 
             map.IsShowingUser = true;
             map.PropertyChanged += ChangedView;
@@ -56,10 +55,10 @@ namespace NRHP_App
         }
 
         //Gets called when the user position changes
-        private void PositionChanged(object sender, PositionEventArgs e)
-        {
-            currentUserPosition = e.Position;
-        }
+        //private void PositionChanged(object sender, PositionEventArgs e)
+        //{
+        //    currentUserPosition = e.Position;
+        //}
 
         //Updates the view of the camera to allow the database to know where to search
         void ChangedView(object sender, PropertyChangedEventArgs e)
@@ -109,6 +108,7 @@ namespace NRHP_App
         private async void Search()
         {
             List<MapPoint> nameSearch = new List<MapPoint>();
+            List<CityPoint> citySearch = new List<CityPoint>();
 
             string searchBarText = searchBar.Text.ToLower().Trim();
             string searchText = "";
@@ -125,18 +125,34 @@ namespace NRHP_App
             if (splitSearch.Length == 1)
             {
                 nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0]);
+                citySearch = await App.cityDatabase.SearchCityAsync(splitSearch[0]);
             }
             else if (splitSearch.Length == 2)
             {
                 nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1]);
+                citySearch = await App.cityDatabase.SearchCityAsync(splitSearch[0], splitSearch[1]);
             }
             else if (splitSearch.Length == 3)
             {
                 nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1], splitSearch[2]);
+                citySearch = await App.cityDatabase.SearchCityAsync(splitSearch[0], splitSearch[1], splitSearch[2]);
             }
             else if (splitSearch.Length == 4)
             {
                 nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1], splitSearch[2], splitSearch[3]);
+            }
+
+            foreach (CityPoint cityPoint in citySearch)
+            {
+                var mapPoint = new MapPoint
+                {
+                    RefNum = "",
+                    Name = cityPoint.Name + ", " + cityPoint.StateName,
+                    Latitude = cityPoint.Latitude,
+                    Longitude = cityPoint.Longitude,
+                    Category = "City"
+                };
+                nameSearch.Insert(0, mapPoint);
             }
 
             if (nameSearch.Count == 1)
@@ -161,9 +177,17 @@ namespace NRHP_App
 
         public void MoveToPoint(MapPoint mapPoint)
         {
-            EventHandler<MapPoint> handler = SearchCompleted;
-            map.MoveToRegion(new MapSpan(new Position(mapPoint.Latitude, mapPoint.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
-            handler?.Invoke(this, mapPoint);
+            
+            if (!mapPoint.Category.Equals("City"))
+            {
+                map.MoveToRegion(new MapSpan(new Position(mapPoint.Latitude, mapPoint.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
+                EventHandler<MapPoint> handler = SearchCompleted;
+                handler?.Invoke(this, mapPoint);
+            }
+            else
+            {
+                map.MoveToRegion(new MapSpan(new Position(mapPoint.Latitude, mapPoint.Longitude), 1.0, 1.0));
+            }
         }
 
         //Responds to the detailPageButton

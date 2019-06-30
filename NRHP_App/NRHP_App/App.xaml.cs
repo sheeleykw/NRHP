@@ -8,6 +8,7 @@ namespace NRHP_App
     {
         public static MapPointDatabase mapDatabase;
         public static DataPointDatabase itemDatabase;
+        public static CityPointDatabase cityDatabase;
         public static string currentPinRefNum = null;
         public static bool updatedFavorites = false;
         public static string currentMapSearchTerm = "";
@@ -17,12 +18,13 @@ namespace NRHP_App
         public static MainPage mainPage = new MainPage();
         public static NavigationPage navPage = new NavigationPage(mainPage);
 
-        public App(string mapDBPath, string itemDBPath)
+        public App(string mapDBPath, string itemDBPath, string cityDBPath)
         {
             InitializeComponent();
 
             mapDatabase = new MapPointDatabase(mapDBPath);
             itemDatabase = new DataPointDatabase(itemDBPath);
+            cityDatabase = new CityPointDatabase(cityDBPath);
 
             navPage.BarBackgroundColor = Color.White;
             MainPage = navPage;

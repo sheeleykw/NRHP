@@ -238,21 +238,21 @@
     <BundleResource Include="Resources\MapItems.db" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets.xcassets\homeicon.imageset\" />
-    <Folder Include="Assets.xcassets\hearticon.imageset\" />
-    <Folder Include="Assets.xcassets\blackhearticon.imageset\" />
-    <Folder Include="Assets.xcassets\stackicon.imageset\" />
-    <Folder Include="Assets.xcassets\stackicon.imageset\" />
-    <Folder Include="Assets.xcassets\blackstackicon.imageset\" />
-    <Folder Include="Assets.xcassets\hearticon.imageset\" />
-    <Folder Include="Assets.xcassets\blackhearticon.imageset\" />
-    <Folder Include="Assets.xcassets\houseicon.imageset\" />
-    <Folder Include="Assets.xcassets\blackhouseicon.imageset\" />
-    <Folder Include="Assets.xcassets\foldericon.imageset\" />
     <Folder Include="Assets.xcassets\blackfoldericon.imageset\" />
-    <Folder Include="Assets.xcassets\personicon.imageset\" />
+    <Folder Include="Assets.xcassets\blackhearticon.imageset\" />
+    <Folder Include="Assets.xcassets\blackhouseicon.imageset\" />
     <Folder Include="Assets.xcassets\blackpersonicon.imageset\" />
+    <Folder Include="Assets.xcassets\blackstackicon.imageset\" />
     <Folder Include="Assets.xcassets\bluehearticon.imageset\" />
     <Folder Include="Assets.xcassets\bluehearticonhollow.imageset\" />
+    <Folder Include="Assets.xcassets\foldericon.imageset\" />
+    <Folder Include="Assets.xcassets\hearticon.imageset\" />
+    <Folder Include="Assets.xcassets\homeicon.imageset\" />
+    <Folder Include="Assets.xcassets\houseicon.imageset\" />
+    <Folder Include="Assets.xcassets\personicon.imageset\" />
+    <Folder Include="Assets.xcassets\stackicon.imageset\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\CityLocations.db" />
   </ItemGroup>
 </Project>

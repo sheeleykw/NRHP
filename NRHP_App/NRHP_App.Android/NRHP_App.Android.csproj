@@ -159,5 +159,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\stackicon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\CityLocations.db" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

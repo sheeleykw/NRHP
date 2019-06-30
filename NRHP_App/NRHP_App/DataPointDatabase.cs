@@ -29,12 +29,10 @@ namespace NRHP_App
                             .ToListAsync();
         }
 
-        public Task<List<DataPoint>> SearchPointsCityAsync(string searchQuery)
+        public Task<List<DataPoint>> SearchCityAsync(string word)
         {
             return _database.Table<DataPoint>()
-                            .Where(dataPoint => dataPoint.City.ToLower().Contains(searchQuery))
-                            .OrderBy(dataPoint => dataPoint.State)
-                            .OrderBy(dataPoint => dataPoint.City)
+                            .Where(dataPoint => dataPoint.City.Equals(word))
                             .ToListAsync();
         }
 

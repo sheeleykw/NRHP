@@ -41,11 +41,23 @@ namespace NRHP_App.Droid
                 }
             }
 
+            var cityPath = Path.Combine(targetPath, "CityLocations.db");
+            if (!File.Exists(cityPath))
+            {
+                using (Stream input = Assets.Open("CityLocations.db"))
+                {
+                    using (var fs = new FileStream(cityPath, FileMode.Create))
+                    {
+                        input.CopyTo(fs);
+                    }
+                }
+            }
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.FormsMaps.Init(this, savedInstanceState);
-            LoadApplication(new App(mapPath, itemPath));
+            LoadApplication(new App(mapPath, itemPath, cityPath));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
