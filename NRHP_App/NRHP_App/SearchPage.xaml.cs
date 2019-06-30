@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -39,13 +38,14 @@ namespace NRHP_App
             }
             else
             {
+                searchListView.IsVisible = true;
+                noItemsFound.IsVisible = false;
                 var list = new List<DataPoint>();
                 foreach (MapPoint mapPoint in currentSearchPositions)
                 {
-                    var count = await App.itemDatabase.SearchCityAsync(mapPoint.Name.Split(',')[0]);
-                    Console.WriteLine(count.Count);
                     if (mapPoint.Category.Equals("City"))
                     {
+                        var count = await App.itemDatabase.SearchCityAsync(mapPoint.Name.Split(',')[0], mapPoint.Name.Split(',')[1].Trim());
                         var cityPoint = new DataPoint
                         {
                             RefNum = "",
@@ -114,6 +114,8 @@ namespace NRHP_App
                 };
                 nameSearch.Insert(0, mapPoint);
             }
+
+            //Insert sort method on nameSearch
 
             currentSearchPositions = nameSearch;
             SetupCurrentSearchItems();
