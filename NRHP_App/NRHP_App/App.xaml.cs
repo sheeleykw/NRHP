@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using Xamarin.Essentials;
 
 namespace NRHP_App
 {
@@ -9,6 +10,7 @@ namespace NRHP_App
         public static MapPointDatabase mapDatabase;
         public static DataPointDatabase itemDatabase;
         public static CityPointDatabase cityDatabase;
+        public static Location userPosition = Geolocation.GetLastKnownLocationAsync().Result;
         public static string currentPinRefNum = null;
         public static bool updatedFavorites = false;
         public static string currentMapSearchTerm = "";

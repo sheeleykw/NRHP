@@ -7,7 +7,6 @@ using Xamarin.Forms.Platform.iOS;
 using MapKit;
 using System;
 using System.Threading.Tasks;
-using CoreGraphics;
 
 [assembly: ExportRenderer(typeof(NRHPMap), typeof(IOSMapRenderer))]
 namespace NRHP_App.iOS
@@ -40,6 +39,7 @@ namespace NRHP_App.iOS
 
                 nativeMap.DidSelectAnnotationView += SelectPoint;
                 nativeMap.DidDeselectAnnotationView += DeselectPoint;
+                nativeMap.CalloutAccessoryControlTapped += LoadDetailPage;
                 App.mainPage.SearchCompleted += LoadAnnotationElement;
 
                 //nativeMap.SelectedAnnotation;
@@ -69,6 +69,11 @@ namespace NRHP_App.iOS
                     await Task.Delay(150);
                 }
             }
+        }
+
+        private void LoadDetailPage(object sender, EventArgs e)
+        {
+            Console.WriteLine("Gedp");
         }
 
         private async void SelectPoint(object sender, MKAnnotationViewEventArgs e)

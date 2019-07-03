@@ -44,6 +44,7 @@ namespace NRHP_App.Droid
 
             NativeMap.MarkerClick += SelectPoint;
             NativeMap.InfoWindowClose += DeselectPoint;
+            NativeMap.InfoWindowClick += LoadDetailPage;
             App.mainPage.SearchCompleted += LoadInfoWindow;
         }
 
@@ -74,6 +75,11 @@ namespace NRHP_App.Droid
                     App.mainPage.SwitchDetailPageButton();
                 }
             }
+        }
+
+        private void LoadDetailPage(object sender, EventArgs e)
+        {
+            App.mainPage.OpenDetailPage();
         }
 
         //Changes the currentPoints refnum and moves the camera to the selected point

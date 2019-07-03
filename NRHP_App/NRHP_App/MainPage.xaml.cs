@@ -47,18 +47,20 @@ namespace NRHP_App
         //Possibles changes might be need to the userPosition listener/eventHandler
         private async void MapSetup()
         {
-            currentUserPosition = await Geolocation.GetLocationAsync(request);
+            try
+            {
+                currentUserPosition = await Geolocation.GetLocationAsync(request);
+                App.userPosition = currentUserPosition;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             map.IsShowingUser = true;
             map.PropertyChanged += ChangedView;
             map.MoveToRegion(new MapSpan(new Position(currentUserPosition.Latitude, currentUserPosition.Longitude), LatitudeDegrees, LongitudeDegrees));
         }
-
-        //Gets called when the user position changes
-        //private void PositionChanged(object sender, PositionEventArgs e)
-        //{
-        //    currentUserPosition = e.Position;
-        //}
 
         //Updates the view of the camera to allow the database to know where to search
         void ChangedView(object sender, PropertyChangedEventArgs e)
@@ -193,6 +195,12 @@ namespace NRHP_App
         //Responds to the detailPageButton
         //Needs to open another page which displays the details of the page
         private async void OpenDetailPage(object sender, EventArgs e)
+        {
+            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage));
+        }
+
+        //Public method for class external operations
+        public async void OpenDetailPage()
         {
             await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage));
         }
