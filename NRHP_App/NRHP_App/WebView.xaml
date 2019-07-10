@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:NRHP_App"
              x:Class="NRHP_App.WebView">
     <ContentPage.Content>
-        <WebView x:Name="webView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+        <StackLayout>
+            <WebView x:Name="webView" HorizontalOptions="Center" HeightRequest="100" WidthRequest="100"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

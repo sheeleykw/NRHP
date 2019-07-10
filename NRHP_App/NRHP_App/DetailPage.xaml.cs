@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,24 +28,28 @@ namespace NRHP_App
         {
             InitializeComponent();
             this.previousPage = previousPage;
-            favoriteButton.Clicked += FavoriteItemToggle;
-            NavigationPage.SetTitleView(this, favoriteButton);
-            SetupLabels();
+            SetupPage();
         }
 
         public DetailPage(Page previousPage, string RefNum)
         {
             InitializeComponent();
             this.previousPage = previousPage;
-            favoriteButton.Clicked += FavoriteItemToggle;
-            NavigationPage.SetTitleView(this, favoriteButton);
             currentRefNum = RefNum;
-            SetupLabels();
+            SetupPage();
         }
 
-        private async void SetupLabels()
+        private async void SetupPage()
         {
             currentPoint = await App.itemDatabase.GetPointAsync(currentRefNum);
+
+            if (currentPoint.IsFavorited)
+            {
+                favoriteButton.Source = "bluehearticon.png";
+            }
+            NavigationPage.SetTitleView(this, favoriteButton);
+            favoriteButton.Clicked += FavoriteItemToggle;
+
             name.Text = currentPoint.Name;
             category.Text = "Category: " + currentPoint.Category;
             refNum.Text = "Reference Number: " + "#" + currentPoint.RefNum; 
@@ -53,10 +58,6 @@ namespace NRHP_App
             cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
             county.Text = "County: " + currentPoint.County;
             people.Text = "Architects/Builders: " + currentPoint.Architects;
-            if (currentPoint.IsFavorited)
-            {
-                favoriteButton.Source = "bluehearticon.png";
-            }
         }
 
         private async void MainPageButton(object sender, EventArgs e)
@@ -91,13 +92,29 @@ namespace NRHP_App
 
         private async void PhotoButton(object sender, EventArgs e)
         {
+            //HttpClient client = new HttpClient();
+            //try
+            //{
+            //    //HttpResponseMessage response = await client.GetAsync("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf");
+            //    //response.EnsureSuccessStatusCode();
+            //    //string responseBody = await response.Content.ReadAsStringAsync();
+            //    string responseBody = await client.GetStringAsync("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf");
+
+            //    Console.WriteLine(responseBody);
+            //}
+            //catch (HttpRequestException exception)
+            //{
+            //    Console.WriteLine("\nException Caught!");
+            //    Console.WriteLine("Message :{0} ", exception.Message);
+            //}
+
             if (Device.RuntimePlatform.Equals(Device.iOS))
             {
-                await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf"));
+                await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"));
             }
             else if (Device.RuntimePlatform.Equals(Device.Android))
             {
-                Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf"));
+                Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"));
             }
         }
 
@@ -105,11 +122,11 @@ namespace NRHP_App
         {
             if (Device.RuntimePlatform.Equals(Device.iOS))
             {
-                await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf"));
+                await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"));
             }
             else if (Device.RuntimePlatform.Equals(Device.Android))
             {
-                Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf"));
+                Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"));
             }
         }
     }
