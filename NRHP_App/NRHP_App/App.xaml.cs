@@ -11,8 +11,8 @@ namespace NRHP_App
         public static DataPointDatabase itemDatabase;
         public static CityPointDatabase cityDatabase;
         public static Location userPosition = Geolocation.GetLastKnownLocationAsync().Result;
-        public static string currentPinRefNum = null;
-        public static bool updatedFavorites = false;
+        public static string currentPinRefNum;
+        public static bool updatedFavorites;
         public static string currentMapSearchTerm = "";
 
         public static List<Pin> currentPins = new List<Pin>();

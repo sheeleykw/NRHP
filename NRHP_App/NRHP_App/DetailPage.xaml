@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NRHP_App.DetailPage">
     <ContentPage.Content>
-        <AbsoluteLayout BackgroundColor="White">
+        <AbsoluteLayout x:Name="layout" BackgroundColor="White">
             <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0, 0, 1, 0.5" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"/>
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
@@ -11,7 +11,7 @@
                     <Label x:Name="photosLabel" Text="Photos" HorizontalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
-            <Button AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="PhotoButton" Opacity="0"/>
+            <Button AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="PhotoButton" Opacity="1"/>
             <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0.5, 0, 2, 0.4" AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"/>
              <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
@@ -19,7 +19,7 @@
                     <Label x:Name="docsLabel" Text="Documents" HorizontalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
-            <Button AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="DocButton" Opacity="0"/>
+            <Button AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="DocButton" Opacity="1"/>
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.6" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
                 <StackLayout Spacing="0" Padding="15, 0" VerticalOptions="StartAndExpand">
                     <BoxView Color="Black" WidthRequest="1" HeightRequest="2"/>

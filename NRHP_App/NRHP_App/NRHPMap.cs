@@ -4,7 +4,7 @@ namespace NRHP_App
 {
     public class NRHPMap : Map
     {
-        public NRHPMap()
+        public NRHPMap(MapSpan mapSpan) : base(mapSpan)
         {
         }
     }

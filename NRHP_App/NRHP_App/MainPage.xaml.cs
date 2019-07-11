@@ -2,21 +2,17 @@
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-using Plugin.Geolocator;
-using Plugin.Geolocator.Abstractions;
+using Map = Xamarin.Forms.Maps.Map;
 using Position = Xamarin.Forms.Maps.Position;
 using Xamarin.Forms.Xaml;
 using System.Collections.Generic;
-using Xamarin.Essentials;
+using System.Threading.Tasks;
 
 namespace NRHP_App
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-        private Location currentUserPosition;
-        private GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best);
-
         private double LatitudeDegrees = 0.0095328892176525;
         private double LongitudeDegrees = 0.00882815569639206;
         private double TopLatitude;
@@ -24,6 +20,7 @@ namespace NRHP_App
         private double RightLongitude;
         private double LeftLongitude;
 
+        private NRHPMap map;
         private SearchBar searchBar;
         public EventHandler<MapPoint> SearchCompleted;
 
@@ -47,19 +44,22 @@ namespace NRHP_App
         //Possibles changes might be need to the userPosition listener/eventHandler
         private async void MapSetup()
         {
-            try
+            map = new NRHPMap(new MapSpan(new Position(App.userPosition.Latitude, App.userPosition.Longitude), LatitudeDegrees, LongitudeDegrees))
             {
-                currentUserPosition = await Geolocation.GetLocationAsync(request);
-                App.userPosition = currentUserPosition;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
+                MapType = MapType.Street
+            };
+            stack.Children.Insert(stack.Children.IndexOf(border), map);
             map.IsShowingUser = true;
+
+            TopLatitude = App.userPosition.Latitude + LatitudeDegrees;
+            BottomLatitude = App.userPosition.Latitude - LatitudeDegrees;
+            RightLongitude = App.userPosition.Longitude + LongitudeDegrees;
+            LeftLongitude = App.userPosition.Longitude - LongitudeDegrees;
+
+            await Task.Delay(150);
+            await UpdateMap();
+
             map.PropertyChanged += ChangedView;
-            map.MoveToRegion(new MapSpan(new Position(currentUserPosition.Latitude, currentUserPosition.Longitude), LatitudeDegrees, LongitudeDegrees));
         }
 
         //Updates the view of the camera to allow the database to know where to search
@@ -74,20 +74,11 @@ namespace NRHP_App
 
                 UpdateMap();
             }
-            else if (e.PropertyName.Equals("Height"))
-            {
-                TopLatitude = currentUserPosition.Latitude + LatitudeDegrees;
-                BottomLatitude = currentUserPosition.Latitude - LatitudeDegrees;
-                RightLongitude = currentUserPosition.Longitude + LongitudeDegrees;
-                LeftLongitude = currentUserPosition.Longitude - LongitudeDegrees;
-
-                UpdateMap();
-            }
         }
 
         //Gets called when the view is changed either when first loading the map or when the camera changes the view
         //Calls the database to retrieve the points that are currently rendered within the cameras view
-        private async void UpdateMap()
+        private async Task UpdateMap()
         {
             var mapPoints = await App.mapDatabase.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
             foreach (MapPoint mapPoint in mapPoints)
@@ -103,7 +94,6 @@ namespace NRHP_App
                     map.Pins.Add(pin);
                     App.currentPins.Add(pin);
                 }
-
             }
         }
 

@@ -92,22 +92,6 @@ namespace NRHP_App
 
         private async void PhotoButton(object sender, EventArgs e)
         {
-            //HttpClient client = new HttpClient();
-            //try
-            //{
-            //    //HttpResponseMessage response = await client.GetAsync("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf");
-            //    //response.EnsureSuccessStatusCode();
-            //    //string responseBody = await response.Content.ReadAsStringAsync();
-            //    string responseBody = await client.GetStringAsync("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf");
-
-            //    Console.WriteLine(responseBody);
-            //}
-            //catch (HttpRequestException exception)
-            //{
-            //    Console.WriteLine("\nException Caught!");
-            //    Console.WriteLine("Message :{0} ", exception.Message);
-            //}
-
             if (Device.RuntimePlatform.Equals(Device.iOS))
             {
                 await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"));

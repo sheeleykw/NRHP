@@ -37,12 +37,13 @@
 		</dict>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow NRHP to use your lcoation?</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow NRHP to use your lcoation?</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Allow NRHP to use your lcoation?</string>
+	<string>Allow NRHP to use your location?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow NRHP to use your lcoation?</string>
+	<string>Allow NRHP to use your location?</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
