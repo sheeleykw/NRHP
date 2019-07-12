@@ -26,17 +26,22 @@ namespace NRHP_App
         //Constructor for mainPage
         public DetailPage(Page previousPage)
         {
-            InitializeComponent();
+            NavigationPage.SetBackButtonTitle(this, "");
             this.previousPage = previousPage;
             SetupPage();
+
+            InitializeComponent();
+
         }
 
         public DetailPage(Page previousPage, string RefNum)
         {
-            InitializeComponent();
+            NavigationPage.SetBackButtonTitle(this, "");
             this.previousPage = previousPage;
             currentRefNum = RefNum;
             SetupPage();
+
+            InitializeComponent();
         }
 
         private async void SetupPage()

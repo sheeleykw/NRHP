@@ -70,6 +70,7 @@
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="iOSMapRenderer.cs" />
+    <Compile Include="PdfViewerRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\docicon.imageset\docicon.png">
@@ -86,45 +87,6 @@
     </ImageAsset>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon167.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon152.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon120.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon80.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon76.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon58.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon40.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon29.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\stackicon.imageset\Contents.json">
@@ -199,6 +161,25 @@
     <ImageAsset Include="Assets.xcassets\bluehearticonhollow.imageset\bluehearticonhollow.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 40x40-3.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 60x60-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 58x58-2.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 87x87-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 80x80-2.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 120x120-2.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 120x120-3.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 180x180-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 20x20-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 40x40-4.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 29x29-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 58x58-3.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 40x40-5.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 80x80-3.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 76x76-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 152x152-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 167x167-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Sytes 1024x1024-1.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -1,6 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
-using System.Net.Http;
+﻿using Xamarin.Forms;
 
 namespace NRHP_App
 {
@@ -8,6 +6,7 @@ namespace NRHP_App
     {
         public WebView(string link)
         {
+            NavigationPage.SetBackButtonTitle(this, "");
             InitializeComponent();
             webView.Source = link;
         }

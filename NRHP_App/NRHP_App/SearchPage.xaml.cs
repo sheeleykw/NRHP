@@ -26,6 +26,7 @@ namespace NRHP_App
             };
             searchBar.TextChanged += TextChanged;
             NavigationPage.SetTitleView(this, searchBar);
+            NavigationPage.SetBackButtonTitle(this, "");
 
             currentSearchPositions = mapPoints;
             SetupCurrentSearchItems();

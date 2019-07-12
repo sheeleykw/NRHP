@@ -14,12 +14,14 @@ namespace NRHP_App
 
         public FavoritesPage()
         {
-            InitializeComponent();
             searchBar = new SearchBar
             {
                 Placeholder = "Enter search term",
             };
             NavigationPage.SetTitleView(this, searchBar);
+            NavigationPage.SetBackButtonTitle(this, "");
+
+            InitializeComponent();
         }
 
         protected override void OnAppearing()

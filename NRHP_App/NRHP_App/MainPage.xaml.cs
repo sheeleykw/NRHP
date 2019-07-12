@@ -2,11 +2,11 @@
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-using Map = Xamarin.Forms.Maps.Map;
 using Position = Xamarin.Forms.Maps.Position;
 using Xamarin.Forms.Xaml;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace NRHP_App
 {
@@ -28,7 +28,6 @@ namespace NRHP_App
         //Creates the page and starts up the userPosition listening eventHandler
         public MainPage()
         {
-            InitializeComponent();
             searchBar = new SearchBar
             {
                 Placeholder = "Enter search term",
@@ -37,6 +36,9 @@ namespace NRHP_App
             };
             searchBar.TextChanged += TextChanged;
             NavigationPage.SetTitleView(this, searchBar);
+            NavigationPage.SetBackButtonTitle(this, "");
+
+            InitializeComponent();
             MapSetup();
         }
 

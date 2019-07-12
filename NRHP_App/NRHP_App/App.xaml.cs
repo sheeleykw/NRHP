@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Essentials;
+using System;
 
 namespace NRHP_App
 {
@@ -24,12 +25,23 @@ namespace NRHP_App
         {
             InitializeComponent();
 
+            //try
+            //{
+            //    App.userPosition = Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Lowest)).Result;
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //}
+
             mapDatabase = new MapPointDatabase(mapDBPath);
             itemDatabase = new DataPointDatabase(itemDBPath);
             cityDatabase = new CityPointDatabase(cityDBPath);
 
             navPage.BarBackgroundColor = Color.White;
             MainPage = navPage;
+
+
         }
 
         protected override void OnStart()

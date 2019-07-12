@@ -8,7 +8,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <WebView x:Name="webView" Grid.Row="0"/>
+            <local:PdfViewer x:Name="webView" Grid.Row="0"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
