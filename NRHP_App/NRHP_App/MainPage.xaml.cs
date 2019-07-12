@@ -50,7 +50,7 @@ namespace NRHP_App
             {
                 MapType = MapType.Street
             };
-            stack.Children.Insert(stack.Children.IndexOf(border), map);
+            stack.Children.Insert(stack.Children.IndexOf(border) + 1, map);
             map.IsShowingUser = true;
 
             TopLatitude = App.userPosition.Latitude + LatitudeDegrees;
