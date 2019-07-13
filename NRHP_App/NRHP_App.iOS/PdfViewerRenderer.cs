@@ -7,20 +7,16 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(PdfViewer), typeof(WebViewRenderer))]
 namespace NRHP_App.iOS
 {
-    public class PdfViewerRenderer : WebViewRenderer
+    public class PdfViewerRenderer : ViewRenderer<PdfViewer, UIWebView>
     {
-        protected override void OnElementChanged(VisualElementChangedEventArgs e)
+        protected override void OnElementChanged(ElementChangedEventArgs<PdfViewer> e)
         {
             base.OnElementChanged(e);
 
-            if(e.NewElement != null)
+            if (e.NewElement != null)
             {
-                var webView = (UIWebView)NativeView;
-                webView.ScrollView.ScrollEnabled = true;
-                webView.ScalesPageToFit = true;
-                //webView.ScrollView.zoom
+                Control.BackgroundColor = UIColor.Black;
             }
-            
         }
     }
 }
