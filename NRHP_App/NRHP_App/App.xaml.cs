@@ -25,6 +25,10 @@ namespace NRHP_App
         {
             InitializeComponent();
 
+            if (userPosition == null)
+            {
+                userPosition = new Location(0.000000, 0.000000);
+            }
             //try
             //{
             //    App.userPosition = Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Lowest)).Result;
