@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,10 +29,9 @@ namespace NRHP_App
         {
             NavigationPage.SetBackButtonTitle(this, "");
             this.previousPage = previousPage;
-            SetupPage();
 
             InitializeComponent();
-
+            SetupPage();
         }
 
         public DetailPage(Page previousPage, string RefNum)
@@ -39,9 +39,9 @@ namespace NRHP_App
             NavigationPage.SetBackButtonTitle(this, "");
             this.previousPage = previousPage;
             currentRefNum = RefNum;
-            SetupPage();
 
             InitializeComponent();
+            SetupPage();
         }
 
         private async void SetupPage()

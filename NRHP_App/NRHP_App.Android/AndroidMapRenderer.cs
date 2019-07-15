@@ -109,7 +109,7 @@ namespace NRHP_App.Droid
             marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
             marker.SetTitle(pin.Label);
             marker.SetSnippet(pin.Address);
-            marker.SetIcon(BitmapDescriptorFactory.DefaultMarker());
+            marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.s));
             return marker;
         }
     }

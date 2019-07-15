@@ -4,22 +4,10 @@
              x:Class="NRHP_App.DetailPage">
     <ContentPage.Content>
         <AbsoluteLayout x:Name="layout" BackgroundColor="White">
+            <Button BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" ImageSource="photoicon.png" Clicked="PhotoButton"/>
+            <Button BackgroundColor="White" AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" ImageSource="docicon.png" Clicked="DocButton"/>
             <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0, 0, 1, 0.5" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"/>
-            <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All">
-                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                    <Image Source="photoicon.png" Margin="20, 5" VerticalOptions="Center"/>
-                    <Label x:Name="photosLabel" Text="Photos" HorizontalOptions="Center"/>
-                </StackLayout>
-            </StackLayout>
-            <Button AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="PhotoButton" Opacity="1"/>
             <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0.5, 0, 2, 0.4" AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"/>
-             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All">
-                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                    <Image Source="docicon.png" Margin="20, 5" VerticalOptions="Center"/>
-                    <Label x:Name="docsLabel" Text="Documents" HorizontalOptions="Center"/>
-                </StackLayout>
-            </StackLayout>
-            <Button AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Clicked="DocButton" Opacity="1"/>
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.6" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
                 <StackLayout Spacing="0" Padding="15, 0" VerticalOptions="StartAndExpand">
                     <BoxView Color="Black" WidthRequest="1" HeightRequest="2"/>
