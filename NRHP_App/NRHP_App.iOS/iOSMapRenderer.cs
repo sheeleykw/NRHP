@@ -104,6 +104,7 @@ namespace NRHP_App.iOS
             var annotationView = base.GetViewForAnnotation(mapView, annotation);
             if (annotationView != null)
             {
+                annotationView.Image = new UIImage("s");
                 //annotationView.Bounds = new CGRect(0, 0, 200, 200);
                 //annotationView.DetailCalloutAccessoryView.Select(this);
             }
