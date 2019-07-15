@@ -7,6 +7,7 @@ using Xamarin.Forms.Platform.iOS;
 using MapKit;
 using System;
 using System.Threading.Tasks;
+using CoreGraphics;
 
 [assembly: ExportRenderer(typeof(NRHPMap), typeof(IOSMapRenderer))]
 namespace NRHP_App.iOS
@@ -14,6 +15,7 @@ namespace NRHP_App.iOS
     public class IOSMapRenderer : MapRenderer
     {
         MKMapView nativeMap;
+        UITapGestureRecognizer tapGesture;
 
         protected override void OnElementChanged(ElementChangedEventArgs<View> e)
         {
@@ -39,11 +41,8 @@ namespace NRHP_App.iOS
 
                 nativeMap.DidSelectAnnotationView += SelectPoint;
                 nativeMap.DidDeselectAnnotationView += DeselectPoint;
-                nativeMap.CalloutAccessoryControlTapped += LoadDetailPage;
                 App.mainPage.SearchCompleted += LoadAnnotationElement;
-
-                //nativeMap.SelectedAnnotation;
-                //nativeMap.GetViewForAnnotation = GetViewForAnnotation;
+                tapGesture = new UITapGestureRecognizer(new Action(LoadDetailPage));
             }
         }
 
@@ -71,9 +70,9 @@ namespace NRHP_App.iOS
             }
         }
 
-        private void LoadDetailPage(object sender, EventArgs e)
+        private void LoadDetailPage()
         {
-            Console.WriteLine("Gedp");
+            App.mainPage.OpenDetailPage();
         }
 
         private async void SelectPoint(object sender, MKAnnotationViewEventArgs e)
@@ -90,25 +89,34 @@ namespace NRHP_App.iOS
                 nativeMap.SetCamera(moveCamera, true);
                 App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(annotation.GetTitle(), annotation.Coordinate.Latitude, annotation.Coordinate.Longitude)).RefNum;
                 App.mainPage.SwitchDetailPageButton();
+
+                e.View.AddGestureRecognizer(tapGesture);
             }
         }
 
         private void DeselectPoint(object sender, MKAnnotationViewEventArgs e)
         {
+            e.View.RemoveGestureRecognizer(tapGesture);
             App.currentPinRefNum = null;
             App.mainPage.SwitchDetailPageButton();
         }
 
         protected override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
         {
-            var annotationView = base.GetViewForAnnotation(mapView, annotation);
-            if (annotationView != null)
+            if (annotation is MKPointAnnotation)
             {
-                annotationView.Image = new UIImage("s");
-                //annotationView.Bounds = new CGRect(0, 0, 200, 200);
-                //annotationView.DetailCalloutAccessoryView.Select(this);
+                MKAnnotationView annotationView = new MKAnnotationView(annotation, annotation.ToString());
+
+                annotationView.Image = UIImage.FromBundle("s");
+                annotationView.CalloutOffset = new CGPoint(0, 0);
+                annotationView.CanShowCallout = true;
+
+                return annotationView;
             }
-            return annotationView;
+            else
+            {
+                return base.GetViewForAnnotation(mapView, annotation);
+            }
         }
     }
 }
