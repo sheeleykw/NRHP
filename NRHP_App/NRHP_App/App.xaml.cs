@@ -43,7 +43,7 @@ namespace NRHP_App
             cityDatabase = new CityPointDatabase(cityDBPath);
 
             navPage.BarBackgroundColor = Color.White;
-            MainPage = navPage;
+            MainPage = new MasterPage(navPage);
 
 
         }
