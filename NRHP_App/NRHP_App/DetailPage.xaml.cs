@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -23,6 +24,7 @@ namespace NRHP_App
                 Right = 5
             }
         };
+        private bool imageAccess = false;
 
         //Constructor for mainPage
         public DetailPage(Page previousPage)
@@ -63,6 +65,15 @@ namespace NRHP_App
             cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
             county.Text = "County: " + currentPoint.County;
             people.Text = "Architects/Builders: " + currentPoint.Architects;
+
+            try
+            {
+                imageAccess = App.stateList.Find(stateBind => stateBind.StateName.Equals(currentPoint.State)).StateBinding;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Unable to match state of current point to list of stateBindings");
+            }
         }
 
         private async void MainPageButton(object sender, EventArgs e)
@@ -97,25 +108,39 @@ namespace NRHP_App
 
         private async void PhotoButton(object sender, EventArgs e)
         {
-            if (Device.RuntimePlatform.Equals(Device.iOS))
+            if (imageAccess)
             {
-                await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"));
+                if (Device.RuntimePlatform.Equals(Device.iOS))
+                {
+                    await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"));
+                }
+                else if (Device.RuntimePlatform.Equals(Device.Android))
+                {
+                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"));
+                }
             }
-            else if (Device.RuntimePlatform.Equals(Device.Android))
+            else
             {
-                Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"));
+                await DisplayAlert("The photos are unavailable.", "Unfortunately we have not yet obtained the copyright access to display the images in our app.", "Okay");
             }
         }
 
         private async void DocButton(object sender, EventArgs e)
         {
-            if (Device.RuntimePlatform.Equals(Device.iOS))
+            if (imageAccess)
             {
-                await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"));
+                if (Device.RuntimePlatform.Equals(Device.iOS))
+                {
+                    await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"));
+                }
+                else if (Device.RuntimePlatform.Equals(Device.Android))
+                {
+                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"));
+                }
             }
-            else if (Device.RuntimePlatform.Equals(Device.Android))
+            else
             {
-                Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"));
+                await DisplayAlert("The documents are unavailable.", "Unfortunately we have not yet obtained the copyright access to display the images in our app.", "Okay");
             }
         }
     }
