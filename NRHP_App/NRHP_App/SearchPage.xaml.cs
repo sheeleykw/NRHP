@@ -21,7 +21,7 @@ namespace NRHP_App
             searchBar = new SearchBar
             {
                 Placeholder = "Enter search term",
-                Text = App.currentMapSearchTerm,
+                Text = App.mainPage.searchBar.Text,
                 SearchCommand = new Command(() => Search())
             };
             searchBar.TextChanged += TextChanged;
@@ -149,8 +149,7 @@ namespace NRHP_App
 
         private void TextChanged(object sender, EventArgs e)
         {
-            App.currentMapSearchTerm = searchBar.Text;
-            App.mainPage.UpdateText();
+            App.mainPage.searchBar.Text = searchBar.Text;
         }
 
         private async void MainPageButton(object sender, EventArgs e)

@@ -21,19 +21,6 @@ namespace NRHP_App.iOS
         {
             base.OnElementChanged(e);
 
-            if (e.OldElement != null)
-            {
-                nativeMap = Control as MKMapView;
-                if (nativeMap != null)
-                {
-                    //nativeMap.RemoveAnnotations(nativeMap.Annotations);
-                    //nativeMap.GetViewForAnnotation = null;
-                    //nativeMap.CalloutAccessoryControlTapped -= OnCalloutAccessoryControlTapped;
-                    //nativeMap.DidSelectAnnotationView -= OnDidSelectAnnotationView;
-                    //nativeMap.DidDeselectAnnotationView -= OnDidDeselectAnnotationView;
-                }
-            }
-
             if (e.NewElement != null)
             {
                 var formsMap = (NRHPMap)e.NewElement;
@@ -70,6 +57,7 @@ namespace NRHP_App.iOS
             }
         }
 
+        //Called when the annotation view of the selected point is tapped.
         private void LoadDetailPage()
         {
             App.mainPage.OpenDetailPage();

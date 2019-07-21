@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS4014
+using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -20,7 +21,7 @@ namespace NRHP_App
         private double LeftLongitude;
 
         private NRHPMap map;
-        private SearchBar searchBar;
+        public SearchBar searchBar;
         public EventHandler<MapPoint> SearchCompleted;
 
 
@@ -30,10 +31,9 @@ namespace NRHP_App
             searchBar = new SearchBar
             {
                 Placeholder = "Enter search term",
-                Text = App.currentMapSearchTerm,
+                Text = "",
                 SearchCommand = new Command(() => Search())
             };
-            searchBar.TextChanged += TextChanged;
             NavigationPage.SetTitleView(this, searchBar);
             NavigationPage.SetBackButtonTitle(this, "");
 
@@ -45,12 +45,15 @@ namespace NRHP_App
         //Possibles changes might be need to the userPosition listener/eventHandler
         private async void MapSetup()
         {
+            //Setup map with current user position
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             map = new NRHPMap(new MapSpan(new Position(App.userPosition.Latitude, App.userPosition.Longitude), LatitudeDegrees, LongitudeDegrees))
             {
                 MapType = MapType.Street
             };
             stack.Children.Insert(stack.Children.IndexOf(border) + 1, map);
             map.IsShowingUser = true;
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             TopLatitude = App.userPosition.Latitude + LatitudeDegrees;
             BottomLatitude = App.userPosition.Latitude - LatitudeDegrees;
@@ -84,20 +87,33 @@ namespace NRHP_App
             var mapPoints = await App.mapDatabase.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
             foreach (MapPoint mapPoint in mapPoints)
             {
-                var pin = new Pin
+                var isEnabled = App.filterList.Find(objectBind => objectBind.objectName.Equals(mapPoint.Category)).objectState;
+                if (isEnabled)
                 {
-                    Label = mapPoint.Name,
-                    Address = mapPoint.Category,
-                    Position = new Position(mapPoint.Latitude, mapPoint.Longitude)
-                };
-                if (!map.Pins.Contains(pin))
-                {
-                    map.Pins.Add(pin);
-                    App.currentPins.Add(pin);
+                    var pin = new Pin
+                    {
+                        Label = mapPoint.Name,
+                        Address = mapPoint.Category,
+                        Position = new Position(mapPoint.Latitude, mapPoint.Longitude)
+                    };
+                    if (!map.Pins.Contains(pin))
+                    {
+                        map.Pins.Add(pin);
+                        App.currentPins.Add(pin);
+                    }
                 }
             }
         }
 
+        public void FilterChange()
+        {
+            map.Pins.Clear();
+            App.currentPins.Clear();
+            UpdateMap();
+        }
+
+        //Search method for when the users presses the search button.
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private async void Search()
         {
             List<MapPoint> nameSearch = new List<MapPoint>();
@@ -157,17 +173,9 @@ namespace NRHP_App
                 await App.navPage.PushAsync(new SearchPage(nameSearch));
             }
         }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void TextChanged(object sender, EventArgs e) 
-        {
-            App.currentMapSearchTerm = searchBar.Text;
-        }
-
-        public void UpdateText()
-        {
-            searchBar.Text = App.currentMapSearchTerm;
-        }
-
+        //Moves the map to the latitude and longitude coordinates accessed from the given mapPoint.
         public void MoveToPoint(MapPoint mapPoint)
         {
             

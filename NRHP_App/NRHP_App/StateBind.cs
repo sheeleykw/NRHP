@@ -2,15 +2,15 @@
 
 namespace NRHP_App
 {
-    public class StateBind
+    public class ObjectBind
     {
-        public String StateName;
-        public bool StateBinding;
+        public String objectName;
+        public bool objectState;
 
-        public StateBind(String stateName, bool stateBinding)
+        public ObjectBind(String name, bool state)
         {
-            StateName = stateName;
-            StateBinding = stateBinding;
+            objectName = name;
+            objectState = state;
         }
     }
 }

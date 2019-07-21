@@ -23,12 +23,6 @@ namespace NRHP_App.Droid
         {
             base.OnElementChanged(e);
 
-            if (e.OldElement != null)
-            {
-                NativeMap.MarkerClick -= SelectPoint;
-                NativeMap.InfoWindowClose -= DeselectPoint;
-            }
-
             if (e.NewElement != null)
             {
                 Control.GetMapAsync(this);
@@ -64,7 +58,6 @@ namespace NRHP_App.Droid
                     }
                     catch (Exception excp)
                     {
-                        Console.WriteLine(excp.Message);
                         await Task.Delay(150);
                     }
                 }
@@ -77,6 +70,7 @@ namespace NRHP_App.Droid
             }
         }
 
+        //Called when the annotation view of the selected point is tapped.
         private void LoadDetailPage(object sender, EventArgs e)
         {
             App.mainPage.OpenDetailPage();
@@ -97,6 +91,7 @@ namespace NRHP_App.Droid
             }
         }
 
+        //Called when a point on the map is deselected.
         private void DeselectPoint(object sender, InfoWindowCloseEventArgs e)
         {
             App.currentPinRefNum = null;

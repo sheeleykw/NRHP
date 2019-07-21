@@ -68,7 +68,7 @@ namespace NRHP_App
 
             try
             {
-                imageAccess = App.stateList.Find(stateBind => stateBind.StateName.Equals(currentPoint.State)).StateBinding;
+                imageAccess = App.stateList.Find(stateBind => stateBind.objectName.Equals(currentPoint.State)).objectState;
             }
             catch (Exception e)
             {
@@ -121,7 +121,7 @@ namespace NRHP_App
             }
             else
             {
-                await DisplayAlert("The photos are unavailable.", "Unfortunately we have not yet obtained the copyright access to display the images in our app.", "Okay");
+                await DisplayAlert("The photos are unavailable.", "Unfortunately, we have not yet obtained the copyright access to display the images in our app.", "Okay");
             }
         }
 
@@ -140,7 +140,7 @@ namespace NRHP_App
             }
             else
             {
-                await DisplayAlert("The documents are unavailable.", "Unfortunately we have not yet obtained the copyright access to display the images in our app.", "Okay");
+                await DisplayAlert("The documents are unavailable.", "Unfortunately, we have not yet obtained the copyright access to display the images in our app.", "Okay");
             }
         }
     }
