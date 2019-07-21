@@ -76,6 +76,9 @@
     <ImageAsset Include="Assets.xcassets\docicon.imageset\docicon.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\s.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
