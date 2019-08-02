@@ -24,6 +24,8 @@ namespace NRHP_App
                 Right = 5
             }
         };
+        private Label titleLabel = new Label { Text = "PROPERTY DETAIL" };
+        private AbsoluteLayout titleLayout = new AbsoluteLayout();
         private bool imageAccess = false;
 
         //Constructor for mainPage
@@ -48,13 +50,16 @@ namespace NRHP_App
 
         private async void SetupPage()
         {
+            //Absolute layout of title goes here. JUST DO IT
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
             currentPoint = await App.itemDatabase.GetPointAsync(currentRefNum);
 
             if (currentPoint.IsFavorited)
             {
                 favoriteButton.Source = "bluehearticon.png";
             }
-            NavigationPage.SetTitleView(this, favoriteButton);
+            NavigationPage.SetTitleView(this, titleLayout);
             favoriteButton.Clicked += FavoriteItemToggle;
 
             name.Text = currentPoint.Name;

@@ -53,6 +53,10 @@ namespace NRHP_App.Droid
                 {
                     try
                     {
+                        if (App.currentPins.Count == 0)
+                        {
+                            throw new NullReferenceException();
+                        }
                         marker = GetMarkerForPin(App.currentPins.Find(pin => pin.Label.Equals(e.Name)));
                         markerFound = true;
                     }
