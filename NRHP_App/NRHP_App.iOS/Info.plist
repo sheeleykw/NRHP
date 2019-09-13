@@ -27,13 +27,6 @@
 	<string>LaunchScreen</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>Document Type 1</string>
-		</dict>
-	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow NRHP to use your location?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -49,5 +42,7 @@
 	<string>1.0</string>
 	<key>CFBundleName</key>
 	<string>Sytes</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Needs Calendar Permission</string>
 </dict>
 </plist>

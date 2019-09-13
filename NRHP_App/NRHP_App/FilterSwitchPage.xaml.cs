@@ -12,14 +12,18 @@ namespace NRHP_App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FilterSwitchPage : ContentPage
     {
-        Switch buildingSwitch = new Switch { IsToggled = true, Scale = 1.7, OnColor = Color.FromHex("5f90fe") };
-        Switch structureSwitch = new Switch { IsToggled = true, Scale = 1.7, OnColor = Color.FromHex("5f90fe") };
-        Switch siteSwitch = new Switch { IsToggled = true, Scale = 1.7, OnColor = Color.FromHex("5f90fe") };
-        Switch objectSwitch = new Switch { IsToggled = true, Scale = 1.7, OnColor = Color.FromHex("5f90fe") };
-        Label buildingLabel = new Label { Text = "Buildings: ", FontSize = 20 };
-        Label structureLabel = new Label { Text = "Structures: ", FontSize = 20 };
-        Label siteLabel = new Label { Text = "Sites: ", FontSize = 20 };
-        Label objectLabel = new Label { Text = "Objects: ", FontSize = 20 };
+        static Color switchColor = Color.FromHex("5f90fe");
+        static double scaleSize = 1.7;
+        static int fontSize = 20;
+
+        Switch buildingSwitch = new Switch { IsToggled = true, Scale = scaleSize, OnColor = switchColor };
+        Switch structureSwitch = new Switch { IsToggled = true, Scale = scaleSize, OnColor = switchColor };
+        Switch siteSwitch = new Switch { IsToggled = true, Scale = scaleSize, OnColor = switchColor };
+        Switch objectSwitch = new Switch { IsToggled = true, Scale = scaleSize, OnColor = switchColor };
+        Label buildingLabel = new Label { Text = "Buildings: ", FontSize = fontSize };
+        Label structureLabel = new Label { Text = "Structures: ", FontSize = fontSize };
+        Label siteLabel = new Label { Text = "Sites: ", FontSize = fontSize };
+        Label objectLabel = new Label { Text = "Objects: ", FontSize = fontSize };
 
         Constraint switchXConstraint = Constraint.RelativeToParent((Parent) =>
         {

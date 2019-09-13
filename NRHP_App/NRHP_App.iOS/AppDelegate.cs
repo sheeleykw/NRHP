@@ -23,6 +23,7 @@ namespace NRHP_App.iOS
             var itemPath = NSBundle.MainBundle.PathForResource("ItemDetails", "db");
             var cityPath = NSBundle.MainBundle.PathForResource("CityLocations", "db");
 
+            
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.FormsMaps.Init();
             LoadApplication(new App(mapPath, itemPath, cityPath));

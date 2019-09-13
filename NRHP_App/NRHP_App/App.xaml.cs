@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Essentials;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+
 
 namespace NRHP_App
 {
@@ -14,6 +18,8 @@ namespace NRHP_App
         public static string currentPinRefNum;
         public static bool updatedFavorites;
 
+        private static readonly Permission[] necessaryPermissions = { Permission.Location };
+
         public static List<Pin> currentPins = new List<Pin>();
         public static List<ObjectBind> stateList = new List<ObjectBind>();
         public static List<ObjectBind> filterList = new List<ObjectBind>();
@@ -24,14 +30,6 @@ namespace NRHP_App
         public App(string mapDBPath, string itemDBPath, string cityDBPath)
         {
             InitializeComponent();
-
-            //User location checking.
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            if (userPosition == null)
-            {
-                userPosition = new Location(0.000000, 0.000000);
-            }
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             //Database connection and variable assignment.
             mapDatabase = new MapPointDatabase(mapDBPath);
@@ -98,7 +96,7 @@ namespace NRHP_App
             stateList.Add(new ObjectBind("Pennsylvania", false));
             stateList.Add(new ObjectBind("Puerto Rico", false));
             stateList.Add(new ObjectBind("Rhode Island", false));
-            stateList.Add(new ObjectBind("South Carolina", false));
+            stateList.Add(new ObjectBind("South Carolina", true)); //Need to change for release.
             stateList.Add(new ObjectBind("South Dakota", false));
             stateList.Add(new ObjectBind("Tennessee", false));
             stateList.Add(new ObjectBind("Texas", false));
@@ -112,9 +110,20 @@ namespace NRHP_App
             stateList.Add(new ObjectBind("Wyoming", false));
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
-            // Handle when your app starts
+            try
+            {
+                PermissionStatus status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+                if (status != PermissionStatus.Granted)
+                {
+                    await CrossPermissions.Current.RequestPermissionsAsync(necessaryPermissions);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         protected override void OnSleep()

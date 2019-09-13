@@ -59,7 +59,7 @@ namespace NRHP_App
             {
                 favoriteButton.Source = "bluehearticon.png";
             }
-            NavigationPage.SetTitleView(this, titleLayout);
+            NavigationPage.SetTitleView(this, favoriteButton);
             favoriteButton.Clicked += FavoriteItemToggle;
 
             name.Text = currentPoint.Name;
