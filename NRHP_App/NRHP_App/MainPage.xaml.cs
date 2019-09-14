@@ -7,6 +7,9 @@ using Position = Xamarin.Forms.Maps.Position;
 using Xamarin.Forms.Xaml;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace NRHP_App
 {
@@ -34,6 +37,7 @@ namespace NRHP_App
                 Text = "",
                 SearchCommand = new Command(() => Search())
             };
+
             NavigationPage.SetTitleView(this, searchBar);
             NavigationPage.SetBackButtonTitle(this, "");
 
@@ -42,18 +46,26 @@ namespace NRHP_App
         }
 
         //First intialization of the userPosition and viewChanging eventHandler
-        //Possibles changes might be need to the userPosition listener/eventHandler
         private async void MapSetup()
         {
-            //Setup map with current user position
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            map = new NRHPMap(new MapSpan(new Position(App.userPosition.Latitude, App.userPosition.Longitude), LatitudeDegrees, LongitudeDegrees))
+            if (PermissionStatus.Granted == await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location))
             {
-                MapType = MapType.Street
-            };
+                App.userPosition = await Geolocation.GetLastKnownLocationAsync();
+                map = new NRHPMap(new MapSpan(new Position(App.userPosition.Latitude, App.userPosition.Longitude), LatitudeDegrees, LongitudeDegrees))
+                {
+                    MapType = MapType.Street
+                };
+                map.IsShowingUser = true;
+            }
+            else
+            {
+                map = new NRHPMap(new MapSpan(new Position(0.000000, 0.000000), LatitudeDegrees, LongitudeDegrees))
+                {
+                    MapType = MapType.Street
+                };
+            }
+
             stack.Children.Insert(stack.Children.IndexOf(border) + 1, map);
-            map.IsShowingUser = true;
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             TopLatitude = App.userPosition.Latitude + LatitudeDegrees;
             BottomLatitude = App.userPosition.Latitude - LatitudeDegrees;
@@ -191,17 +203,16 @@ namespace NRHP_App
             }
         }
 
-        //Responds to the detailPageButton
-        //Needs to open another page which displays the details of the page
-        private async void OpenDetailPage(object sender, EventArgs e)
+        private void OpenDetailPage(object sender, EventArgs e)
         {
-            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage));
+            OpenDetailPage();
         }
 
-        //Public method for class external operations
         public async void OpenDetailPage()
         {
-            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage));
+            DataPoint currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
+            Console.WriteLine(currentPoint.Name);
+            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage, currentPoint));
         }
 
         private async void OpenFavoritesPage(object sender, EventArgs e)

@@ -18,6 +18,7 @@ namespace NRHP_App
             {
                 Placeholder = "Enter search term",
             };
+
             NavigationPage.SetTitleView(this, searchBar);
             NavigationPage.SetBackButtonTitle(this, "");
 
@@ -79,7 +80,8 @@ namespace NRHP_App
 
         private async void ListItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage, currentFavorites[e.SelectedItemIndex].RefNum));
+            DataPoint currentPoint = await App.itemDatabase.GetPointAsync(currentFavorites[e.SelectedItemIndex].RefNum);
+            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage, currentPoint));
         }
     }
 }

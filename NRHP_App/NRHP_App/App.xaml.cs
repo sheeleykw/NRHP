@@ -14,7 +14,7 @@ namespace NRHP_App
         public static MapPointDatabase mapDatabase;
         public static DataPointDatabase itemDatabase;
         public static CityPointDatabase cityDatabase;
-        public static Location userPosition = new Location(0.000000, 0.000000);// = Geolocation.GetLastKnownLocationAsync().Result;
+        public static Location userPosition;
         public static string currentPinRefNum;
         public static bool updatedFavorites;
 
@@ -115,8 +115,10 @@ namespace NRHP_App
             try
             {
                 PermissionStatus status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+
                 if (status != PermissionStatus.Granted)
                 {
+                    Console.WriteLine("HELP");
                     await CrossPermissions.Current.RequestPermissionsAsync(necessaryPermissions);
                 }
             }

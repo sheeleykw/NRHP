@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,6 +10,7 @@ namespace NRHP_App
         private string currentRefNum = App.currentPinRefNum;
         private Page previousPage;
         private DataPoint currentPoint;
+        private bool imageAccess = false;
         private ImageButton favoriteButton = new ImageButton
         {
             Source = "bluehearticonhollow.png",
@@ -24,36 +22,14 @@ namespace NRHP_App
                 Right = 5
             }
         };
-        private Label titleLabel = new Label { Text = "PROPERTY DETAIL" };
-        private AbsoluteLayout titleLayout = new AbsoluteLayout();
-        private bool imageAccess = false;
 
-        //Constructor for mainPage
-        public DetailPage(Page previousPage)
+        public DetailPage(Page previousPage, DataPoint currentPoint)
         {
             NavigationPage.SetBackButtonTitle(this, "");
             this.previousPage = previousPage;
+            this.currentPoint = currentPoint;
 
             InitializeComponent();
-            SetupPage();
-        }
-
-        public DetailPage(Page previousPage, string RefNum)
-        {
-            NavigationPage.SetBackButtonTitle(this, "");
-            this.previousPage = previousPage;
-            currentRefNum = RefNum;
-
-            InitializeComponent();
-            SetupPage();
-        }
-
-        private async void SetupPage()
-        {
-            //Absolute layout of title goes here. JUST DO IT
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            currentPoint = await App.itemDatabase.GetPointAsync(currentRefNum);
 
             if (currentPoint.IsFavorited)
             {
@@ -64,7 +40,7 @@ namespace NRHP_App
 
             name.Text = currentPoint.Name;
             category.Text = "Category: " + currentPoint.Category;
-            refNum.Text = "Reference Number: " + "#" + currentPoint.RefNum; 
+            refNum.Text = "Reference Number: " + "#" + currentPoint.RefNum;
             sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
             address.Text = "Reported Street Address: " + currentPoint.Address;
             cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
