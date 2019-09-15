@@ -14,13 +14,13 @@ namespace NRHP_App
         public static MapPointDatabase mapDatabase;
         public static DataPointDatabase itemDatabase;
         public static CityPointDatabase cityDatabase;
-        public static Location userPosition;
+
+        public static Position userPosition = new Position(0.000000, 0.000000);
         public static string currentPinRefNum;
         public static bool updatedFavorites;
 
         private static readonly Permission[] necessaryPermissions = { Permission.Location };
 
-        public static List<Pin> currentPins = new List<Pin>();
         public static List<ObjectBind> stateList = new List<ObjectBind>();
         public static List<ObjectBind> filterList = new List<ObjectBind>();
 
@@ -29,8 +29,6 @@ namespace NRHP_App
 
         public App(string mapDBPath, string itemDBPath, string cityDBPath)
         {
-            InitializeComponent();
-
             //Database connection and variable assignment.
             mapDatabase = new MapPointDatabase(mapDBPath);
             itemDatabase = new DataPointDatabase(itemDBPath);
@@ -46,68 +44,69 @@ namespace NRHP_App
             filterList.Add(new ObjectBind("Site", true));
             filterList.Add(new ObjectBind("Object", true));
 
+            InitializeComponent();
 
-            //Bindings for state permissions held within the stateList variable.
-            stateList.Add(new ObjectBind("Alaska", false));
-            stateList.Add(new ObjectBind("American Samoa", false));
-            stateList.Add(new ObjectBind("Arizona", false));
-            stateList.Add(new ObjectBind("Arkansas", false));
-            stateList.Add(new ObjectBind("California", false));
-            stateList.Add(new ObjectBind("Colorado", false));
-            stateList.Add(new ObjectBind("Connecticut", false));
-            stateList.Add(new ObjectBind("Delaware", false));
-            stateList.Add(new ObjectBind("District Of Columbia", false));
-            stateList.Add(new ObjectBind("Fed. States", false));
-            stateList.Add(new ObjectBind("Florida", false));
-            stateList.Add(new ObjectBind("Georgia", false));
-            stateList.Add(new ObjectBind("Guam", false));
-            stateList.Add(new ObjectBind("Hawaii", false));
-            stateList.Add(new ObjectBind("Idaho", false));
-            stateList.Add(new ObjectBind("Illinois", false));
-            stateList.Add(new ObjectBind("Indiana", false));
-            stateList.Add(new ObjectBind("Iowa", false));
-            stateList.Add(new ObjectBind("Kansas", false));
-            stateList.Add(new ObjectBind("Kentucky", false));
-            stateList.Add(new ObjectBind("Louisiana", false));
-            stateList.Add(new ObjectBind("Maine", false));
-            stateList.Add(new ObjectBind("Marshall Islands", false));
-            stateList.Add(new ObjectBind("Maryland", false));
-            stateList.Add(new ObjectBind("Massachusetts", false));
-            stateList.Add(new ObjectBind("Michigan", false));
-            stateList.Add(new ObjectBind("Minnesota", false));
-            stateList.Add(new ObjectBind("Mississippi", false));
-            stateList.Add(new ObjectBind("Missouri", false));
-            stateList.Add(new ObjectBind("Montana", false));
-            stateList.Add(new ObjectBind("Morocco", false));
-            stateList.Add(new ObjectBind("N. Mariana Islands", false));
-            stateList.Add(new ObjectBind("Nebraska", false));
-            stateList.Add(new ObjectBind("Nevada", false));
-            stateList.Add(new ObjectBind("New Hampshire", false));
-            stateList.Add(new ObjectBind("New Jersey", false));
-            stateList.Add(new ObjectBind("New Mexico", false));
-            stateList.Add(new ObjectBind("New York", false));
-            stateList.Add(new ObjectBind("North Carolina", false));
-            stateList.Add(new ObjectBind("North Dakota", false));
-            stateList.Add(new ObjectBind("Not Listed", false));
-            stateList.Add(new ObjectBind("Ohio", false));
-            stateList.Add(new ObjectBind("Oklahoma", false));
-            stateList.Add(new ObjectBind("Oregon", false));
-            stateList.Add(new ObjectBind("Palau", false));
-            stateList.Add(new ObjectBind("Pennsylvania", false));
-            stateList.Add(new ObjectBind("Puerto Rico", false));
-            stateList.Add(new ObjectBind("Rhode Island", false));
-            stateList.Add(new ObjectBind("South Carolina", true)); //Need to change for release.
-            stateList.Add(new ObjectBind("South Dakota", false));
-            stateList.Add(new ObjectBind("Tennessee", false));
-            stateList.Add(new ObjectBind("Texas", false));
-            stateList.Add(new ObjectBind("Utah", false));
-            stateList.Add(new ObjectBind("Vermont", false));
-            stateList.Add(new ObjectBind("Virgin Islands", false));
-            stateList.Add(new ObjectBind("Virginia", false));
-            stateList.Add(new ObjectBind("Washington", false));
-            stateList.Add(new ObjectBind("West Virginia", false));
-            stateList.Add(new ObjectBind("Wisconsin", false));
-            stateList.Add(new ObjectBind("Wyoming", false));
+            ////Bindings for state permissions held within the stateList variable.
+            //stateList.Add(new ObjectBind("Alaska", false));
+            //stateList.Add(new ObjectBind("American Samoa", false));
+            //stateList.Add(new ObjectBind("Arizona", false));
+            //stateList.Add(new ObjectBind("Arkansas", false));
+            //stateList.Add(new ObjectBind("California", false));
+            //stateList.Add(new ObjectBind("Colorado", false));
+            //stateList.Add(new ObjectBind("Connecticut", false));
+            //stateList.Add(new ObjectBind("Delaware", false));
+            //stateList.Add(new ObjectBind("District Of Columbia", false));
+            //stateList.Add(new ObjectBind("Fed. States", false));
+            //stateList.Add(new ObjectBind("Florida", false));
+            //stateList.Add(new ObjectBind("Georgia", false));
+            //stateList.Add(new ObjectBind("Guam", false));
+            //stateList.Add(new ObjectBind("Hawaii", false));
+            //stateList.Add(new ObjectBind("Idaho", false));
+            //stateList.Add(new ObjectBind("Illinois", false));
+            //stateList.Add(new ObjectBind("Indiana", false));
+            //stateList.Add(new ObjectBind("Iowa", false));
+            //stateList.Add(new ObjectBind("Kansas", false));
+            //stateList.Add(new ObjectBind("Kentucky", false));
+            //stateList.Add(new ObjectBind("Louisiana", false));
+            //stateList.Add(new ObjectBind("Maine", false));
+            //stateList.Add(new ObjectBind("Marshall Islands", false));
+            //stateList.Add(new ObjectBind("Maryland", false));
+            //stateList.Add(new ObjectBind("Massachusetts", false));
+            //stateList.Add(new ObjectBind("Michigan", false));
+            //stateList.Add(new ObjectBind("Minnesota", false));
+            //stateList.Add(new ObjectBind("Mississippi", false));
+            //stateList.Add(new ObjectBind("Missouri", false));
+            //stateList.Add(new ObjectBind("Montana", false));
+            //stateList.Add(new ObjectBind("Morocco", false));
+            //stateList.Add(new ObjectBind("N. Mariana Islands", false));
+            //stateList.Add(new ObjectBind("Nebraska", false));
+            //stateList.Add(new ObjectBind("Nevada", false));
+            //stateList.Add(new ObjectBind("New Hampshire", false));
+            //stateList.Add(new ObjectBind("New Jersey", false));
+            //stateList.Add(new ObjectBind("New Mexico", false));
+            //stateList.Add(new ObjectBind("New York", false));
+            //stateList.Add(new ObjectBind("North Carolina", false));
+            //stateList.Add(new ObjectBind("North Dakota", false));
+            //stateList.Add(new ObjectBind("Not Listed", false));
+            //stateList.Add(new ObjectBind("Ohio", false));
+            //stateList.Add(new ObjectBind("Oklahoma", false));
+            //stateList.Add(new ObjectBind("Oregon", false));
+            //stateList.Add(new ObjectBind("Palau", false));
+            //stateList.Add(new ObjectBind("Pennsylvania", false));
+            //stateList.Add(new ObjectBind("Puerto Rico", false));
+            //stateList.Add(new ObjectBind("Rhode Island", false));
+            //stateList.Add(new ObjectBind("South Carolina", true)); //Need to change for release.
+            //stateList.Add(new ObjectBind("South Dakota", false));
+            //stateList.Add(new ObjectBind("Tennessee", false));
+            //stateList.Add(new ObjectBind("Texas", false));
+            //stateList.Add(new ObjectBind("Utah", false));
+            //stateList.Add(new ObjectBind("Vermont", false));
+            //stateList.Add(new ObjectBind("Virgin Islands", false));
+            //stateList.Add(new ObjectBind("Virginia", false));
+            //stateList.Add(new ObjectBind("Washington", false));
+            //stateList.Add(new ObjectBind("West Virginia", false));
+            //stateList.Add(new ObjectBind("Wisconsin", false));
+            //stateList.Add(new ObjectBind("Wyoming", false));
         }
 
         protected override async void OnStart()
@@ -118,13 +117,15 @@ namespace NRHP_App
 
                 if (status != PermissionStatus.Granted)
                 {
-                    Console.WriteLine("HELP");
                     await CrossPermissions.Current.RequestPermissionsAsync(necessaryPermissions);
+                }
+                else if (status == PermissionStatus.Granted)
+                {
+                    Console.WriteLine("INFINITTY");
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
             }
         }
 

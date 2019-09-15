@@ -42,35 +42,19 @@ namespace NRHP_App.Droid
             App.mainPage.SearchCompleted += LoadInfoWindow;
         }
 
-        private async void LoadInfoWindow(object sender, MapPoint e)
+        private async void LoadInfoWindow(object sender, Pin pin)
         {
-            var markerFound = false;
-
-            if (e != null)
+            Marker marker = null;
+            while (marker == null)
             {
-                Marker marker = null;
-                while (!markerFound)
-                {
-                    try
-                    {
-                        if (App.currentPins.Count == 0)
-                        {
-                            throw new NullReferenceException();
-                        }
-                        marker = GetMarkerForPin(App.currentPins.Find(pin => pin.Label.Equals(e.Name)));
-                        markerFound = true;
-                    }
-                    catch (Exception excp)
-                    {
-                        await Task.Delay(150);
-                    }
-                }
-                if (!marker.IsInfoWindowShown)
-                {
-                    marker.ShowInfoWindow();
-                    App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
-                    App.mainPage.SwitchDetailPageButton();
-                }
+                marker = GetMarkerForPin(pin);
+            }
+
+            if (!marker.IsInfoWindowShown)
+            {
+                marker.ShowInfoWindow();
+                App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
+                App.mainPage.SwitchDetailPageButton();
             }
         }
 

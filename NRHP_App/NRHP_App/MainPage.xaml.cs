@@ -23,9 +23,11 @@ namespace NRHP_App
         private double RightLongitude;
         private double LeftLongitude;
 
-        private NRHPMap map;
+        public NRHPMap map;
         public SearchBar searchBar;
-        public EventHandler<MapPoint> SearchCompleted;
+        public EventHandler<Pin> SearchCompleted;
+        private Pin searchPin;
+        private bool searchGoing;
 
 
         //Creates the page and starts up the userPosition listening eventHandler
@@ -50,8 +52,9 @@ namespace NRHP_App
         {
             if (PermissionStatus.Granted == await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location))
             {
-                App.userPosition = await Geolocation.GetLastKnownLocationAsync();
-                map = new NRHPMap(new MapSpan(new Position(App.userPosition.Latitude, App.userPosition.Longitude), LatitudeDegrees, LongitudeDegrees))
+                var foundLocation = await Geolocation.GetLastKnownLocationAsync();
+                App.userPosition = new Position(foundLocation.Latitude, foundLocation.Longitude);
+                map = new NRHPMap(new MapSpan(App.userPosition, LatitudeDegrees, LongitudeDegrees))
                 {
                     MapType = MapType.Street
                 };
@@ -59,7 +62,7 @@ namespace NRHP_App
             }
             else
             {
-                map = new NRHPMap(new MapSpan(new Position(0.000000, 0.000000), LatitudeDegrees, LongitudeDegrees))
+                map = new NRHPMap(new MapSpan(App.userPosition, LatitudeDegrees, LongitudeDegrees))
                 {
                     MapType = MapType.Street
                 };
@@ -99,6 +102,7 @@ namespace NRHP_App
             var mapPoints = await App.mapDatabase.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
             foreach (MapPoint mapPoint in mapPoints)
             {
+
                 var isEnabled = App.filterList.Find(objectBind => objectBind.objectName.Equals(mapPoint.Category)).objectState;
                 if (isEnabled)
                 {
@@ -108,10 +112,18 @@ namespace NRHP_App
                         Address = mapPoint.Category,
                         Position = new Position(mapPoint.Latitude, mapPoint.Longitude)
                     };
+
                     if (!map.Pins.Contains(pin))
                     {
                         map.Pins.Add(pin);
-                        App.currentPins.Add(pin);
+                    }
+
+                    Console.WriteLine(pin.Equals(searchPin));
+                    if (pin.Equals(searchPin) && searchGoing)
+                    {
+                        EventHandler<Pin> handler = SearchCompleted;
+                        handler?.Invoke(this, pin);
+                        searchGoing = false;
                     }
                 }
             }
@@ -120,7 +132,6 @@ namespace NRHP_App
         public void FilterChange()
         {
             map.Pins.Clear();
-            App.currentPins.Clear();
             UpdateMap();
         }
 
@@ -190,12 +201,17 @@ namespace NRHP_App
         //Moves the map to the latitude and longitude coordinates accessed from the given mapPoint.
         public void MoveToPoint(MapPoint mapPoint)
         {
-            
             if (!mapPoint.Category.Equals("City"))
             {
                 map.MoveToRegion(new MapSpan(new Position(mapPoint.Latitude, mapPoint.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
-                EventHandler<MapPoint> handler = SearchCompleted;
-                handler?.Invoke(this, mapPoint);
+
+                searchPin = new Pin
+                {
+                    Label = mapPoint.Name,
+                    Address = mapPoint.Category,
+                    Position = new Position(mapPoint.Latitude, mapPoint.Longitude)
+                };
+                searchGoing = true;
             }
             else
             {
