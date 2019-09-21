@@ -2,10 +2,9 @@
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-using Xamarin.Essentials;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-
+using System.Threading.Tasks;
 
 namespace NRHP_App
 {
@@ -95,7 +94,7 @@ namespace NRHP_App
             //stateList.Add(new ObjectBind("Pennsylvania", false));
             //stateList.Add(new ObjectBind("Puerto Rico", false));
             //stateList.Add(new ObjectBind("Rhode Island", false));
-            //stateList.Add(new ObjectBind("South Carolina", true)); //Need to change for release.
+            stateList.Add(new ObjectBind("South Carolina", true)); //Need to change for release.
             //stateList.Add(new ObjectBind("South Dakota", false));
             //stateList.Add(new ObjectBind("Tennessee", false));
             //stateList.Add(new ObjectBind("Texas", false));
@@ -118,10 +117,6 @@ namespace NRHP_App
                 if (status != PermissionStatus.Granted)
                 {
                     await CrossPermissions.Current.RequestPermissionsAsync(necessaryPermissions);
-                }
-                else if (status == PermissionStatus.Granted)
-                {
-                    Console.WriteLine("INFINITTY");
                 }
             }
             catch (Exception e)

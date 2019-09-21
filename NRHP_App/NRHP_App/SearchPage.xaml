@@ -28,7 +28,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Label x:Name="noItemsFound" Text="Your search did not find any results." FontSize="Large" Margin="40, 0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
+                <Label x:Name="noItemsFound" Text="Your search did not find any results." FontSize="Large" Margin="30, 0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="False"/>
             </StackLayout>
             <BoxView Color="Black" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
             <StackLayout Spacing="0" Orientation="Horizontal" BackgroundColor="White">

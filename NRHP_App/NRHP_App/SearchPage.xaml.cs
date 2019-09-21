@@ -74,9 +74,6 @@ namespace NRHP_App
 
         private async void Search()
         {
-            List<MapPoint> nameSearch = new List<MapPoint>();
-            List<CityPoint> citySearch = new List<CityPoint>();
-
             string searchBarText = searchBar.Text.ToLower().Trim();
             string searchText = "";
             foreach (char spot in searchBarText)
@@ -86,41 +83,9 @@ namespace NRHP_App
                     searchText = searchText.Insert(searchText.Length, spot.ToString());
                 }
             }
-
             var splitSearch = searchText.Split(' ');
 
-            if (splitSearch.Length == 1)
-            {
-                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0]);
-                citySearch = await App.cityDatabase.SearchCityAsync(splitSearch[0]);
-            }
-            else if (splitSearch.Length == 2)
-            {
-                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1]);
-                citySearch = await App.cityDatabase.SearchCityAsync(splitSearch[0], splitSearch[1]);
-            }
-            else if (splitSearch.Length == 3)
-            {
-                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1], splitSearch[2]);
-                citySearch = await App.cityDatabase.SearchCityAsync(splitSearch[0], splitSearch[1], splitSearch[2]);
-            }
-            else if (splitSearch.Length == 4)
-            {
-                nameSearch = await App.mapDatabase.SearchNameAsync(splitSearch[0], splitSearch[1], splitSearch[2], splitSearch[3]);
-            }
-
-            foreach (CityPoint cityPoint in citySearch)
-            {
-                var mapPoint = new MapPoint
-                {
-                    RefNum = "",
-                    Name = cityPoint.Name + ", " + cityPoint.StateName,
-                    Latitude = cityPoint.Latitude,
-                    Longitude = cityPoint.Longitude,
-                    Category = "City"
-                };
-                nameSearch.Insert(0, mapPoint);
-            }
+            List<MapPoint> nameSearch = await SearchClass.NameSearch(splitSearch);
 
             currentSearchPositions = nameSearch;
             SetupCurrentSearchItems();
