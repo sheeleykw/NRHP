@@ -16,8 +16,8 @@ namespace NRHP_App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-        private double LatitudeDegrees = 0.0095328892176525;
-        private double LongitudeDegrees = 0.00882815569639206;
+        private double LatitudeDegrees = 0.055328892176525;
+        private double LongitudeDegrees = 0.0482815569639206;
         private double TopLatitude;
         private double BottomLatitude;
         private double RightLongitude;
@@ -52,7 +52,7 @@ namespace NRHP_App
         {
             if (PermissionStatus.Granted == await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location))
             {
-                var foundLocation = await Geolocation.GetLastKnownLocationAsync();
+                var foundLocation = await Geolocation.GetLocationAsync();
                 App.userPosition = new Position(foundLocation.Latitude, foundLocation.Longitude);
                 map = new NRHPMap(new MapSpan(App.userPosition, LatitudeDegrees, LongitudeDegrees))
                 {
@@ -171,6 +171,12 @@ namespace NRHP_App
             {
                 map.MoveToRegion(new MapSpan(new Position(mapPoint.Latitude, mapPoint.Longitude), 1.0, 1.0));
             }
+        }
+
+        public void centerOnUser()
+        {
+            map.MoveToRegion(new MapSpan(App.userPosition, LatitudeDegrees, LongitudeDegrees));
+            map.IsShowingUser = true;
         }
 
         private void OpenDetailPage(object sender, EventArgs e)

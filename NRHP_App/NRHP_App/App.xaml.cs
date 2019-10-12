@@ -5,6 +5,7 @@ using Xamarin.Forms.Maps;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace NRHP_App
 {
@@ -14,7 +15,7 @@ namespace NRHP_App
         public static DataPointDatabase itemDatabase;
         public static CityPointDatabase cityDatabase;
 
-        public static Position userPosition = new Position(0.000000, 0.000000);
+        public static Position userPosition = new Position(41.877500, -71.382500);
         public static string currentPinRefNum;
         public static bool updatedFavorites;
 
@@ -117,6 +118,15 @@ namespace NRHP_App
                 if (status != PermissionStatus.Granted)
                 {
                     await CrossPermissions.Current.RequestPermissionsAsync(necessaryPermissions);
+                    status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+
+                    if (status == PermissionStatus.Granted)
+                    {
+                        var foundLocation = await Geolocation.GetLocationAsync();
+                        userPosition = new Position(foundLocation.Latitude, foundLocation.Longitude);
+
+                        mainPage.centerOnUser();
+                    }
                 }
             }
             catch (Exception e)
