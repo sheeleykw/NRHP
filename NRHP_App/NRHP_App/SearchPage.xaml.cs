@@ -36,8 +36,9 @@ namespace NRHP_App
         {
             if (currentSearchPositions.Count == 0)
             {
-                searchListView.IsVisible = false;
-                noItemsFound.IsVisible = true;
+                //searchListView.IsVisible = false;
+                searchListView.IsRefreshing = true;
+                //noItemsFound.IsVisible = true;
             }
             else
             {
@@ -74,18 +75,7 @@ namespace NRHP_App
 
         private async void Search()
         {
-            string searchBarText = searchBar.Text.ToLower().Trim();
-            string searchText = "";
-            foreach (char spot in searchBarText)
-            {
-                if (!char.IsPunctuation(spot))
-                {
-                    searchText = searchText.Insert(searchText.Length, spot.ToString());
-                }
-            }
-            var splitSearch = searchText.Split(' ');
-
-            List<MapPoint> nameSearch = await SearchClass.NameSearch(splitSearch);
+            List<MapPoint> nameSearch = await SearchClass.NameSearch(searchBar.Text);
 
             currentSearchPositions = nameSearch;
             SetupCurrentSearchItems();

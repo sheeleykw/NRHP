@@ -24,31 +24,26 @@ namespace NRHP_App
 
         //Methods for searching the name of a point.
         //Multiple methods were created because of the complexity required to implement a recursive function with the predicates and expressions that the sql commands require.
-        public Task<List<CityPoint>> SearchCityAsync(string firstWord)
+        public async Task<List<CityPoint>> SearchCityAsync(string searchTerm)
         {
-            return _database.Table<CityPoint>()
-                            .Where(cityPoint => cityPoint.Name.ToLower().Contains(firstWord))
-                            .OrderBy(cityPoint => cityPoint.StateName)
-                            .OrderBy(cityPoint => cityPoint.Name)
-                            .ToListAsync();
-        }
+            List<CityPoint> finalList = new List<CityPoint>();
+            string[] searchTerms = searchTerm.Split(' ');
 
-        public Task<List<CityPoint>> SearchCityAsync(string firstWord, string secondWord)
-        {
-            return _database.Table<CityPoint>()
-                            .Where(cityPoint => cityPoint.Name.ToLower().Contains(firstWord) && cityPoint.Name.ToLower().Contains(secondWord))
-                            .OrderBy(cityPoint => cityPoint.StateName)
-                            .OrderBy(cityPoint => cityPoint.Name)
-                            .ToListAsync();
-        }
+            foreach (string term in searchTerms)
+            {
+                List<CityPoint> singleList = await _database.Table<CityPoint>()
+                                                            .Where(cityPoint => cityPoint.Name.ToLower().Contains(term))
+                                                            .ToListAsync();
+                foreach (CityPoint item in singleList)
+                {
+                    if(!finalList.Contains(item))
+                    {
+                        finalList.Add(item);
+                    }
+                }
+            }
 
-        public Task<List<CityPoint>> SearchCityAsync(string firstWord, string secondWord, string thirdWord)
-        {
-            return _database.Table<CityPoint>()
-                            .Where(cityPoint => cityPoint.Name.ToLower().Contains(firstWord) && cityPoint.Name.ToLower().Contains(secondWord) && cityPoint.Name.ToLower().Contains(thirdWord))
-                            .OrderBy(cityPoint => cityPoint.StateName)
-                            .OrderBy(cityPoint => cityPoint.Name)
-                            .ToListAsync();
+            return finalList;
         }
     }
 }

@@ -29,22 +29,10 @@
                 <Label x:Name="noFavorites" Text="You have no favorites right now. Go back to the map and find a building you love!" FontSize="Large" Margin="40, 0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
                 <Label x:Name="noFavoritesFound" Text="Your search did not match any favorites." FontSize="Large" Margin="40, 0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="False"/>
             </StackLayout>
-            <BoxView Color="Black" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
-            <StackLayout Spacing="0" Orientation="Horizontal" BackgroundColor="White">
-                <StackLayout.Resources>
-                    <ResourceDictionary>
-                        <Style TargetType="ImageButton">
-                            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-                            <Setter Property="HeightRequest" Value="50"/>
-                            <Setter Property="WidthRequest" Value="50"/>
-                            <Setter Property="Margin" Value="5, 10, 5, 10"/>
-                        </Style>
-                    </ResourceDictionary>
-                </StackLayout.Resources>
-                <ImageButton x:Name="legendOverlayButton" Source="stackicon.png" Opacity="0.2" IsEnabled="False"/>
+            <BoxView Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="1"/>
+            <StackLayout Padding="0" Orientation="Horizontal" BackgroundColor="White">
                 <ImageButton x:Name="favoritesPageButton" Source="blackhearticon.png" IsEnabled="False"/>
                 <ImageButton x:Name="mainPageButton" Source="houseicon.png" Clicked="MainPageButton"/>
-                <ImageButton x:Name="detailPageButton" Source="foldericon.png" Opacity="0.2" IsEnabled="False"/>
                 <ImageButton x:Name="settingsPageButton" Source="personicon.png"/>
             </StackLayout>
         </StackLayout>

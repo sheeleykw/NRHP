@@ -68,7 +68,7 @@ namespace NRHP_App
                 };
             }
 
-            stack.Children.Insert(stack.Children.IndexOf(border) + 1, map);
+            stack.Children.Insert(0, map);
 
             TopLatitude = App.userPosition.Latitude + LatitudeDegrees;
             BottomLatitude = App.userPosition.Latitude - LatitudeDegrees;
@@ -136,20 +136,9 @@ namespace NRHP_App
         //Search method for when the users presses the search button.
         private async void Search()
         {
-            string searchBarText = searchBar.Text.ToLower().Trim();
-            string searchText = "";
-            foreach (char spot in searchBarText)
-            {
-                if (!char.IsPunctuation(spot))
-                {
-                    searchText = searchText.Insert(searchText.Length, spot.ToString());
-                }
-            }
-            var splitSearch = searchText.Split(' ');
+            List<MapPoint> nameSearch = await SearchClass.NameSearch(searchBar.Text);
 
-            List<MapPoint> nameSearch = await SearchClass.NameSearch(splitSearch);
-
-            await App.navPage.PushAsync(new SearchPage(nameSearch));
+            await App.navPage.PushAsync(new SearchPage(new List<MapPoint>()));
         }
 
         //Moves the map to the latitude and longitude coordinates accessed from the given mapPoint.
@@ -198,18 +187,18 @@ namespace NRHP_App
 
         //Called when a pin is selected or deselected
         //Changes the state of the detailPageButton to reflect the user's ability to open the detail page for a selected point
-        public void SwitchDetailPageButton()
-        {
-            if (!(App.currentPinRefNum == null))
-            {
-                detailPageButton.IsEnabled = true;
-                detailPageButton.Opacity = 1;
-            }
-            else
-            {
-                detailPageButton.IsEnabled = false;
-                detailPageButton.Opacity = 0.2;
-            }
-        }
+        //public void SwitchDetailPageButton()
+        //{
+        //    if (!(App.currentPinRefNum == null))
+        //    {
+        //        detailPageButton.IsEnabled = true;
+        //        detailPageButton.Opacity = 1;
+        //    }
+        //    else
+        //    {
+        //        detailPageButton.IsEnabled = false;
+        //        detailPageButton.Opacity = 0.2;
+        //    }
+        //}
     }
 }

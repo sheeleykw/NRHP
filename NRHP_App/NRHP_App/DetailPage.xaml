@@ -4,8 +4,8 @@
              x:Class="NRHP_App.DetailPage">
     <ContentPage.Content>
         <AbsoluteLayout x:Name="layout" BackgroundColor="White">
-            <Button BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" ImageSource="photoicon.png" Clicked="PhotoButton" IsVisible="True"/>
-            <Button BackgroundColor="White" AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" ImageSource="docicon.png" Clicked="DocButton" IsVisible="True"/>
+            <ImageButton BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Source="photoicon.png" Aspect="AspectFit"  Clicked="PhotoButton" IsVisible="True"/>
+            <ImageButton BackgroundColor="White" AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Source="docicon.png" Aspect="AspectFit" Clicked="DocButton" IsVisible="True"/>
             <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0, 0, 1, 0.5" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"/>
             <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0.5, 0, 2, 0.4" AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"/>
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.6" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
@@ -20,23 +20,11 @@
                     <Label x:Name="county"/>
                     <Label x:Name="people"/>
                 </StackLayout>
-                <BoxView Color="Black" HorizontalOptions="FillAndExpand" VerticalOptions="End" HeightRequest="0.5"/>
-                <StackLayout Spacing="0" Orientation="Horizontal" VerticalOptions="End" BackgroundColor="White">
-                    <StackLayout.Resources>
-                        <ResourceDictionary>                        
-                            <Style TargetType="ImageButton">
-                                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-                                <Setter Property="HeightRequest" Value="50"/>
-                                <Setter Property="WidthRequest" Value="50"/>
-                                <Setter Property="Margin" Value="5, 10, 5, 10"/>
-                            </Style>
-                        </ResourceDictionary>
-                    </StackLayout.Resources>
-                    <ImageButton x:Name="legendOverlayButton" Source="stackicon.png" Opacity="0.2" IsEnabled="False"/>
-                    <ImageButton x:Name="favoritesPageButton" Source="hearticon.png" Clicked="FavoritePageButton"/>
-                    <ImageButton x:Name="mainPageButton" Source="houseicon.png" Clicked="MainPageButton"/>
-                    <ImageButton x:Name="detailPageButton" Source="blackfoldericon.png" IsEnabled="False"/>
-                    <ImageButton x:Name="settingsPageButton" Source="personicon.png"/>
+                <BoxView Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="1"/>
+                <StackLayout Padding="0" Orientation="Horizontal" BackgroundColor="White">
+                    <ImageButton x:Name="favoritesPageButton" Aspect="AspectFit" Source="hearticon.png"  Clicked="FavoritePageButton"/>
+                    <ImageButton x:Name="mainPageButton" Aspect="AspectFit" Source="houseicon.png" Clicked="MainPageButton"/>
+                    <ImageButton x:Name="settingsPageButton" Aspect="AspectFit" Source="personicon.png"/>
                 </StackLayout>
             </StackLayout>
         </AbsoluteLayout>

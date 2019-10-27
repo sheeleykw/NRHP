@@ -2,9 +2,8 @@
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-using Plugin.Permissions;
+using Plugin.Permissions; 
 using Plugin.Permissions.Abstractions;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace NRHP_App
@@ -131,6 +130,7 @@ namespace NRHP_App
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
             }
         }
 
