@@ -10,25 +10,21 @@ namespace NRHP_App
     {
         private List<DataPoint> allFavorites;
         private List<DataPoint> currentFavorites;
-        private SearchBar searchBar;
 
         public FavoritesPage()
         {
-            searchBar = new SearchBar
-            {
-                Placeholder = "Enter search term",
-            };
-
-            NavigationPage.SetTitleView(this, searchBar);
-            NavigationPage.SetBackButtonTitle(this, "");
-
             InitializeComponent();
         }
 
         protected override void OnAppearing()
         {
-            SetupCurrentFavorites();
-            base.OnAppearing();
+            if (App.updatedFavorites)
+            {
+                SetupCurrentFavorites();
+                base.OnAppearing();
+                App.updatedFavorites = false;
+            }
+            
         }
 
         public async void SetupCurrentFavorites()
@@ -75,13 +71,13 @@ namespace NRHP_App
 
         private async void MainPageButton(object sender, EventArgs e)
         {
-            await App.navPage.PopToRootAsync();
+            await Navigation.PopModalAsync(false);
         }
 
         private async void ListItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             DataPoint currentPoint = await App.itemDatabase.GetPointAsync(currentFavorites[e.SelectedItemIndex].RefNum);
-            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage, currentPoint));
+            await Navigation.PushModalAsync(new DetailPage(new FavoritesPage(), currentPoint), false);
         }
     }
 }

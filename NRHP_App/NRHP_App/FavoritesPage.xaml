@@ -4,7 +4,10 @@
              x:Class="NRHP_App.FavoritesPage">
     <ContentPage.Content>
         <StackLayout Spacing="0">
-            <BoxView Color="Black" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
+            <StackLayout Padding="0" Orientation="Horizontal" BackgroundColor="White">
+                <SearchBar x:Name="searchBar" Placeholder="Tickle Me"/>
+            </StackLayout>
+            <BoxView Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="1"/>
             <StackLayout Spacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <ListView x:Name="favoritesListView" ItemsSource="{Binding favorites}" ItemSelected="ListItemSelected">
                     <ListView.ItemTemplate>

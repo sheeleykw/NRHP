@@ -74,7 +74,7 @@ namespace NRHP_App.Droid
                 NativeMap.AnimateCamera(moveCamera);
                 marker.ShowInfoWindow();
                 App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
-                //App.mainPage.SwitchDetailPageButton();
+                App.mainPage.SwitchDetailPageButton();
             }
         }
 
@@ -82,7 +82,7 @@ namespace NRHP_App.Droid
         private void DeselectPoint(object sender, InfoWindowCloseEventArgs e)
         {
             App.currentPinRefNum = null;
-            //App.mainPage.SwitchDetailPageButton();
+            App.mainPage.SwitchDetailPageButton();
         }
 
         protected override MarkerOptions CreateMarker(Pin pin)

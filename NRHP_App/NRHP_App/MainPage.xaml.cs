@@ -1,15 +1,15 @@
 ﻿#pragma warning disable CS4014
-using System;
-using System.ComponentModel;
-using Xamarin.Forms;
-using Xamarin.Forms.Maps;
-using Position = Xamarin.Forms.Maps.Position;
-using Xamarin.Forms.Xaml;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+using Xamarin.Forms.Maps;
+using Xamarin.Forms.Xaml;
+using Position = Xamarin.Forms.Maps.Position;
 
 namespace NRHP_App
 {
@@ -23,8 +23,9 @@ namespace NRHP_App
         private double RightLongitude;
         private double LeftLongitude;
 
+        public Label label = new Label { BackgroundColor = Color.White };
+        private bool displayingDetail;
         public NRHPMap map;
-        public SearchBar searchBar;
         public EventHandler<Pin> SearchCompleted;
         private Pin searchPin;
         private bool searchGoing;
@@ -33,17 +34,8 @@ namespace NRHP_App
         //Creates the page and starts up the userPosition listening eventHandler
         public MainPage()
         {
-            searchBar = new SearchBar
-            {
-                Placeholder = "Enter search term",
-                Text = "",
-                SearchCommand = new Command(() => Search())
-            };
-
-            NavigationPage.SetTitleView(this, searchBar);
-            NavigationPage.SetBackButtonTitle(this, "");
-
             InitializeComponent();
+
             MapSetup();
         }
 
@@ -68,7 +60,7 @@ namespace NRHP_App
                 };
             }
 
-            stack.Children.Insert(0, map);
+            mapStack.Children.Add(map);
 
             TopLatitude = App.userPosition.Latitude + LatitudeDegrees;
             BottomLatitude = App.userPosition.Latitude - LatitudeDegrees;
@@ -138,7 +130,7 @@ namespace NRHP_App
         {
             List<MapPoint> nameSearch = await SearchClass.NameSearch(searchBar.Text);
 
-            await App.navPage.PushAsync(new SearchPage(new List<MapPoint>()));
+            await Navigation.PushModalAsync(new SearchPage(new List<MapPoint>()), false);
         }
 
         //Moves the map to the latitude and longitude coordinates accessed from the given mapPoint.
@@ -176,29 +168,57 @@ namespace NRHP_App
         public async void OpenDetailPage()
         {
             DataPoint currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
+
+            name.Text = currentPoint.Name;
+            category.Text = "Category: " + currentPoint.Category;
+            refNum.Text = "Reference Number: " + "#" + currentPoint.RefNum;
+            sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
+            address.Text = "Reported Street Address: " + currentPoint.Address;
+            cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
+            county.Text = "County: " + currentPoint.County;
+            people.Text = "Architects/Builders: " + currentPoint.Architects;
+
             Console.WriteLine(currentPoint.Name);
-            await App.navPage.PushAsync(new DetailPage(App.navPage.CurrentPage, currentPoint));
+            await Navigation.PushModalAsync(new DetailPage(new MainPage(), currentPoint), false);
         }
 
         private async void OpenFavoritesPage(object sender, EventArgs e)
         {
-            await App.navPage.PushAsync(new FavoritesPage());
+            await Navigation.PushModalAsync(App.favPage, false);
         }
 
         //Called when a pin is selected or deselected
         //Changes the state of the detailPageButton to reflect the user's ability to open the detail page for a selected point
-        //public void SwitchDetailPageButton()
-        //{
-        //    if (!(App.currentPinRefNum == null))
-        //    {
-        //        detailPageButton.IsEnabled = true;
-        //        detailPageButton.Opacity = 1;
-        //    }
-        //    else
-        //    {
-        //        detailPageButton.IsEnabled = false;
-        //        detailPageButton.Opacity = 0.2;
-        //    }
-        //}
+        public void SwitchDetailPageButton()
+        {
+            if (displayingDetail)
+            {
+                detailStack.TranslateTo(0, detailStack.Height + 5);
+                displayingDetail = false;
+            }
+            else
+            {
+                ChangeText();
+
+                detailStack.TranslateTo(0, 0);
+                displayingDetail = true;
+            }
+        }
+
+        public async void ChangeText()
+        {
+            Console.WriteLine("Starting Search");
+            DataPoint currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
+            Console.WriteLine("Finished Search");
+
+            name.Text = currentPoint.Name;
+            category.Text = "Category: " + currentPoint.Category;
+            refNum.Text = "Reference Number: " + "#" + currentPoint.RefNum;
+            sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
+            address.Text = "Reported Street Address: " + currentPoint.Address;
+            cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
+            county.Text = "County: " + currentPoint.County;
+            people.Text = "Architects/Builders: " + currentPoint.Architects;
+        }
     }
 }

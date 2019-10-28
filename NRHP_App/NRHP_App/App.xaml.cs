@@ -16,15 +16,15 @@ namespace NRHP_App
 
         public static Position userPosition = new Position(41.877500, -71.382500);
         public static string currentPinRefNum;
-        public static bool updatedFavorites;
+        public static bool updatedFavorites = true;
 
         private static readonly Permission[] necessaryPermissions = { Permission.Location };
 
         public static List<ObjectBind> stateList = new List<ObjectBind>();
         public static List<ObjectBind> filterList = new List<ObjectBind>();
 
+        public static FavoritesPage favPage = new FavoritesPage();
         public static MainPage mainPage = new MainPage();
-        public static NavigationPage navPage = new NavigationPage(mainPage);
 
         public App(string mapDBPath, string itemDBPath, string cityDBPath)
         {
@@ -34,8 +34,7 @@ namespace NRHP_App
             cityDatabase = new CityPointDatabase(cityDBPath);
 
             //MainPage and NavPage settings.
-            navPage.BarBackgroundColor = Color.White;
-            MainPage = new MasterPage(navPage);
+            MainPage = mainPage;
 
             //Bindings for filter properties held within the filterList variable. ORDER OF ADDING MUST MATCH FOR THE CALLING OF THE BINDINGS.
             filterList.Add(new ObjectBind("Building", true));

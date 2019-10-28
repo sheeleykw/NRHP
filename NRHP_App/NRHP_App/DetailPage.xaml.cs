@@ -59,17 +59,17 @@ namespace NRHP_App
 
         private async void MainPageButton(object sender, EventArgs e)
         {
-            await App.navPage.PopToRootAsync();
+            await Navigation.PopModalAsync(false);
         }
 
         private async void FavoritePageButton(object sender, EventArgs e)
         {
-            await App.navPage.PopAsync();
+            await Navigation.PopModalAsync(false);
 
             var page = new FavoritesPage();
             if (!previousPage.GetType().Equals(page.GetType()))
             {
-                await App.navPage.PushAsync(new FavoritesPage());
+                await Navigation.PushModalAsync(new FavoritesPage(), false);
             }
         }
 
@@ -93,7 +93,7 @@ namespace NRHP_App
             {
                 if (Device.RuntimePlatform.Equals(Device.iOS))
                 {
-                    await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"));
+                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"), false);
                 }
                 else if (Device.RuntimePlatform.Equals(Device.Android))
                 {
@@ -112,7 +112,7 @@ namespace NRHP_App
             {
                 if (Device.RuntimePlatform.Equals(Device.iOS))
                 {
-                    await App.navPage.PushAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"));
+                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"),false);
                 }
                 else if (Device.RuntimePlatform.Equals(Device.Android))
                 {

@@ -21,10 +21,10 @@ namespace NRHP_App
             searchBar = new SearchBar
             {
                 Placeholder = "Enter search term",
-                Text = App.mainPage.searchBar.Text,
+                //Text = App.mainPage.searchBar.Text,
                 SearchCommand = new Command(() => Search())
             };
-            searchBar.TextChanged += TextChanged;
+            //searchBar.TextChanged += TextChanged;
             NavigationPage.SetTitleView(this, searchBar);
             NavigationPage.SetBackButtonTitle(this, "");
 
@@ -102,25 +102,25 @@ namespace NRHP_App
             }
         }
 
-        private void TextChanged(object sender, EventArgs e)
-        {
-            App.mainPage.searchBar.Text = searchBar.Text;
-        }
+        //private void TextChanged(object sender, EventArgs e)
+        //{
+        //    App.mainPage.searchBar.Text = searchBar.Text;
+        //}
 
         private async void MainPageButton(object sender, EventArgs e)
         {
-            await App.navPage.PopAsync();
+            await Navigation.PopAsync(false);
         }
 
         private async void FavoritePageButton(object sender, EventArgs e)
         {
-            await App.navPage.PopAsync();
-            await App.navPage.PushAsync(new FavoritesPage());
+            await Navigation.PopAsync(false);
+            await Navigation.PushAsync(new FavoritesPage(), false);
         }
 
         private async void ListItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            await App.navPage.PopAsync();
+            await Navigation.PopAsync(false);
             App.mainPage.MoveToPoint(currentSearchPositions[e.SelectedItemIndex]);
         }
     }
