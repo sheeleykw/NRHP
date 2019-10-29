@@ -194,17 +194,17 @@ namespace NRHP_App
             if (displayingDetail)
             {
                 detailStack.TranslateTo(0, 500, 300, Easing.CubicInOut);
-                name.TranslateTo(0, -500, 300, Easing.CubicInOut);
-                searchBar.IsVisible = true;
+                //name.TranslateTo(0, -500, 300, Easing.CubicInOut);
+                //searchBar.IsVisible = true;
                 displayingDetail = false;
             }
             else
             {
                 ChangeText();
 
-                searchBar.IsVisible = false;
+                //searchBar.IsVisible = false;
                 detailStack.TranslateTo(0, 0, 300, Easing.CubicInOut);
-                name.TranslateTo(0, 0, 300, Easing.CubicInOut);
+                //name.TranslateTo(0, 0, 300, Easing.CubicInOut);
                 displayingDetail = true;
             }
         }
