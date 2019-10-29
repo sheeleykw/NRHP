@@ -36,7 +36,7 @@ namespace NRHP_App.Droid
             NativeMap.SetMaxZoomPreference(18);
 
             NativeMap.MarkerClick += SelectPoint;
-            NativeMap.MapClick += DeselectPoint;
+            NativeMap.InfoWindowClose += DeselectPoint;
             NativeMap.InfoWindowClick += LoadDetailPage;
             App.mainPage.SearchCompleted += LoadInfoWindow;
         }
@@ -68,15 +68,19 @@ namespace NRHP_App.Droid
         private async void SelectPoint(object sender, MarkerClickEventArgs e)
         {
             var marker = e.Marker;
-            var moveCamera = CameraUpdateFactory.NewLatLng(marker.Position);
-            NativeMap.AnimateCamera(moveCamera);
-            App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
-            App.currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
-            App.mainPage.SwitchDetailPageButton();
+            if (!marker.IsInfoWindowShown)
+            {
+                var moveCamera = CameraUpdateFactory.NewLatLng(marker.Position);
+                NativeMap.AnimateCamera(moveCamera);
+                marker.ShowInfoWindow();
+                App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
+                App.currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
+                App.mainPage.SwitchDetailPageButton();
+            }
         }
 
         //Called when a point on the map is deselected.
-        private void DeselectPoint(object sender, GoogleMap.MapClickEventArgs e)
+        private void DeselectPoint(object sender, InfoWindowCloseEventArgs e)
         {
             App.currentPinRefNum = null;
             App.currentPoint = null;
@@ -88,6 +92,7 @@ namespace NRHP_App.Droid
             var marker = new MarkerOptions();
             marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
             marker.SetTitle(pin.Label);
+            marker.SetSnippet(pin.Address);
             marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.s));
             return marker;
         }

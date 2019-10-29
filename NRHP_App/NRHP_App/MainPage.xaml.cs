@@ -220,5 +220,19 @@ namespace NRHP_App
             county.Text = "County: " + App.currentPoint.County;
             people.Text = "Architects/Builders: " + App.currentPoint.Architects;
         }
+
+        private void FavoriteItemToggle(object sender, EventArgs e)
+        {
+            App.currentPoint.IsFavorited = !App.currentPoint.IsFavorited;
+            if (App.currentPoint.IsFavorited)
+            {
+                favoriteButton.Source = "bluehearticon.png";
+            }
+            else
+            {
+                favoriteButton.Source = "bluehearticonhollow.png";
+            }
+            App.itemDatabase.UpdatePoint(App.currentPoint);
+        }
     }
 }
