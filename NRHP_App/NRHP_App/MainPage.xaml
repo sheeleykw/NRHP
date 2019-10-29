@@ -5,19 +5,22 @@
              x:Class="NRHP_App.MainPage">
     <ContentPage.Content>
         <StackLayout Spacing="0">
-            <StackLayout Padding="0" Orientation="Horizontal" BackgroundColor="White">
-                <SearchBar x:Name="searchBar" Placeholder="Bill Me"/>
-            </StackLayout>
-            <BoxView Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="1"/>
-            <Grid x:Name="centerSpace" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid Padding="0" HeightRequest="70" BackgroundColor="White">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="0.75*"/>
+                </Grid.RowDefinitions>
+                <SearchBar x:Name="searchBar" Placeholder="Bill Me" Grid.Row="0" Grid.Column="0"/>
+                <Label x:Name="name" FontAttributes="Bold" FontSize="Medium" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" TranslationY="-500" Grid.Row="0" Grid.Column="0"/>
+            </Grid>
+            <BoxView Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="1"/>
+            <Grid x:Name="centerSpace" Padding="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackLayout x:Name="mapStack" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
-                <StackLayout x:Name="detailStack" Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand" BackgroundColor="White">
-                    <BoxView Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="1"/>
-                    <Label x:Name="name" FontAttributes="Bold" FontSize="Medium"/>
+                <StackLayout x:Name="detailStack" Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand" BackgroundColor="White" TranslationY="500">
+                    <BoxView Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
                     <Label x:Name="category"/>
                     <Label x:Name="refNum"/>
                     <Label x:Name="sourceDate"/>

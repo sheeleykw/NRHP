@@ -193,32 +193,32 @@ namespace NRHP_App
         {
             if (displayingDetail)
             {
-                detailStack.TranslateTo(0, detailStack.Height + 5);
+                detailStack.TranslateTo(0, 500, 300, Easing.CubicInOut);
+                name.TranslateTo(0, -500, 300, Easing.CubicInOut);
+                searchBar.IsVisible = true;
                 displayingDetail = false;
             }
             else
             {
                 ChangeText();
 
-                detailStack.TranslateTo(0, 0);
+                searchBar.IsVisible = false;
+                detailStack.TranslateTo(0, 0, 300, Easing.CubicInOut);
+                name.TranslateTo(0, 0, 300, Easing.CubicInOut);
                 displayingDetail = true;
             }
         }
 
-        public async void ChangeText()
+        public void ChangeText()
         {
-            Console.WriteLine("Starting Search");
-            DataPoint currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
-            Console.WriteLine("Finished Search");
-
-            name.Text = currentPoint.Name;
-            category.Text = "Category: " + currentPoint.Category;
-            refNum.Text = "Reference Number: " + "#" + currentPoint.RefNum;
-            sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
-            address.Text = "Reported Street Address: " + currentPoint.Address;
-            cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
-            county.Text = "County: " + currentPoint.County;
-            people.Text = "Architects/Builders: " + currentPoint.Architects;
+            name.Text = App.currentPoint.Name;
+            category.Text = "Category: " + App.currentPoint.Category;
+            refNum.Text = "Reference Number: " + "#" + App.currentPoint.RefNum;
+            sourceDate.Text = "Date added to register: " + App.currentPoint.SourceDate;
+            address.Text = "Reported Street Address: " + App.currentPoint.Address;
+            cityState.Text = "Location: " + App.currentPoint.City + ", " + App.currentPoint.State;
+            county.Text = "County: " + App.currentPoint.County;
+            people.Text = "Architects/Builders: " + App.currentPoint.Architects;
         }
     }
 }

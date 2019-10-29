@@ -16,6 +16,7 @@ namespace NRHP_App
 
         public static Position userPosition = new Position(41.877500, -71.382500);
         public static string currentPinRefNum;
+        public static DataPoint currentPoint;
         public static bool updatedFavorites = true;
 
         private static readonly Permission[] necessaryPermissions = { Permission.Location };
