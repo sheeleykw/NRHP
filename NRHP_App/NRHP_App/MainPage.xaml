@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:NRHP_App"
              x:Class="NRHP_App.MainPage">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Label">
                 <Setter Property="FontSize" Value="15"/>
-                <Setter Property="Margin" Value="20, -1"/>
+                <Setter Property="Margin" Value="15, -1"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -18,7 +17,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <SearchBar x:Name="searchBar" Placeholder="Bill Me" Grid.Row="0" Grid.Column="0"/>
-                <!--<Label x:Name="name" FontAttributes="Bold" FontSize="Large" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" TranslationY="-500" Grid.Row="0" Grid.Column="0"/>-->
+                <Label x:Name="name" FontAttributes="Bold" FontSize="20" Margin="20, 0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" TranslationY="-500" Grid.Row="0" Grid.Column="0"/>
             </Grid>
             <BoxView Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="1"/>
             <Grid x:Name="centerSpace" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
@@ -27,7 +26,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackLayout x:Name="mapStack" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
-                <Grid x:Name="detailStack" Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand" BackgroundColor="White" TranslationY="500">
+                <Grid x:Name="detailStack" Grid.Row="1" Grid.Column="0" RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand" BackgroundColor="White" TranslationY="500">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>
                         <RowDefinition Height="*"/>
@@ -35,21 +34,25 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="70"/>
                     </Grid.ColumnDefinitions>
-                    <StackLayout Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalOptions="FillAndExpand" BackgroundColor="White">
-                        <Label x:Name="name" FontAttributes="Bold" FontSize="20" Margin="20, 10, 20, -5" LineBreakMode="TailTruncation" />
-                        <Label x:Name="category"/>
-                        <Label x:Name="refNum"/>
-                        <Label x:Name="sourceDate"/>
-                        <Label x:Name="address"/>
-                        <Label x:Name="cityState"/>
-                        <Label x:Name="county"/>
-                        <Label x:Name="people"/>
-                    </StackLayout>
-                    <BoxView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"  Color="#afb0b3" VerticalOptions="Start" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
-                    <ImageButton x:Name="favoriteButton" Margin="10, 10"  Grid.Row="0" Grid.Column="1" Source="bluehearticonhollow.png"  Clicked="FavoriteItemToggle"/>
-                    <StackLayout x:Name="adSpace" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="FillAndExpand" BackgroundColor="LightBlue">
+                    <ScrollView Margin="0, 0, 0, 10" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"  BackgroundColor="White">
+                        <StackLayout  VerticalOptions="FillAndExpand">
+                            <Label x:Name="category"/>
+                            <Label x:Name="refNum"/>
+                            <Label x:Name="sourceDate"/>
+                            <Label x:Name="address"/>
+                            <Label x:Name="cityState"/>
+                            <Label x:Name="county"/>
+                            <Label x:Name="people"/>
+                        </StackLayout>
+                    </ScrollView>
+                    <BoxView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  Color="#afb0b3" VerticalOptions="Start" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
+                    <ImageButton x:Name="favoriteButton" Margin="10, 10"  Grid.Row="0" Grid.Column="2" Source="bluehearticonhollow.png"  Clicked="FavoriteItemToggle"/>
+                    <Button x:Name="photosButton" Margin="10, 10, 5, 10" Grid.Row="0" Grid.Column="0" Text="Photos" Clicked="PhotoButton"/>
+                    <Button x:Name="docsButton" Margin="5, 10, 10, 10" Grid.Row="0" Grid.Column="1" Text="Documents" Clicked="DocButton"/>
+                    <StackLayout x:Name="adSpace" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" VerticalOptions="FillAndExpand" BackgroundColor="LightBlue">
                         <BoxView  Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
                     </StackLayout>
                 </Grid>

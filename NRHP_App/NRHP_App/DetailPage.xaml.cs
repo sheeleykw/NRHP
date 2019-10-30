@@ -87,42 +87,6 @@ namespace NRHP_App
             App.itemDatabase.UpdatePoint(currentPoint);
         }
 
-        private async void PhotoButton(object sender, EventArgs e)
-        {
-            if (imageAccess)
-            {
-                if (Device.RuntimePlatform.Equals(Device.iOS))
-                {
-                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"), false);
-                }
-                else if (Device.RuntimePlatform.Equals(Device.Android))
-                {
-                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentRefNum + ".pdf"));
-                }
-            }
-            else
-            {
-                await DisplayAlert("The photos are unavailable.", "Unfortunately, we have not yet obtained the copyright access to display the images in our app.", "Okay");
-            }
-        }
 
-        private async void DocButton(object sender, EventArgs e)
-        {
-            if (imageAccess)
-            {
-                if (Device.RuntimePlatform.Equals(Device.iOS))
-                {
-                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"),false);
-                }
-                else if (Device.RuntimePlatform.Equals(Device.Android))
-                {
-                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentRefNum + ".pdf"));
-                }
-            }
-            else
-            {
-                await DisplayAlert("The documents are unavailable.", "Unfortunately, we have not yet obtained the copyright access to display the images in our app.", "Okay");
-            }
-        }
     }
 }

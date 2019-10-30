@@ -25,6 +25,7 @@ namespace NRHP_App
 
         public Label label = new Label { BackgroundColor = Color.White };
         private bool displayingDetail;
+        private bool imageAccess;
         public NRHPMap map;
         public EventHandler<Pin> SearchCompleted;
         private Pin searchPin;
@@ -194,17 +195,17 @@ namespace NRHP_App
             if (displayingDetail)
             {
                 detailStack.TranslateTo(0, 500, 300, Easing.CubicInOut);
-                //name.TranslateTo(0, -500, 300, Easing.CubicInOut);
-                //searchBar.IsVisible = true;
+                name.TranslateTo(0, -500, 300, Easing.CubicInOut);
+                searchBar.IsVisible = true;
                 displayingDetail = false;
             }
             else
             {
                 ChangeText();
 
-                //searchBar.IsVisible = false;
+                searchBar.IsVisible = false;
                 detailStack.TranslateTo(0, 0, 300, Easing.CubicInOut);
-                //name.TranslateTo(0, 0, 300, Easing.CubicInOut);
+                name.TranslateTo(0, 0, 300, Easing.CubicInOut);
                 displayingDetail = true;
             }
         }
@@ -219,6 +220,24 @@ namespace NRHP_App
             cityState.Text = "Location: " + App.currentPoint.City + ", " + App.currentPoint.State;
             county.Text = "County: " + App.currentPoint.County;
             people.Text = "Architects/Builders: " + App.currentPoint.Architects;
+            
+            if(App.currentPoint.IsFavorited)
+            {
+                favoriteButton.Source = "bluehearticon.png";
+            }
+            else
+            {
+                favoriteButton.Source = "bluehearticonhollow.png";
+            }
+
+            try
+            {
+                imageAccess = App.stateList.Find(stateBind => stateBind.objectName.Equals(App.currentPoint.State)).objectState;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Unable to match state of current point to list of stateBindings");
+            }
         }
 
         private void FavoriteItemToggle(object sender, EventArgs e)
@@ -233,6 +252,44 @@ namespace NRHP_App
                 favoriteButton.Source = "bluehearticonhollow.png";
             }
             App.itemDatabase.UpdatePoint(App.currentPoint);
+        }
+
+        private async void PhotoButton(object sender, EventArgs e)
+        {
+            if (imageAccess)
+            {
+                if (Device.RuntimePlatform.Equals(Device.iOS))
+                {
+                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf"), false);
+                }
+                else if (Device.RuntimePlatform.Equals(Device.Android))
+                {
+                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf"));
+                }
+            }
+            else
+            {
+                await DisplayAlert("The photos are unavailable.", "Unfortunately, we have not yet obtained the copyright access to display the images in our app.", "Okay");
+            }
+        }
+
+        private async void DocButton(object sender, EventArgs e)
+        {
+            if (imageAccess)
+            {
+                if (Device.RuntimePlatform.Equals(Device.iOS))
+                {
+                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf"), false);
+                }
+                else if (Device.RuntimePlatform.Equals(Device.Android))
+                {
+                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf"));
+                }
+            }
+            else
+            {
+                await DisplayAlert("The documents are unavailable.", "Unfortunately, we have not yet obtained the copyright access to display the images in our app.", "Okay");
+            }
         }
     }
 }

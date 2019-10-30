@@ -4,8 +4,8 @@
              x:Class="NRHP_App.DetailPage">
     <ContentPage.Content>
         <AbsoluteLayout x:Name="layout" BackgroundColor="White">
-            <ImageButton BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Source="photoicon.png" Aspect="AspectFit"  Clicked="PhotoButton" IsVisible="True"/>
-            <ImageButton BackgroundColor="White" AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Source="docicon.png" Aspect="AspectFit" Clicked="DocButton" IsVisible="True"/>
+            <!--<ImageButton BackgroundColor="White" AbsoluteLayout.LayoutBounds="0, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Source="photoicon.png" Aspect="AspectFit"  Clicked="PhotoButton" IsVisible="True"/>
+            <ImageButton BackgroundColor="White" AbsoluteLayout.LayoutBounds="1, 0, 0.5, 0.4" AbsoluteLayout.LayoutFlags="All" Source="docicon.png" Aspect="AspectFit" Clicked="DocButton" IsVisible="True"/>-->
             <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0, 0, 1, 0.5" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"/>
             <BoxView Color="Black" AbsoluteLayout.LayoutBounds="0.5, 0, 2, 0.4" AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"/>
             <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.6" AbsoluteLayout.LayoutFlags="All" VerticalOptions="FillAndExpand">
