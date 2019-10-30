@@ -14,12 +14,15 @@ namespace NRHP_App
         public FavoritesPage()
         {
             InitializeComponent();
+            favoritesListView.RefreshControlColor = Color.Black;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
+            wheelie.IsRunning = true;
+            wheelie.IsVisible = true;
             SetupCurrentFavorites();
         }
 
@@ -38,6 +41,8 @@ namespace NRHP_App
                 favoritesListView.IsVisible = true;
                 noFavorites.IsVisible = false;
             }
+            wheelie.IsRunning = false;
+            wheelie.IsVisible = false;
         }
 
         private void Search(object sender, EventArgs e)

@@ -42,17 +42,18 @@ namespace NRHP_App.Droid
         }
 
         //Changes the currentPoints refnum and moves the camera to the selected point
-        //Possibles changes might be made to the animation of the camera during selection
+        //Possible changes might be made to the animation of the camera during selection
         private async void SelectPoint(object sender, MarkerClickEventArgs e)
         {
-            var marker = e.Marker;
+            Marker marker = e.Marker;
             if (!marker.IsInfoWindowShown)
             {
                 var moveCamera = CameraUpdateFactory.NewLatLng(marker.Position);
                 NativeMap.AnimateCamera(moveCamera);
                 marker.ShowInfoWindow();
 
-                var pin = GetPinFromMarker(marker);
+                Pin pin = GetPinFromMarker(marker);
+
                 DataPoint currentPoint = null;
                 if (pin != null)
                 {
@@ -94,20 +95,16 @@ namespace NRHP_App.Droid
 
         private async void LoadInfoWindow(object sender, Pin pin)
         {
-            Console.WriteLine("Starting search");
             Marker marker = null;
             while (marker == null)
             {
-                marker = GetMarkerForPin(pin);
-                Console.WriteLine(marker == null);
+                marker = GetMarkerForPin(App.mainPage.map.Pins[App.mainPage.map.Pins.IndexOf(pin)]);
             }
 
             if (!marker.IsInfoWindowShown)
             {
-                
                 marker.ShowInfoWindow();
 
-                Console.WriteLine("Getting Point data");
                 DataPoint currentPoint = await App.itemDatabase.GetPointAsync(pin.StyleId);
                 App.mainPage.ShowDetail(currentPoint);
             }

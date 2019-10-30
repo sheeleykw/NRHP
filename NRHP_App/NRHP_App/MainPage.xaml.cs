@@ -99,7 +99,7 @@ namespace NRHP_App
             var mapPoints = await App.mapDatabase.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
             foreach (MapPoint mapPoint in mapPoints)
             {
-                var pin = new Pin
+                Pin pin = new Pin
                 {
                     Label = mapPoint.Name,
                     Address = mapPoint.Category,
@@ -172,7 +172,6 @@ namespace NRHP_App
         //    county.Text = "County: " + currentPoint.County;
         //    people.Text = "Architects/Builders: " + currentPoint.Architects;
 
-        //    Console.WriteLine(currentPoint.Name);
         //    await Navigation.PushModalAsync(new DetailPage(new MainPage(), currentPoint), false);
         //}
 

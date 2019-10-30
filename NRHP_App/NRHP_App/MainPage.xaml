@@ -16,7 +16,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <SearchBar x:Name="searchBar" Placeholder="Bill Me" Grid.Row="0" Grid.Column="0" SearchButtonPressed="Search"/>
+                <SearchBar x:Name="searchBar" Placeholder="Search All Sytes" Grid.Row="0" Grid.Column="0" SearchButtonPressed="Search"/>
                 <Label x:Name="name" FontAttributes="Bold" FontSize="20" Margin="20, 0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" TranslationY="-500" Grid.Row="0" Grid.Column="0"/>
             </Grid>
             <BoxView Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="1"/>
