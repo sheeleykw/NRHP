@@ -26,22 +26,26 @@ namespace NRHP_App
         //Multiple methods were created because of the complexity required to implement a recursive function with the predicates and expressions that the sql commands require.
         public async Task<List<CityPoint>> SearchCityAsync(string searchTerm)
         {
-            List<CityPoint> finalList = new List<CityPoint>();
-            string[] searchTerms = searchTerm.Split(' ');
-
-            foreach (string term in searchTerms)
-            {
-                List<CityPoint> singleList = await _database.Table<CityPoint>()
-                                                            .Where(cityPoint => cityPoint.Name.ToLower().Contains(term))
+            List<CityPoint> finalList = await _database.Table<CityPoint>()
+                                                            .Where(cityPoint => cityPoint.Name.ToLower().Contains(searchTerm))
                                                             .ToListAsync();
-                foreach (CityPoint item in singleList)
-                {
-                    if(!finalList.Contains(item))
-                    {
-                        finalList.Add(item);
-                    }
-                }
-            }
+
+            //Search Algorithm to complicated and long, needs to be readdressed.
+            //string[] searchTerms = searchTerm.Split(' ');
+
+            //foreach (string term in searchTerms)
+            //{
+            //    List<CityPoint> singleList = await _database.Table<CityPoint>()
+            //                                                .Where(cityPoint => cityPoint.Name.ToLower().Contains(term))
+            //                                                .ToListAsync();
+            //    foreach (CityPoint item in singleList)
+            //    {
+            //        if(!finalList.Contains(item))
+            //        {
+            //            finalList.Add(item);
+            //        }
+            //    }
+            //}
 
             return finalList;
         }

@@ -15,8 +15,6 @@ namespace NRHP_App
         public static CityPointDatabase cityDatabase;
 
         public static Position userPosition = new Position(41.877500, -71.382500);
-        public static string currentPinRefNum;
-        public static DataPoint currentPoint;
         public static bool updatedFavorites = true;
 
         private static readonly Permission[] necessaryPermissions = { Permission.Location };
@@ -26,6 +24,7 @@ namespace NRHP_App
 
         public static FavoritesPage favPage = new FavoritesPage();
         public static MainPage mainPage = new MainPage();
+        //Put the settings page here.
 
         public App(string mapDBPath, string itemDBPath, string cityDBPath)
         {
@@ -36,12 +35,6 @@ namespace NRHP_App
 
             //MainPage and NavPage settings.
             MainPage = mainPage;
-
-            //Bindings for filter properties held within the filterList variable. ORDER OF ADDING MUST MATCH FOR THE CALLING OF THE BINDINGS.
-            filterList.Add(new ObjectBind("Building", true));
-            filterList.Add(new ObjectBind("Structure", true));
-            filterList.Add(new ObjectBind("Site", true));
-            filterList.Add(new ObjectBind("Object", true));
 
             InitializeComponent();
 

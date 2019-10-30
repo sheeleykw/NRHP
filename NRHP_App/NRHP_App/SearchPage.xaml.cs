@@ -8,27 +8,30 @@ namespace NRHP_App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SearchPage : ContentPage
     {
-        public SearchBar searchBar;
         //List that holds the data that is displayed, DataPoints.
         private List<DataPoint> currentSearchItems = new List<DataPoint>();
         //List that holds the data that is sorted, MapPoints.
         private List<MapPoint> currentSearchPositions;
 
-        public SearchPage(List<MapPoint> mapPoints)
+        public SearchPage(string searchText)
         {
             InitializeComponent();
 
-            searchBar = new SearchBar
-            {
-                Placeholder = "Enter search term",
-                //Text = App.mainPage.searchBar.Text,
-                SearchCommand = new Command(() => Search())
-            };
-            //searchBar.TextChanged += TextChanged;
-            NavigationPage.SetTitleView(this, searchBar);
-            NavigationPage.SetBackButtonTitle(this, "");
+            searchBar.Text = searchText;
+            Search(searchBar, null);
+        }
 
-            currentSearchPositions = mapPoints;
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            App.mainPage.ChangeText(searchBar.Text);
+        }
+
+        private async void Search(object sender, EventArgs e)
+        {
+            List<MapPoint> nameSearch = await SearchClass.NameSearch(searchBar.Text);
+
+            currentSearchPositions = nameSearch;
             SetupCurrentSearchItems();
         }
 
@@ -36,13 +39,13 @@ namespace NRHP_App
         {
             if (currentSearchPositions.Count == 0)
             {
-                //searchListView.IsVisible = false;
-                searchListView.IsRefreshing = true;
-                //noItemsFound.IsVisible = true;
+                searchListView.IsVisible = false;
+                //searchListView.IsRefreshing = true;
+                noItemsFound.IsVisible = true;
             }
             else
             {
-                //Insert sort method on nameSearch
+                //Engage sort method on nameSearch
                 Sort();
 
                 //Intialize components for the visualization of the search list.
@@ -73,14 +76,6 @@ namespace NRHP_App
             }
         }
 
-        private async void Search()
-        {
-            List<MapPoint> nameSearch = await SearchClass.NameSearch(searchBar.Text);
-
-            currentSearchPositions = nameSearch;
-            SetupCurrentSearchItems();
-        }
-
         private void Sort()
         {
             var currentPosition = App.userPosition;
@@ -101,26 +96,21 @@ namespace NRHP_App
                 }
             }
         }
-
-        //private void TextChanged(object sender, EventArgs e)
-        //{
-        //    App.mainPage.searchBar.Text = searchBar.Text;
-        //}
-
-        private async void MainPageButton(object sender, EventArgs e)
+        
+        private async void OpenMainPage(object sender, EventArgs e)
         {
-            await Navigation.PopAsync(false);
+            await Navigation.PopModalAsync(false);
         }
 
-        private async void FavoritePageButton(object sender, EventArgs e)
+        private async void OpenFavoritesPage(object sender, EventArgs e)
         {
-            await Navigation.PopAsync(false);
-            await Navigation.PushAsync(new FavoritesPage(), false);
+            await Navigation.PopModalAsync(false);
+            App.mainPage.OpenFavoritesPage(this, null);
         }
 
         private async void ListItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            await Navigation.PopAsync(false);
+            await Navigation.PopModalAsync(false);
             App.mainPage.MoveToPoint(currentSearchPositions[e.SelectedItemIndex]);
         }
     }

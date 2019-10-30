@@ -7,7 +7,7 @@ namespace NRHP_App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DetailPage : ContentPage
     {
-        private string currentRefNum = App.currentPinRefNum;
+        //private string currentRefNum = App.currentPinRefNum;
         private Page previousPage;
         private DataPoint currentPoint;
         private bool imageAccess = false;
@@ -53,7 +53,7 @@ namespace NRHP_App
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unable to match state of current point to list of stateBindings");
+                Console.WriteLine(e.Message);
             }
         }
 

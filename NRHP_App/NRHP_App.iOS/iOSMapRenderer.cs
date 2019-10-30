@@ -8,6 +8,7 @@ using MapKit;
 using System;
 using System.Threading.Tasks;
 using CoreGraphics;
+using Xamarin.Forms.Maps;
 
 [assembly: ExportRenderer(typeof(NRHPMap), typeof(IOSMapRenderer))]
 namespace NRHP_App.iOS
@@ -15,7 +16,6 @@ namespace NRHP_App.iOS
     public class IOSMapRenderer : MapRenderer
     {
         MKMapView nativeMap;
-        UITapGestureRecognizer tapGesture;
 
         protected override void OnElementChanged(ElementChangedEventArgs<View> e)
         {
@@ -28,40 +28,39 @@ namespace NRHP_App.iOS
 
                 nativeMap.DidSelectAnnotationView += SelectPoint;
                 nativeMap.DidDeselectAnnotationView += DeselectPoint;
-                App.mainPage.SearchCompleted += LoadAnnotationElement;
-                tapGesture = new UITapGestureRecognizer(new Action(LoadDetailPage));
+                //App.mainPage.SearchCompleted += LoadAnnotationElement;
             }
         }
 
-        private async void LoadAnnotationElement(object sender, MapPoint e)
-        {
-            var markerFound = false;
+        //private async void LoadAnnotationElement(object sender, MapPoint e)
+        //{
+        //    var markerFound = false;
 
-            if (e != null)
-            {
-                while (!markerFound)
-                {
-                    foreach (IMKAnnotation annotation in nativeMap.Annotations)
-                    {
-                        if (annotation.GetTitle().Equals(e.Name))
-                        {
-                            nativeMap.SelectAnnotation(annotation, true);
-                            markerFound = true;
+        //    if (e != null)
+        //    {
+        //        while (!markerFound)
+        //        {
+        //            foreach (IMKAnnotation annotation in nativeMap.Annotations)
+        //            {
+        //                if (annotation.GetTitle().Equals(e.Name))
+        //                {
+        //                    nativeMap.SelectAnnotation(annotation, true);
+        //                    markerFound = true;
 
-                            App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(annotation.GetTitle(), annotation.Coordinate.Latitude, annotation.Coordinate.Longitude)).RefNum;
-                            App.mainPage.SwitchDetailPageButton();
-                        }
-                    }
-                    await Task.Delay(150);
-                }
-            }
-        }
+        //                    App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(annotation.GetTitle(), annotation.Coordinate.Latitude, annotation.Coordinate.Longitude)).RefNum;
+        //                    App.mainPage.SwitchDetailPageButton();
+        //                }
+        //            }
+        //            await Task.Delay(150);
+        //        }
+        //    }
+        //}
 
-        //Called when the annotation view of the selected point is tapped.
-        private void LoadDetailPage()
-        {
-            App.mainPage.OpenDetailPage();
-        }
+        ////Called when the annotation view of the selected point is tapped.
+        //private void LoadDetailPage()
+        //{
+        //    App.mainPage.OpenDetailPage();
+        //}
 
         private async void SelectPoint(object sender, MKAnnotationViewEventArgs e)
         {
@@ -75,18 +74,22 @@ namespace NRHP_App.iOS
                     Heading = nativeMap.Camera.Heading
                 };
                 nativeMap.SetCamera(moveCamera, true);
-                App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(annotation.GetTitle(), annotation.Coordinate.Latitude, annotation.Coordinate.Longitude)).RefNum;
-                App.mainPage.SwitchDetailPageButton();
 
-                e.View.AddGestureRecognizer(tapGesture);
+                var pin = GetPinFromMarker(annotation);
+                DataPoint currentPoint = null;
+                if (pin != null)
+                {
+                    currentPoint = await App.itemDatabase.GetPointAsync(pin.StyleId);
+
+                }
+
+                App.mainPage.ShowDetail(currentPoint);
             }
         }
 
         private void DeselectPoint(object sender, MKAnnotationViewEventArgs e)
         {
-            e.View.RemoveGestureRecognizer(tapGesture);
-            App.currentPinRefNum = null;
-            App.mainPage.SwitchDetailPageButton();
+            App.mainPage.HideDetail();
         }
 
         protected override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
@@ -105,6 +108,19 @@ namespace NRHP_App.iOS
             {
                 return base.GetViewForAnnotation(mapView, annotation);
             }
+        }
+
+        private Pin GetPinFromMarker(IMKAnnotation annotation)
+        {
+            var position = new Position(annotation.Coordinate.Latitude, annotation.Coordinate.Longitude);
+            foreach (var pin in App.mainPage.map.Pins)
+            {
+                if (pin.Position == position)
+                {
+                    return pin;
+                }
+            }
+            return null;
         }
     }
 }

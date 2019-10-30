@@ -37,30 +37,8 @@ namespace NRHP_App.Droid
 
             NativeMap.MarkerClick += SelectPoint;
             NativeMap.InfoWindowClose += DeselectPoint;
-            NativeMap.InfoWindowClick += LoadDetailPage;
+
             App.mainPage.SearchCompleted += LoadInfoWindow;
-        }
-
-        private async void LoadInfoWindow(object sender, Pin pin)
-        {
-            Marker marker = null;
-            while (marker == null)
-            {
-                marker = GetMarkerForPin(pin);
-            }
-
-            if (!marker.IsInfoWindowShown)
-            {
-                marker.ShowInfoWindow();
-                App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
-                //App.mainPage.SwitchDetailPageButton();
-            }
-        }
-
-        //Called when the annotation view of the selected point is tapped.
-        private void LoadDetailPage(object sender, EventArgs e)
-        {
-            App.mainPage.OpenDetailPage();
         }
 
         //Changes the currentPoints refnum and moves the camera to the selected point
@@ -73,18 +51,22 @@ namespace NRHP_App.Droid
                 var moveCamera = CameraUpdateFactory.NewLatLng(marker.Position);
                 NativeMap.AnimateCamera(moveCamera);
                 marker.ShowInfoWindow();
-                App.currentPinRefNum = (await App.mapDatabase.GetRefNumAsync(marker.Title, marker.Position.Latitude, marker.Position.Longitude)).RefNum;
-                App.currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
-                App.mainPage.SwitchDetailPageButton();
+
+                var pin = GetPinFromMarker(marker);
+                DataPoint currentPoint = null;
+                if (pin != null)
+                {
+                    currentPoint = await App.itemDatabase.GetPointAsync(pin.StyleId);
+                }
+
+                App.mainPage.ShowDetail(currentPoint);
             }
         }
 
         //Called when a point on the map is deselected.
         private void DeselectPoint(object sender, InfoWindowCloseEventArgs e)
         {
-            App.currentPinRefNum = null;
-            App.currentPoint = null;
-            App.mainPage.SwitchDetailPageButton();
+            App.mainPage.HideDetail();
         }
 
         protected override MarkerOptions CreateMarker(Pin pin)
@@ -92,9 +74,43 @@ namespace NRHP_App.Droid
             var marker = new MarkerOptions();
             marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
             marker.SetTitle(pin.Label);
-            //marker.SetSnippet(pin.Address);
+            marker.SetSnippet(pin.Address);
             marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.s));
             return marker;
+        }
+
+        private Pin GetPinFromMarker(Marker marker)
+        {
+            var position = new Position(marker.Position.Latitude, marker.Position.Longitude);
+            foreach (var pin in App.mainPage.map.Pins)
+            {
+                if (pin.Position == position)
+                {
+                    return pin;
+                }
+            }
+            return null;
+        }
+
+        private async void LoadInfoWindow(object sender, Pin pin)
+        {
+            Console.WriteLine("Starting search");
+            Marker marker = null;
+            while (marker == null)
+            {
+                marker = GetMarkerForPin(pin);
+                Console.WriteLine(marker == null);
+            }
+
+            if (!marker.IsInfoWindowShown)
+            {
+                
+                marker.ShowInfoWindow();
+
+                Console.WriteLine("Getting Point data");
+                DataPoint currentPoint = await App.itemDatabase.GetPointAsync(pin.StyleId);
+                App.mainPage.ShowDetail(currentPoint);
+            }
         }
     }
 }

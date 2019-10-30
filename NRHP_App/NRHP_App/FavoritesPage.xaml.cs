@@ -18,13 +18,9 @@ namespace NRHP_App
 
         protected override void OnAppearing()
         {
-            if (App.updatedFavorites)
-            {
-                SetupCurrentFavorites();
-                base.OnAppearing();
-                App.updatedFavorites = false;
-            }
-            
+            base.OnAppearing();
+
+            SetupCurrentFavorites();
         }
 
         public async void SetupCurrentFavorites()
@@ -37,7 +33,11 @@ namespace NRHP_App
                 favoritesListView.IsVisible = false;
                 noFavorites.IsVisible = true;
             }
-            searchBar.TextChanged += Search;
+            else 
+            {
+                favoritesListView.IsVisible = true;
+                noFavorites.IsVisible = false;
+            }
         }
 
         private void Search(object sender, EventArgs e)
@@ -76,8 +76,9 @@ namespace NRHP_App
 
         private async void ListItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            DataPoint currentPoint = await App.itemDatabase.GetPointAsync(currentFavorites[e.SelectedItemIndex].RefNum);
-            await Navigation.PushModalAsync(new DetailPage(new FavoritesPage(), currentPoint), false);
+            await Navigation.PopModalAsync(false);
+            var mapPoint = await App.mapDatabase.GetPointAsync(currentFavorites[e.SelectedItemIndex].RefNum);
+            App.mainPage.MoveToPoint(mapPoint);
         }
     }
 }

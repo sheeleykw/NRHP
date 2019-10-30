@@ -23,8 +23,7 @@ namespace NRHP_App
         private double RightLongitude;
         private double LeftLongitude;
 
-        public Label label = new Label { BackgroundColor = Color.White };
-        private bool displayingDetail;
+        private DataPoint currentPoint = null;
         private bool imageAccess;
         public NRHPMap map;
         public EventHandler<Pin> SearchCompleted;
@@ -88,6 +87,11 @@ namespace NRHP_App
             }
         }
 
+        public void ChangeText(string searchText)
+        {
+            searchBar.Text = searchText;
+        }
+
         //Gets called when the view is changed either when first loading the map or when the camera changes the view
         //Calls the database to retrieve the points that are currently rendered within the cameras view
         private async Task UpdateMap()
@@ -95,43 +99,31 @@ namespace NRHP_App
             var mapPoints = await App.mapDatabase.GetPointsAsync(TopLatitude, BottomLatitude, RightLongitude, LeftLongitude);
             foreach (MapPoint mapPoint in mapPoints)
             {
-                var isEnabled = App.filterList.Find(objectBind => objectBind.objectName.Equals(mapPoint.Category)).objectState;
-                if (isEnabled)
+                var pin = new Pin
                 {
-                    var pin = new Pin
-                    {
-                        Label = mapPoint.Name,
-                        Address = mapPoint.Category,
-                        Position = new Position(mapPoint.Latitude, mapPoint.Longitude)
-                    };
+                    Label = mapPoint.Name,
+                    Address = mapPoint.Category,
+                    Position = new Position(mapPoint.Latitude, mapPoint.Longitude),
+                    StyleId = mapPoint.RefNum
+                };
 
-                    if (!map.Pins.Contains(pin))
-                    {
-                        map.Pins.Add(pin);
-                    }
-
-                    if (pin.Equals(searchPin) && searchGoing)
-                    {
-                        EventHandler<Pin> handler = SearchCompleted;
-                        handler?.Invoke(this, pin);
-                        searchGoing = false;
-                    }
+                if (!map.Pins.Contains(pin))
+                {
+                    map.Pins.Add(pin);
+                }
+                else if (pin.Equals(searchPin) && searchGoing)
+                {
+                    EventHandler<Pin> handler = SearchCompleted;
+                    handler?.Invoke(this, pin);
+                    searchGoing = false;
                 }
             }
         }
 
-        public void FilterChange()
-        {
-            map.Pins.Clear();
-            UpdateMap();
-        }
-
         //Search method for when the users presses the search button.
-        private async void Search()
+        private async void Search(object sender, EventArgs e)
         {
-            List<MapPoint> nameSearch = await SearchClass.NameSearch(searchBar.Text);
-
-            await Navigation.PushModalAsync(new SearchPage(new List<MapPoint>()), false);
+            await Navigation.PushModalAsync(new SearchPage(searchBar.Text), false);
         }
 
         //Moves the map to the latitude and longitude coordinates accessed from the given mapPoint.
@@ -139,13 +131,14 @@ namespace NRHP_App
         {
             if (!mapPoint.Category.Equals("City"))
             {
-                map.MoveToRegion(new MapSpan(new Position(mapPoint.Latitude, mapPoint.Longitude), map.VisibleRegion.LatitudeDegrees, map.VisibleRegion.LongitudeDegrees));
+                map.MoveToRegion(new MapSpan(new Position(mapPoint.Latitude, mapPoint.Longitude), LatitudeDegrees, LongitudeDegrees));
 
                 searchPin = new Pin
                 {
                     Label = mapPoint.Name,
                     Address = mapPoint.Category,
-                    Position = new Position(mapPoint.Latitude, mapPoint.Longitude)
+                    Position = new Position(mapPoint.Latitude, mapPoint.Longitude),
+                    StyleId = mapPoint.RefNum
                 };
                 searchGoing = true;
             }
@@ -161,14 +154,42 @@ namespace NRHP_App
             map.IsShowingUser = true;
         }
 
-        private void OpenDetailPage(object sender, EventArgs e)
+        //private void OpenDetailPage(object sender, EventArgs e)
+        //{
+        //    OpenDetailPage();
+        //}
+
+        //public async void OpenDetailPage()
+        //{
+        //    DataPoint currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
+
+        //    name.Text = currentPoint.Name;
+        //    category.Text = "Category: " + currentPoint.Category;
+        //    refNum.Text = "Reference Number: " + "#" + currentPoint.RefNum;
+        //    sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
+        //    address.Text = "Reported Street Address: " + currentPoint.Address;
+        //    cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
+        //    county.Text = "County: " + currentPoint.County;
+        //    people.Text = "Architects/Builders: " + currentPoint.Architects;
+
+        //    Console.WriteLine(currentPoint.Name);
+        //    await Navigation.PushModalAsync(new DetailPage(new MainPage(), currentPoint), false);
+        //}
+
+        public async void OpenFavoritesPage(object sender, EventArgs e)
         {
-            OpenDetailPage();
+            await Navigation.PushModalAsync(App.favPage, false);
         }
 
-        public async void OpenDetailPage()
+        //Called when a pin is selected or deselected
+        //Changes the state of the detailPageButton to reflect the user's ability to open the detail page for a selected point
+        public void ShowDetail(DataPoint currentPoint)
         {
-            DataPoint currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
+            this.currentPoint = currentPoint;
+
+            searchBar.IsVisible = false;
+            detailStack.TranslateTo(0, 0, 300, Easing.CubicInOut);
+            name.TranslateTo(0, 0, 300, Easing.CubicInOut);
 
             name.Text = currentPoint.Name;
             category.Text = "Category: " + currentPoint.Category;
@@ -178,50 +199,8 @@ namespace NRHP_App
             cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
             county.Text = "County: " + currentPoint.County;
             people.Text = "Architects/Builders: " + currentPoint.Architects;
-
-            Console.WriteLine(currentPoint.Name);
-            await Navigation.PushModalAsync(new DetailPage(new MainPage(), currentPoint), false);
-        }
-
-        private async void OpenFavoritesPage(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(App.favPage, false);
-        }
-
-        //Called when a pin is selected or deselected
-        //Changes the state of the detailPageButton to reflect the user's ability to open the detail page for a selected point
-        public void SwitchDetailPageButton()
-        {
-            if (displayingDetail)
-            {
-                detailStack.TranslateTo(0, 500, 300, Easing.CubicInOut);
-                name.TranslateTo(0, -500, 300, Easing.CubicInOut);
-                searchBar.IsVisible = true;
-                displayingDetail = false;
-            }
-            else
-            {
-                ChangeText();
-
-                searchBar.IsVisible = false;
-                detailStack.TranslateTo(0, 0, 300, Easing.CubicInOut);
-                name.TranslateTo(0, 0, 300, Easing.CubicInOut);
-                displayingDetail = true;
-            }
-        }
-
-        public void ChangeText()
-        {
-            name.Text = App.currentPoint.Name;
-            category.Text = "Category: " + App.currentPoint.Category;
-            refNum.Text = "Reference Number: " + "#" + App.currentPoint.RefNum;
-            sourceDate.Text = "Date added to register: " + App.currentPoint.SourceDate;
-            address.Text = "Reported Street Address: " + App.currentPoint.Address;
-            cityState.Text = "Location: " + App.currentPoint.City + ", " + App.currentPoint.State;
-            county.Text = "County: " + App.currentPoint.County;
-            people.Text = "Architects/Builders: " + App.currentPoint.Architects;
             
-            if(App.currentPoint.IsFavorited)
+            if(currentPoint.IsFavorited)
             {
                 favoriteButton.Source = "bluehearticon.png";
             }
@@ -232,18 +211,26 @@ namespace NRHP_App
 
             try
             {
-                imageAccess = App.stateList.Find(stateBind => stateBind.objectName.Equals(App.currentPoint.State)).objectState;
+                imageAccess = App.stateList.Find(stateBind => stateBind.objectName.Equals(currentPoint.State)).objectState;
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unable to match state of current point to list of stateBindings");
+                Console.WriteLine(e.Message);
             }
+        }
+
+        public void HideDetail()
+        {
+            detailStack.TranslateTo(0, 500, 300, Easing.CubicInOut);
+            name.TranslateTo(0, -500, 300, Easing.CubicInOut);
+            searchBar.IsVisible = true;
         }
 
         private void FavoriteItemToggle(object sender, EventArgs e)
         {
-            App.currentPoint.IsFavorited = !App.currentPoint.IsFavorited;
-            if (App.currentPoint.IsFavorited)
+            App.updatedFavorites = true;
+            currentPoint.IsFavorited = !currentPoint.IsFavorited;
+            if (currentPoint.IsFavorited)
             {
                 favoriteButton.Source = "bluehearticon.png";
             }
@@ -251,20 +238,20 @@ namespace NRHP_App
             {
                 favoriteButton.Source = "bluehearticonhollow.png";
             }
-            App.itemDatabase.UpdatePoint(App.currentPoint);
+            App.itemDatabase.UpdatePoint(currentPoint);
         }
 
-        private async void PhotoButton(object sender, EventArgs e)
+        private async void OpenPhotos(object sender, EventArgs e)
         {
             if (imageAccess)
             {
                 if (Device.RuntimePlatform.Equals(Device.iOS))
                 {
-                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf"), false);
+                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentPoint.RefNum + ".pdf"), false);
                 }
                 else if (Device.RuntimePlatform.Equals(Device.Android))
                 {
-                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + App.currentPinRefNum + ".pdf"));
+                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Photos/" + currentPoint.RefNum + ".pdf"));
                 }
             }
             else
@@ -273,17 +260,17 @@ namespace NRHP_App
             }
         }
 
-        private async void DocButton(object sender, EventArgs e)
+        private async void OpenDocs(object sender, EventArgs e)
         {
             if (imageAccess)
             {
                 if (Device.RuntimePlatform.Equals(Device.iOS))
                 {
-                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf"), false);
+                    await Navigation.PushModalAsync(new WebView("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentPoint.RefNum + ".pdf"), false);
                 }
                 else if (Device.RuntimePlatform.Equals(Device.Android))
                 {
-                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + App.currentPinRefNum + ".pdf"));
+                    Device.OpenUri(new Uri("https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/" + currentPoint.RefNum + ".pdf"));
                 }
             }
             else

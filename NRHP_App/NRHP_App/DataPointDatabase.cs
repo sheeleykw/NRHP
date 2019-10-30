@@ -20,19 +20,18 @@ namespace NRHP_App
                             .Where(dataPoint => dataPoint.RefNum.Equals(RefNum))
                             .FirstOrDefaultAsync();
         }
+        public Task<List<DataPoint>> SearchCityAsync(string city, string state)
+        {
+            return _database.Table<DataPoint>()
+                            .Where(dataPoint => dataPoint.City.Equals(city) && dataPoint.State.Equals(state))
+                            .ToListAsync();
+        }
 
         public Task<List<DataPoint>> GetFavoritedPointsAsync()
         {
             return _database.Table<DataPoint>()
                             .Where(dataPoint => dataPoint.IsFavorited == true)
                             .OrderBy(dataPoint => dataPoint.Name)
-                            .ToListAsync();
-        }
-
-        public Task<List<DataPoint>> SearchCityAsync(string city, string state)
-        {
-            return _database.Table<DataPoint>()
-                            .Where(dataPoint => dataPoint.City.Equals(city) && dataPoint.State.Equals(state))
                             .ToListAsync();
         }
 
