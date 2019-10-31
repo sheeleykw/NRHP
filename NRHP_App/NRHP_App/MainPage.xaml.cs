@@ -228,14 +228,15 @@ namespace NRHP_App
         private void FavoriteItemToggle(object sender, EventArgs e)
         {
             App.updatedFavorites = true;
-            currentPoint.IsFavorited = !currentPoint.IsFavorited;
             if (currentPoint.IsFavorited)
             {
-                favoriteButton.Source = "bluehearticon.png";
+                favoriteButton.Source = "bluehearticonhollow.png";
+                currentPoint.IsFavorited = false;
             }
             else
             {
-                favoriteButton.Source = "bluehearticonhollow.png";
+                favoriteButton.Source = "bluehearticon.png";
+                currentPoint.IsFavorited = true;
             }
             App.itemDatabase.UpdatePoint(currentPoint);
         }
