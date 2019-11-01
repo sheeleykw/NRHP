@@ -23,7 +23,7 @@ namespace NRHP_App.iOS
             var itemPath = NSBundle.MainBundle.PathForResource("ItemDetails", "db");
             var cityPath = NSBundle.MainBundle.PathForResource("CityLocations", "db");
 
-            
+            Google.MobileAds.MobileAds.Configure("ca-app-pub-3281339494640251~8481947871");
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.FormsMaps.Init();
             LoadApplication(new App(mapPath, itemPath, cityPath));

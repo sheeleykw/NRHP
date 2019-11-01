@@ -1,14 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:NRHP_App"
              x:Class="NRHP_App.MainPage">
     <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Label">
-                <Setter Property="FontSize" Value="15"/>
-                <Setter Property="Margin" Value="15, -1"/>
-            </Style>
-        </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Spacing="0">
@@ -37,6 +32,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="70"/>
                     </Grid.ColumnDefinitions>
+                    
                     <ScrollView Margin="0, 0, 0, 10" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"  BackgroundColor="White">
                         <StackLayout  VerticalOptions="FillAndExpand">
                             <Label x:Name="category"/>

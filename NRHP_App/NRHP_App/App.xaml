@@ -36,6 +36,10 @@
                 <Setter Property="HeightRequest" Value="50"/>
                 <Setter Property="Margin" Value="5, 10, 25, 10"/>
             </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Margin" Value="15, -1"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

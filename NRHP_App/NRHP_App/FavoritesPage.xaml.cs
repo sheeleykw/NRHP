@@ -74,6 +74,11 @@ namespace NRHP_App
             }
         }
 
+        private void DeleteFavorite(object sender, EventArgs e)
+        {
+            Console.WriteLine(sender.ToString());
+        }
+
         private async void MainPageButton(object sender, EventArgs e)
         {
             await Navigation.PopModalAsync(false);

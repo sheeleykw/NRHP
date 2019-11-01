@@ -2,7 +2,6 @@
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -26,6 +25,7 @@ namespace NRHP_App
         private DataPoint currentPoint = null;
         private bool imageAccess;
         public NRHPMap map;
+        private int mapMoving = 0;
         public EventHandler<Pin> SearchCompleted;
         private Pin searchPin;
         private bool searchGoing;
@@ -34,8 +34,22 @@ namespace NRHP_App
         //Creates the page and starts up the userPosition listening eventHandler
         public MainPage()
         {
-            InitializeComponent();
+            AdMobView adView = null;
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                adView = new AdMobView { AdUnitId = "ca-app-pub-3281339494640251/8346216507" };
+            }
+            else if (Device.RuntimePlatform == Device.Android)
+            {
+                adView = new AdMobView { AdUnitId = "ca-app-pub-3940256099942544/6300978111" };
+                
+                //AdUnitId = "ca-app-pub-3940256099942544/6300978111";
+                //realID
+                //AdUnitId = "ca-app-pub-3281339494640251/9986601233";
+            }
 
+            InitializeComponent();
+            adSpace.Children.Add(adView);
             MapSetup();
         }
 
@@ -74,16 +88,23 @@ namespace NRHP_App
         }
 
         //Updates the view of the camera to allow the database to know where to search
-        void ChangedView(object sender, PropertyChangedEventArgs e)
+         async void ChangedView(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("VisibleRegion"))
             {
-                TopLatitude = map.VisibleRegion.Center.Latitude + (map.VisibleRegion.LatitudeDegrees / 2);
-                BottomLatitude = map.VisibleRegion.Center.Latitude - (map.VisibleRegion.LatitudeDegrees / 2);
-                RightLongitude = map.VisibleRegion.Center.Longitude + (map.VisibleRegion.LongitudeDegrees / 2);
-                LeftLongitude = map.VisibleRegion.Center.Longitude - (map.VisibleRegion.LongitudeDegrees / 2);
+                mapMoving++;
+                await Task.Delay(250);
+                mapMoving--;
 
-                UpdateMap();
+                if (mapMoving == 0)
+                {
+                    TopLatitude = map.VisibleRegion.Center.Latitude + (map.VisibleRegion.LatitudeDegrees / 2);
+                    BottomLatitude = map.VisibleRegion.Center.Latitude - (map.VisibleRegion.LatitudeDegrees / 2);
+                    RightLongitude = map.VisibleRegion.Center.Longitude + (map.VisibleRegion.LongitudeDegrees / 2);
+                    LeftLongitude = map.VisibleRegion.Center.Longitude - (map.VisibleRegion.LongitudeDegrees / 2);
+
+                    await UpdateMap();
+                }
             }
         }
 
@@ -153,27 +174,6 @@ namespace NRHP_App
             map.MoveToRegion(new MapSpan(App.userPosition, LatitudeDegrees, LongitudeDegrees));
             map.IsShowingUser = true;
         }
-
-        //private void OpenDetailPage(object sender, EventArgs e)
-        //{
-        //    OpenDetailPage();
-        //}
-
-        //public async void OpenDetailPage()
-        //{
-        //    DataPoint currentPoint = await App.itemDatabase.GetPointAsync(App.currentPinRefNum);
-
-        //    name.Text = currentPoint.Name;
-        //    category.Text = "Category: " + currentPoint.Category;
-        //    refNum.Text = "Reference Number: " + "#" + currentPoint.RefNum;
-        //    sourceDate.Text = "Date added to register: " + currentPoint.SourceDate;
-        //    address.Text = "Reported Street Address: " + currentPoint.Address;
-        //    cityState.Text = "Location: " + currentPoint.City + ", " + currentPoint.State;
-        //    county.Text = "County: " + currentPoint.County;
-        //    people.Text = "Architects/Builders: " + currentPoint.Architects;
-
-        //    await Navigation.PushModalAsync(new DetailPage(new MainPage(), currentPoint), false);
-        //}
 
         public async void OpenFavoritesPage(object sender, EventArgs e)
         {

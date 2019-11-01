@@ -18,8 +18,11 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout Spacing="0" Margin="15, 0">
-                                        <Label x:Name="name" FontAttributes="Bold" Text="{Binding Name}" LineBreakMode="TailTruncation"/>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Clicked="DeleteFavorite" Text="Delete" />
+                                    </ViewCell.ContextActions>
+                                    <StackLayout Spacing="0" Margin="15, 0" HeightRequest="100">
+                                        <Label x:Name="name" FontAttributes="Bold" FontSize="17" Text="{Binding Name}" LineBreakMode="TailTruncation"/>
                                         <Label x:Name="cityState">
                                             <Label.FormattedText>
                                                 <FormattedString>

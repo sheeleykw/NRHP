@@ -4,6 +4,7 @@ using Android.Runtime;
 using Android.OS;
 using System.IO;
 using Plugin.Permissions;
+using Android.Gms.Ads;
 
 namespace NRHP_App.Droid
 {
@@ -54,6 +55,7 @@ namespace NRHP_App.Droid
                 }
             }
 
+            MobileAds.Initialize(ApplicationContext, "ca-app-pub-3281339494640251~4382102529");
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
