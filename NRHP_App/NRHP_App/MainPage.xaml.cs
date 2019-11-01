@@ -43,13 +43,17 @@ namespace NRHP_App
             {
                 adView = new AdMobView { AdUnitId = "ca-app-pub-3940256099942544/6300978111" };
                 
+                //testID
                 //AdUnitId = "ca-app-pub-3940256099942544/6300978111";
                 //realID
                 //AdUnitId = "ca-app-pub-3281339494640251/9986601233";
             }
 
+            //adView.HorizontalOptions = LayoutOptions.FillAndExpand;
+            //adView.VerticalOptions = LayoutOptions.CenterAndExpand;
+
             InitializeComponent();
-            adSpace.Children.Add(adView);
+            //adSpace.Children.Add(adView);
             MapSetup();
         }
 

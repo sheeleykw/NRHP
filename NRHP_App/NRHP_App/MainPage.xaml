@@ -21,6 +21,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackLayout x:Name="mapStack" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+                
                 <Grid x:Name="detailStack" Grid.Row="1" Grid.Column="0" RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand" BackgroundColor="White" TranslationY="500">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>
@@ -32,7 +33,6 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="70"/>
                     </Grid.ColumnDefinitions>
-                    
                     <ScrollView Margin="0, 0, 0, 10" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"  BackgroundColor="White">
                         <StackLayout  VerticalOptions="FillAndExpand">
                             <Label x:Name="category"/>
@@ -50,6 +50,7 @@
                     <Button x:Name="docsButton" Margin="5, 10, 10, 10" Grid.Row="0" Grid.Column="1" Text="Documents" Clicked="OpenDocs"/>
                     <StackLayout x:Name="adSpace" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" VerticalOptions="FillAndExpand" BackgroundColor="LightBlue">
                         <BoxView  Color="#afb0b3" HorizontalOptions="FillAndExpand" HeightRequest="0.5"/>
+                        <local:AdMobView AdUnitId="ca-app-pub-3940256099942544/6300978111" Grid.Row="1" Grid.Column="0" VerticalOptions="Start" Margin="0, -6, 0, 0" HeightRequest="50" BackgroundColor="Black" />
                     </StackLayout>
                 </Grid>
             </Grid>

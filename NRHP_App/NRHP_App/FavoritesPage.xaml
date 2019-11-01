@@ -14,14 +14,14 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="favoritesListView" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding favorites}" ItemSelected="ListItemSelected">
+                    <ListView x:Name="favoritesListView" Grid.Row="0" Grid.Column="0" RowHeight="50" ItemsSource="{Binding favorites}" ItemSelected="ListItemSelected">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <ViewCell.ContextActions>
                                         <MenuItem Clicked="DeleteFavorite" Text="Delete" />
                                     </ViewCell.ContextActions>
-                                    <StackLayout Spacing="0" Margin="15, 0" HeightRequest="100">
+                                    <StackLayout Spacing="0" Margin="15, 0">
                                         <Label x:Name="name" FontAttributes="Bold" FontSize="17" Text="{Binding Name}" LineBreakMode="TailTruncation"/>
                                         <Label x:Name="cityState">
                                             <Label.FormattedText>

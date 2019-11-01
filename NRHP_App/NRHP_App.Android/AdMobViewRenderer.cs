@@ -14,21 +14,6 @@ namespace NRHP_App.Droid
         {
         }
 
-        private int GetSmartBannerDpHeight()
-        {
-            var dpHeight = Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density;
-
-            if (dpHeight <= 400)
-            {
-                return 40;
-            }
-            if (dpHeight <= 720)
-            {
-                return 62;
-            }
-            return 102;
-        }
-
         protected override void OnElementChanged(ElementChangedEventArgs<AdMobView> e)
         {
             base.OnElementChanged(e);
@@ -37,14 +22,13 @@ namespace NRHP_App.Droid
             {
                 var adView = new AdView(Context)
                 {
-                    AdSize = AdSize.SmartBanner,
+                    AdSize = AdSize.Banner,
                     AdUnitId = Element.AdUnitId
                 };
 
                 var requestbuilder = new AdRequest.Builder();
 
                 adView.LoadAd(requestbuilder.Build());
-                e.NewElement.HeightRequest = GetSmartBannerDpHeight();
 
                 SetNativeControl(adView);
             }
