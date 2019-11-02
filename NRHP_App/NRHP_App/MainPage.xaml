@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:NRHP_App"
-             x:Class="NRHP_App.MainPage">
+             x:Class="NRHP_App.MainPage"
+             xmlns:iOS="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             iOS:Page.UseSafeArea="true">
     <ContentPage.Resources>
     </ContentPage.Resources>
     <ContentPage.Content>

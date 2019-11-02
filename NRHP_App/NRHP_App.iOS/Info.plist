@@ -20,7 +20,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Sytes</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.Leve1.Sytes</string>
+	<string>com.Sytes.Sytes</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>

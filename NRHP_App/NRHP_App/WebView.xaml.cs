@@ -6,7 +6,6 @@ namespace NRHP_App
     {
         public WebView(string link)
         {
-            NavigationPage.SetBackButtonTitle(this, "");
             InitializeComponent();
             webView.Source = link;
         }

@@ -3,7 +3,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="NRHP_App.SearchPage">
+             x:Class="NRHP_App.SearchPage"
+             xmlns:iOS="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             iOS:Page.UseSafeArea="true">
     <ContentPage.Content>
         <StackLayout Spacing="0">
             <SearchBar x:Name="searchBar" Placeholder="Bill Me" Grid.Row="0" Grid.Column="0" SearchButtonPressed="Search"/>

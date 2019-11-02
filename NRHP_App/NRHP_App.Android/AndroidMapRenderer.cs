@@ -48,7 +48,7 @@ namespace NRHP_App.Droid
             Marker marker = e.Marker;
             if (!marker.IsInfoWindowShown)
             {
-                var moveCamera = CameraUpdateFactory.NewLatLng(marker.Position);
+                var moveCamera = CameraUpdateFactory.NewLatLng(new LatLng(marker.Position.Latitude - (App.mainPage.map.VisibleRegion.LatitudeDegrees / 4.0), marker.Position.Longitude));
                 NativeMap.AnimateCamera(moveCamera);
                 marker.ShowInfoWindow();
 

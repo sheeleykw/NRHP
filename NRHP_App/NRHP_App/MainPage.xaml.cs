@@ -35,6 +35,8 @@ namespace NRHP_App
         public MainPage()
         {
             AdMobView adView = null;
+            //testID
+            //AdUnitId = "ca-app-pub-3940256099942544/6300978111";
             if (Device.RuntimePlatform == Device.iOS)
             {
                 adView = new AdMobView { AdUnitId = "ca-app-pub-3281339494640251/8346216507" };
@@ -42,9 +44,6 @@ namespace NRHP_App
             else if (Device.RuntimePlatform == Device.Android)
             {
                 adView = new AdMobView { AdUnitId = "ca-app-pub-3940256099942544/6300978111" };
-                
-                //testID
-                //AdUnitId = "ca-app-pub-3940256099942544/6300978111";
                 //realID
                 //AdUnitId = "ca-app-pub-3281339494640251/9986601233";
             }

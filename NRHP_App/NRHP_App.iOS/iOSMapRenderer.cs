@@ -26,6 +26,7 @@ namespace NRHP_App.iOS
                 var formsMap = (NRHPMap)e.NewElement;
                 nativeMap = Control as MKMapView;
 
+                nativeMap.GetViewForAnnotation = GetViewForAnnotation;
                 nativeMap.DidSelectAnnotationView += SelectPoint;
                 nativeMap.DidDeselectAnnotationView += DeselectPoint;
                 //App.mainPage.SearchCompleted += LoadAnnotationElement;
@@ -69,7 +70,7 @@ namespace NRHP_App.iOS
             {
                 var moveCamera = new MKMapCamera
                 {
-                    CenterCoordinate = annotation.Coordinate,
+                    CenterCoordinate = new CoreLocation.CLLocationCoordinate2D(((MKPointAnnotation)annotation).Coordinate.Latitude - (App.mainPage.map.VisibleRegion.LatitudeDegrees / 4.0), ((MKPointAnnotation)annotation).Coordinate.Longitude),
                     Altitude = nativeMap.Camera.Altitude,
                     Heading = nativeMap.Camera.Heading
                 };
