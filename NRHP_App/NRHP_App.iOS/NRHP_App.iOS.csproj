@@ -86,7 +86,7 @@
     <ImageAsset Include="Assets.xcassets\docicon.imageset\docicon.png">
       <Visible>false</Visible>
     </ImageAsset>
-   <!-- <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
+    <!-- <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>-->
     <ImageAsset Include="Assets.xcassets\photoicon.imageset\Contents.json">
@@ -231,8 +231,12 @@
     <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\s.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\s.imageset\s.png" />
+    <ImageAsset Include="Assets.xcassets\s.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\s.imageset\s.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -255,16 +259,13 @@
     <PackageReference Include="Xam.Plugin.Geolocator">
       <Version>4.5.0.6</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Firebase.Ads">
-      <Version>60.1142.1</Version>
+    <PackageReference Include="Xamarin.Firebase.iOS.AdMob">
+      <Version>7.11.0</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.3.0.947036" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
     <PackageReference Include="Xamarin.Forms.Maps">
       <Version>4.3.0.947036</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Firebase.iOS.AdMob">
-      <Version>7.11.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -294,7 +295,6 @@
     <Folder Include="Assets.xcassets\houseicon.imageset\" />
     <Folder Include="Assets.xcassets\personicon.imageset\" />
     <Folder Include="Assets.xcassets\stackicon.imageset\" />
-    <Folder Include="Assets.xcassets\s.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\CityLocations.db" />
